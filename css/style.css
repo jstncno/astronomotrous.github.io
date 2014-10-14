@@ -1,3 +1,31 @@
-.navbar {
+.navbar-default {
+  background: transparent;
+  border-bottom: 2px solid #fff;
+}
+.navbar-default .navbar-brand {
+  color: #fff;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+}
 
+.row.header {
+  background: transparent;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.justincano {
+  background: transparent;
+  font-size: 5em;
+  text-align: center;
+  color: white;
+}
+.tagline {
+  background: transparent;
+  font-size: 2em;
+  text-align: center;
+  color: white;
 }
