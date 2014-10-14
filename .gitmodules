@@ -1,0 +1,3 @@
+[submodule "skrollr"]
+	path = skrollr
+	url = https://github.com/Prinzhorn/skrollr.git
