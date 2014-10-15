@@ -126,6 +126,7 @@
 }
 #section3 .container-fluid {
   background-color: #040D14;
+  padding-bottom: 50px;
 }
 #section3 .projects h1 {
   font-family: 'Lato', sans-seriff;
