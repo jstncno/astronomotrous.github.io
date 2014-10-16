@@ -87,13 +87,13 @@
           </div>
         </div>
 
-        <div class="row" ng-repeat="project in projects.projects">
+        <div class="row project" ng-repeat="project in projects.projects">
           <div class="col-md-2">
             <a href="{{ project.link }}">
               <img class="project-img" src="{{ project.imgURL }}">
             </a>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-10 project-description">
             <h3>{{ project.name }}</h3> <em>{{ project.date }}</em>
             <p>
               {{ project.description }}
@@ -101,73 +101,6 @@
           </div>
         </div>
 
-
-
-        <!--<div class="row">
-          <div class="project col-md-4">
-            <a href="http://challengepost.com/software/silver-cloud?ref_content=like-email&ref_feature=portfolio&ref_medium=email&utm_campaign=software&utm_content=user_software_likes_digest&utm_medium=email&utm_source=transactional">
-              <img class="project-img" src="http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png">
-            </a>
-            <br>
-            <h3><strong>Silver Cloud</h3>
-            <p>
-              An enterprise solution for prospecting local clients using the Force.com API and Heroku for the 2014 <strong>Salesforce $1 Million Hackathon</strong>.
-            <p>
-          </div>
-          <div class="project col-md-4">
-            <a href="http://www.blitz.pw">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/screenshot1_2.jpg">
-            </a>
-            <h3><strong>Blitz, PoweredbySpritz&trade;</strong></h3>
-            <p>
-              An online eBook to plain text
-              renderer integrated with <a href="http://www.spritzinc.com/">Spritz</a>
-              reading technology.
-            </p>
-          </div>
-          <div class="project col-md-4">
-              <a href="http://blog.jcano.me">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/blog_2.jpg">
-              </a>
-              <h3><strong>Projects Blog</strong></h3>
-              <p>
-                A blog app developed using Ruby on Rails to showcase my projects.
-              </p>
-            </div>
-        </div>
-
-        <div class="row">
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/RASPBERRY-PI-CAMCORDERUCR-ENTOMOLOGY-RESEARCH">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/Raspi_Colour_R.jpg">
-            </a>
-            <h3><strong>Rasperry Pi Camcorder</strong></h3>
-            <p>
-              Developed a
-              Raspberry Pi camcorder for the UCR Entomology Department in order to successfully capture footage of insect eggs in remote urban and
-              agriculture environments to look for natural predators of the Brown Marmorated Stink Bug.
-            </p>
-          </div>
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/TO-THE-TOP">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/TTTIcon.jpg">
-            </a>
-            <h3><strong>To the Top</strong></h3>
-            <p>
-              A mobile 3D game developed with the Unity3D game engine.
-            </p>
-          </div>
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg">
-            </a>
-            <h3><strong>Learning Thermostat</strong></h3>
-            <p>
-              Our own version of the Nest Learning Thermostat using a Raspberry Pi and an
-              Arduino Uno implemented with a multithreaded Python program
-            </p>
-          </div>
-        </div>-->
 
       </div>
     </section>

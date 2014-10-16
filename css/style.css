@@ -121,13 +121,15 @@ html, body {
   background-color: #F2F4F7;
 }
 #section2 .project {
-  text-align: center;
-  padding: 0 50px 25px 50px;
+  padding: 20px;
 }
 #section2 .project-img {
   border-radius: 50%;
   width: 150px;
   height: 150px;
+}
+#section2 .project-description {
+  padding: 5px 35px;
 }
 
 /* SECTION 3 */
