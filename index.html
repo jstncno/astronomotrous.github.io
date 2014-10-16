@@ -4,7 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Justin Cano</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/skrollr.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -13,215 +12,196 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body>
-    <!--
-    We position the images fixed and therefore need to place them outside of #skrollr-body.
-    We will then use data-anchor-target to display the correct image matching the current section (.gap element).
-    -->
-    <div
-    class="parallax-image-wrapper parallax-image-wrapper-100"
-    data-anchor-target="#dragons + .gap"
-    data-bottom-top="transform:translate3d(0px, 200%, 0px)"
-    data-top-bottom="transform:translate3d(0px, 0%, 0px)">
-    <div
-    class="parallax-image parallax-image-100"
-    style="background-image:url(img/hero.jpg)"
-    data-anchor-target="#dragons + .gap"
-    data-bottom-top="transform: translate3d(0px, -80%, 0px);"
-    data-top-bottom="transform: translate3d(0px, 80%, 0px);"
-    ></div>
-    <!--the +/-80% translation can be adjusted to control the speed difference of the image-->
-    </div>
+
+    <!-- START NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://www.jcano.me">Justin Cano</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://blog.jcano.me">Blog</a></li>
+            <li><a href="dl/JustinCanoCEResume.pdf">Resume</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- END NAVBAR -->
 
 
+    <div id="hero">
 
-    <div id="skrollr-body">
-
-      <!-- START NAVBAR -->
-      <nav id="dragons" class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://www.jcano.me">Justin Cano</a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="http://blog.jcano.me">Blog</a></li>
-              <li><a href="dl/JustinCanoCEResume.pdf">Resume</a></li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-      </nav>
-      <!-- END NAVBAR -->
-
-      <!-- image complements from http://wall.alphacoders.com -->
-      <div class="gap gap-100" style="background-image:url(img/hero.jpg);">
-        <div class="row header">
-          <div class="justincano">
-            Justin Cano
-          </div>
-          <div class="tagline">
-            software developer and maker
-          </div>
-          <div class="resume">
-            <a href="dl/JustinCanoCEResume.pdf"><i class="fa fa-file-text-o"></i> Resume</a>
+      <div class="jumbotron">
+        <div class="container">
+          <!-- image complements from http://wall.alphacoders.com -->
+          <div class="row header">
+            <div class="justincano">
+              Justin Cano
+            </div>
+            <div class="tagline">
+              software developer and maker
+            </div>
+            <div class="resume">
+              <a href="dl/JustinCanoCEResume.pdf"><i class="fa fa-file-text-o"></i> Resume</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <section id="section1" id="bacons">
-        <div class="container-fluid">
-          <div class="content row">
-            <div class="about col-md-6 col-md-offset-3">
-              <p>
-                Hello, world! My name is Justin Cano.
-              </p>
-              <p>
-                I'm a recent graduate of the University of California, Riverside.
-                I've obtained my BS Degree in Computer Engineering in the Spring of 2014.
-              </p>
-              <p>
-                I like to solve puzzles, do coding challenges, and learn new technologies. I am seeking an intensive software engineering position in the SF Bay Area, CA that will challenge me to put my skills to the test and provide me with the guidance to develop best software engineering practices.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <section id="section2">
-        <div class="container">
-          <div class="row">
-            <div class="projects col-md-12">
-              <h1>Recent Activity</h1>
-              <p>
-                A few things I've been working on...
-              </p>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="project col-md-4">
-              <a href="http://challengepost.com/software/silver-cloud?ref_content=like-email&ref_feature=portfolio&ref_medium=email&utm_campaign=software&utm_content=user_software_likes_digest&utm_medium=email&utm_source=transactional">
-                <img class="project-img" src="http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png">
-              </a>
-              <br>
-              <h3><strong>Silver Cloud</h3>
-              <p>
-                An enterprise solution for prospecting local clients using the Force.com API and Heroku for the 2014 <strong>Salesforce $1 Million Hackathon</strong>.
-              <p>
-            </div>
-            <div class="project col-md-4">
-              <a href="http://www.blitz.pw">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/screenshot1_2.jpg">
-              </a>
-              <h3><strong>Blitz, PoweredbySpritz&trade;</strong></h3>
-              <p>
-                An online eBook to plain text
-                renderer integrated with <a href="http://www.spritzinc.com/">Spritz</a>
-                reading technology.
-              </p>
-            </div>
-            <div class="project col-md-4">
-                <a href="http://blog.jcano.me">
-                  <img class="project-img" src="https://portfolium.com/images/portfolio_entries/blog_2.jpg">
-                </a>
-                <h3><strong>Projects Blog</strong></h3>
-                <p>
-                  A blog app developed using Ruby on Rails to showcase my projects.
-                </p>
-              </div>
-          </div>
-
-          <div class="row">
-            <div class="project col-md-4">
-              <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/RASPBERRY-PI-CAMCORDERUCR-ENTOMOLOGY-RESEARCH">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/Raspi_Colour_R.jpg">
-              </a>
-              <h3><strong>Rasperry Pi Camcorder</strong></h3>
-              <p>
-                Developed a
-                Raspberry Pi camcorder for the UCR Entomology Department in order to successfully capture footage of insect eggs in remote urban and
-                agriculture environments to look for natural predators of the Brown Marmorated Stink Bug.
-              </p>
-            </div>
-            <div class="project col-md-4">
-              <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/TO-THE-TOP">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/TTTIcon.jpg">
-              </a>
-              <h3><strong>To the Top</strong></h3>
-              <p>
-                A mobile 3D game developed with the Unity3D game engine.
-              </p>
-            </div>
-            <div class="project col-md-4">
-              <a href="https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg">
-              </a>
-              <h3><strong>Learning Thermostat</strong></h3>
-              <p>
-                Our own version of the Nest Learning Thermostat using a Raspberry Pi and an
-                Arduino Uno implemented with a multithreaded Python program
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section id="section3">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="connect col-md-12">
-              <h1>Connect</h1>
-              <p>
-                Feel free to reach out!
-              </p>
-            </div>
-          </div>
-
-          <div class="row body">
-            <div class="container">
-              <div class="col-md-6">
-                <form action="MAILTO:jcano001@ucr.edu" method="post" enctype="text/plain">
-                  Name:<br>
-                  <input type="text" name="name" value="your name"><br>
-                  E-mail:<br>
-                  <input type="text" name="mail" value="your email"><br>
-                  Comment:<br>
-                  <textarea rows="8" cols="50" type="text" name="comment" value="your comment"></textarea><br><br>
-                  <input type="submit" value="Send">
-                  <input type="reset" value="Reset">
-                </form>
-              </div>
-
-              <div class="col-md-6 contact">
-                <i class="fa fa-envelope"></i> jcano001@ucr.edu
-                <br>
-                <i class="fa fa-linkedin-square"></i> linkedin.com/in/justincano
-                <br>
-                <i class="fa fa-github-square"></i> github.com/hyperbit
-                <br>
-                <i class="fa fa-location-arrow"></i> SF Bay Area, CA
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
 
-    <script type="text/javascript" src="js/skrollr.js"></script>
-    <script type="text/javascript">
-      var s = skrollr.init();
-    </script>
+
+    <section id="section1">
+      <div class="container-fluid">
+        <div class="content row">
+          <div class="about col-md-6 col-md-offset-3">
+            <p>
+              Hello, world! My name is Justin Cano.
+            </p>
+            <p>
+              I'm a recent graduate of the University of California, Riverside.
+              I've obtained my BS Degree in Computer Engineering in the Spring of 2014.
+            </p>
+            <p>
+              I like to solve puzzles, do coding challenges, and learn new technologies. I am seeking an intensive software engineering position in the SF Bay Area, CA that will challenge me to put my skills to the test and provide me with the guidance to develop best software engineering practices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="section2">
+      <div class="container">
+        <div class="row">
+          <div class="projects col-md-12">
+            <h1>Recent Activity</h1>
+            <p>
+              A few things I've been working on...
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="project col-md-4">
+            <a href="http://challengepost.com/software/silver-cloud?ref_content=like-email&ref_feature=portfolio&ref_medium=email&utm_campaign=software&utm_content=user_software_likes_digest&utm_medium=email&utm_source=transactional">
+              <img class="project-img" src="http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png">
+            </a>
+            <br>
+            <h3><strong>Silver Cloud</h3>
+            <p>
+              An enterprise solution for prospecting local clients using the Force.com API and Heroku for the 2014 <strong>Salesforce $1 Million Hackathon</strong>.
+            <p>
+          </div>
+          <div class="project col-md-4">
+            <a href="http://www.blitz.pw">
+              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/screenshot1_2.jpg">
+            </a>
+            <h3><strong>Blitz, PoweredbySpritz&trade;</strong></h3>
+            <p>
+              An online eBook to plain text
+              renderer integrated with <a href="http://www.spritzinc.com/">Spritz</a>
+              reading technology.
+            </p>
+          </div>
+          <div class="project col-md-4">
+              <a href="http://blog.jcano.me">
+                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/blog_2.jpg">
+              </a>
+              <h3><strong>Projects Blog</strong></h3>
+              <p>
+                A blog app developed using Ruby on Rails to showcase my projects.
+              </p>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="project col-md-4">
+            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/RASPBERRY-PI-CAMCORDERUCR-ENTOMOLOGY-RESEARCH">
+              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/Raspi_Colour_R.jpg">
+            </a>
+            <h3><strong>Rasperry Pi Camcorder</strong></h3>
+            <p>
+              Developed a
+              Raspberry Pi camcorder for the UCR Entomology Department in order to successfully capture footage of insect eggs in remote urban and
+              agriculture environments to look for natural predators of the Brown Marmorated Stink Bug.
+            </p>
+          </div>
+          <div class="project col-md-4">
+            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/TO-THE-TOP">
+              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/TTTIcon.jpg">
+            </a>
+            <h3><strong>To the Top</strong></h3>
+            <p>
+              A mobile 3D game developed with the Unity3D game engine.
+            </p>
+          </div>
+          <div class="project col-md-4">
+            <a href="https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat">
+              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg">
+            </a>
+            <h3><strong>Learning Thermostat</strong></h3>
+            <p>
+              Our own version of the Nest Learning Thermostat using a Raspberry Pi and an
+              Arduino Uno implemented with a multithreaded Python program
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="section3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="connect col-md-12">
+            <h1>Connect</h1>
+            <p>
+              Feel free to reach out!
+            </p>
+          </div>
+        </div>
+
+        <div class="row body">
+          <div class="container">
+            <div class="col-md-6">
+              <form action="MAILTO:jcano001@ucr.edu" method="post" enctype="text/plain">
+                Name:<br>
+                <input type="text" name="name" value="your name"><br>
+                E-mail:<br>
+                <input type="text" name="mail" value="your email"><br>
+                Comment:<br>
+                <textarea rows="8" cols="50" type="text" name="comment" value="your comment"></textarea><br><br>
+                <input type="submit" value="Send">
+                <input type="reset" value="Reset">
+              </form>
+            </div>
+
+            <div class="col-md-6 contact">
+              <i class="fa fa-envelope"></i> jcano001@ucr.edu
+              <br>
+              <i class="fa fa-linkedin-square"></i> linkedin.com/in/justincano
+              <br>
+              <i class="fa fa-github-square"></i> github.com/hyperbit
+              <br>
+              <i class="fa fa-location-arrow"></i> SF Bay Area, CA
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
   </body>
 </html>
