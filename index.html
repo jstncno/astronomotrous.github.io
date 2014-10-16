@@ -106,7 +106,7 @@
     </section>
 
 
-    <section id="section3">
+    <section id="section3" ng-controller="ContactsController as contacts">
       <div class="container-fluid">
         <div class="row">
           <div class="connect col-md-12">
@@ -117,29 +117,12 @@
           </div>
         </div>
 
-        <div class="row body">
-          <div class="container">
-            <div class="col-md-6">
-              <form action="MAILTO:jcano001@ucr.edu" method="post" enctype="text/plain">
-                Name:<br>
-                <input type="text" name="name" value="your name"><br>
-                E-mail:<br>
-                <input type="text" name="mail" value="your email"><br>
-                Comment:<br>
-                <textarea rows="8" cols="50" type="text" name="comment" value="your comment"></textarea><br><br>
-                <input type="submit" value="Send">
-                <input type="reset" value="Reset">
-              </form>
-            </div>
-
-            <div class="col-md-6 contact">
-              <i class="fa fa-envelope"></i> jcano001@ucr.edu
-              <br>
-              <i class="fa fa-linkedin-square"></i> linkedin.com/in/justincano
-              <br>
-              <i class="fa fa-github-square"></i> github.com/hyperbit
-              <br>
-              <i class="fa fa-location-arrow"></i> SF Bay Area, CA
+        <div class="row">
+          <div class="col-md-12">
+            <div class="contact-button col-md-3" ng-repeat="button in contacts.buttons">
+              <a href="{{ button.link }}">
+                <i class="fa {{ button.fontAwesomeName }}"></i>
+              </a>
             </div>
           </div>
         </div>
