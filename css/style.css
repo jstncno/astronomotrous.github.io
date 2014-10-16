@@ -2,6 +2,10 @@
     font-family: 'Raleway', sans-serif;
 }
 
+html, body {
+  height:100%;
+}
+
 .navbar-default {
   background-color #F2F4F7:
   border: none;
