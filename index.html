@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="homePage">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Justin Cano</title>
@@ -9,6 +9,7 @@
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Raleway|Arvo|Lato' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
@@ -62,19 +63,12 @@
     </div>
 
 
-    <section id="section1">
+    <section id="section1" ng-controller="HeaderController as header">
       <div class="container-fluid">
         <div class="content row">
           <div class="about col-md-6 col-md-offset-3">
-            <p>
-              Hello, world! My name is Justin Cano.
-            </p>
-            <p>
-              I'm a recent graduate of the University of California, Riverside.
-              I've obtained my BS Degree in Computer Engineering in the Spring of 2014.
-            </p>
-            <p>
-              I like to solve puzzles, do coding challenges, and learn new technologies. I am seeking an intensive software engineering position in the SF Bay Area, CA that will challenge me to put my skills to the test and provide me with the guidance to develop best software engineering practices.
+            <p ng-repeat="block in header.blocks">
+              {{ block }}
             </p>
           </div>
         </div>
