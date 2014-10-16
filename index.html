@@ -17,7 +17,7 @@
     We position the images fixed and therefore need to place them outside of #skrollr-body.
     We will then use data-anchor-target to display the correct image matching the current section (.gap element).
     -->
-    <div
+  <!--  <div
     class="parallax-image-wrapper parallax-image-wrapper-100"
     data-anchor-target="#dragons + .gap"
     data-bottom-top="transform:translate3d(0px, 200%, 0px)"
@@ -29,15 +29,15 @@
     data-bottom-top="transform: translate3d(0px, -80%, 0px);"
     data-top-bottom="transform: translate3d(0px, 80%, 0px);"
     ></div>
-    <!--the +/-80% translation can be adjusted to control the speed difference of the image-->
-    </div>
+    <!--the +/-80% translation can be adjusted to control the speed difference of the image
+  </div>-->
 
 
 
     <div id="skrollr-body">
 
       <!-- START NAVBAR -->
-      <nav id="dragons" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
@@ -61,20 +61,27 @@
       </nav>
       <!-- END NAVBAR -->
 
-      <!-- image complements from http://wall.alphacoders.com -->
-      <div class="gap gap-100" style="background-image:url(img/hero.jpg);">
-        <div class="row header">
-          <div class="justincano">
-            Justin Cano
-          </div>
-          <div class="tagline">
-            software developer and maker
-          </div>
-          <div class="resume">
-            <a href="dl/JustinCanoCEResume.pdf"><i class="fa fa-file-text-o"></i> Resume</a>
+
+
+      <div class="jumbotron">
+        <div class="container">
+          <!-- image complements from http://wall.alphacoders.com -->
+          <div class="row header">
+            <div class="justincano">
+              Justin Cano
+            </div>
+            <div class="tagline">
+              software developer and maker
+            </div>
+            <div class="resume">
+              <a href="dl/JustinCanoCEResume.pdf"><i class="fa fa-file-text-o"></i> Resume</a>
+            </div>
           </div>
         </div>
       </div>
+
+
+
 
       <section id="section1" id="bacons">
         <div class="container-fluid">
@@ -219,9 +226,9 @@
 
     </div>
 
-    <script type="text/javascript" src="js/skrollr.js"></script>
+    <!--<script type="text/javascript" src="js/skrollr.js"></script>
     <script type="text/javascript">
       var s = skrollr.init();
-    </script>
+    </script>-->
   </body>
 </html>

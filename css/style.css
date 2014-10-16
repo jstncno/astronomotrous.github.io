@@ -30,13 +30,21 @@
   background-color: #fff;
 }
 
+.jumbotron {
+  background-image:url(../img/hero.jpg);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-attachment: fixed;
+  background-size:cover;
+  height: 100%;
+}
+
 .row.header {
   background: transparent;
   position: relative;
-  top: 40%;
-  -webkit-transform: translateY(-40%);
-  -ms-transform: translateY(-40%);
-  transform: translateY(-40%);
+  -webkit-transform: translateY(40%);
+  -ms-transform: translateY(40%);
+  transform: translateY(40%);
 }
 .justincano {
   font-family: 'Arvo', sans-seriff;
