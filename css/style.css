@@ -30,6 +30,11 @@
   background-color: #fff;
 }
 
+#hero {
+  height:100%;
+  overflow:visible;
+  position:relative;
+}
 .jumbotron {
   background-image:url(../img/hero.jpg);
   background-repeat:no-repeat;
