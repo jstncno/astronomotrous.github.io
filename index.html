@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="homePage">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Justin Cano</title>
@@ -9,6 +9,7 @@
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Raleway|Arvo|Lato' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
@@ -62,19 +63,12 @@
     </div>
 
 
-    <section id="section1">
+    <section id="section1" ng-controller="HeaderController as header">
       <div class="container-fluid">
         <div class="content row">
           <div class="about col-md-6 col-md-offset-3">
-            <p>
-              Hello, world! My name is Justin Cano.
-            </p>
-            <p>
-              I'm a recent graduate of the University of California, Riverside.
-              I've obtained my BS Degree in Computer Engineering in the Spring of 2014.
-            </p>
-            <p>
-              I like to solve puzzles, do coding challenges, and learn new technologies. I am seeking an intensive software engineering position in the SF Bay Area, CA that will challenge me to put my skills to the test and provide me with the guidance to develop best software engineering practices.
+            <p ng-repeat="block in header.blocks">
+              {{ block }}
             </p>
           </div>
         </div>
@@ -82,7 +76,7 @@
     </section>
 
 
-    <section id="section2">
+    <section id="section2" ng-controller="ProjectsController as projects">
       <div class="container">
         <div class="row">
           <div class="projects col-md-12">
@@ -93,77 +87,26 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="project col-md-4">
-            <a href="http://challengepost.com/software/silver-cloud?ref_content=like-email&ref_feature=portfolio&ref_medium=email&utm_campaign=software&utm_content=user_software_likes_digest&utm_medium=email&utm_source=transactional">
-              <img class="project-img" src="http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png">
+        <div class="row project" ng-repeat="project in projects.projects">
+          <div class="col-md-2">
+            <a href="{{ project.link }}">
+              <img class="project-img" src="{{ project.imgURL }}">
             </a>
-            <br>
-            <h3><strong>Silver Cloud</h3>
-            <p>
-              An enterprise solution for prospecting local clients using the Force.com API and Heroku for the 2014 <strong>Salesforce $1 Million Hackathon</strong>.
-            <p>
           </div>
-          <div class="project col-md-4">
-            <a href="http://www.blitz.pw">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/screenshot1_2.jpg">
-            </a>
-            <h3><strong>Blitz, PoweredbySpritz&trade;</strong></h3>
+          <div class="col-md-10 project-description">
+            <h3>{{ project.name }}</h3> <em>{{ project.date }}</em>
             <p>
-              An online eBook to plain text
-              renderer integrated with <a href="http://www.spritzinc.com/">Spritz</a>
-              reading technology.
+              {{ project.description }}
             </p>
           </div>
-          <div class="project col-md-4">
-              <a href="http://blog.jcano.me">
-                <img class="project-img" src="https://portfolium.com/images/portfolio_entries/blog_2.jpg">
-              </a>
-              <h3><strong>Projects Blog</strong></h3>
-              <p>
-                A blog app developed using Ruby on Rails to showcase my projects.
-              </p>
-            </div>
         </div>
 
-        <div class="row">
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/RASPBERRY-PI-CAMCORDERUCR-ENTOMOLOGY-RESEARCH">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/Raspi_Colour_R.jpg">
-            </a>
-            <h3><strong>Rasperry Pi Camcorder</strong></h3>
-            <p>
-              Developed a
-              Raspberry Pi camcorder for the UCR Entomology Department in order to successfully capture footage of insect eggs in remote urban and
-              agriculture environments to look for natural predators of the Brown Marmorated Stink Bug.
-            </p>
-          </div>
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/21/Justin-Cano/TO-THE-TOP">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/TTTIcon.jpg">
-            </a>
-            <h3><strong>To the Top</strong></h3>
-            <p>
-              A mobile 3D game developed with the Unity3D game engine.
-            </p>
-          </div>
-          <div class="project col-md-4">
-            <a href="https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat">
-              <img class="project-img" src="https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg">
-            </a>
-            <h3><strong>Learning Thermostat</strong></h3>
-            <p>
-              Our own version of the Nest Learning Thermostat using a Raspberry Pi and an
-              Arduino Uno implemented with a multithreaded Python program
-            </p>
-          </div>
-        </div>
 
       </div>
     </section>
 
 
-    <section id="section3">
+    <section id="section3" ng-controller="ContactsController as contacts">
       <div class="container-fluid">
         <div class="row">
           <div class="connect col-md-12">
@@ -174,29 +117,12 @@
           </div>
         </div>
 
-        <div class="row body">
-          <div class="container">
-            <div class="col-md-6">
-              <form action="MAILTO:jcano001@ucr.edu" method="post" enctype="text/plain">
-                Name:<br>
-                <input type="text" name="name" value="your name"><br>
-                E-mail:<br>
-                <input type="text" name="mail" value="your email"><br>
-                Comment:<br>
-                <textarea rows="8" cols="50" type="text" name="comment" value="your comment"></textarea><br><br>
-                <input type="submit" value="Send">
-                <input type="reset" value="Reset">
-              </form>
-            </div>
-
-            <div class="col-md-6 contact">
-              <i class="fa fa-envelope"></i> jcano001@ucr.edu
-              <br>
-              <i class="fa fa-linkedin-square"></i> linkedin.com/in/justincano
-              <br>
-              <i class="fa fa-github-square"></i> github.com/hyperbit
-              <br>
-              <i class="fa fa-location-arrow"></i> SF Bay Area, CA
+        <div class="row">
+          <div class="col-md-12">
+            <div class="contact-button col-md-3" ng-repeat="button in contacts.buttons">
+              <a href="{{ button.link }}">
+                <i class="fa {{ button.fontAwesomeName }}"></i>
+              </a>
             </div>
           </div>
         </div>
