@@ -102,6 +102,10 @@ html, body {
 }
 
 /* SECTION 2 */
+#section2 .container {
+  background-color: #F2F4F7;
+  padding: 0 25px 50px 50px;
+}
 #section2 .projects {
   /*background-color: #040D14;*/
   background-color: #F2F4F7;
@@ -114,9 +118,6 @@ html, body {
   font-size: 3em;
 }
 #section2 .content {
-  background-color: #F2F4F7;
-}
-#section2 .container {
   background-color: #F2F4F7;
 }
 #section2 .project {

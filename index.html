@@ -76,7 +76,7 @@
     </section>
 
 
-    <section id="section2">
+    <section id="section2" ng-controller="ProjectsController as projects">
       <div class="container">
         <div class="row">
           <div class="projects col-md-12">
@@ -87,7 +87,23 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-repeat="project in projects.projects">
+          <div class="col-md-2">
+            <a href="{{ project.link }}">
+              <img class="project-img" src="{{ project.imgURL }}">
+            </a>
+          </div>
+          <div class="col-md-10">
+            <h3>{{ project.name }}</h3> <em>{{ project.date }}</em>
+            <p>
+              {{ project.description }}
+            </p>
+          </div>
+        </div>
+
+
+
+        <!--<div class="row">
           <div class="project col-md-4">
             <a href="http://challengepost.com/software/silver-cloud?ref_content=like-email&ref_feature=portfolio&ref_medium=email&utm_campaign=software&utm_content=user_software_likes_digest&utm_medium=email&utm_source=transactional">
               <img class="project-img" src="http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png">
@@ -151,7 +167,7 @@
               Arduino Uno implemented with a multithreaded Python program
             </p>
           </div>
-        </div>
+        </div>-->
 
       </div>
     </section>
