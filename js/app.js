@@ -55,7 +55,7 @@
   },
   {
                 "name" : "Learning Thermostat",
-                "date" : "Aug 2014",
+                "date" : "Sep 2013 - Jun 2014",
                 "description" : "Our own version of the Nest Learning Thermostat using a Raspberry Pi and an Arduino Uno implemented with a multithreaded Python program",
                 imgURL : "https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg",
                 link : "https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat"
