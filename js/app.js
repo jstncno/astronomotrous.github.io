@@ -29,35 +29,35 @@
                 "name" : "Blitz, PoweredbySpritz\u2122",
                 "date" : "Aug 2014",
                 "description" : "An online eBook to plain text renderer integrated with Spritz reading technology.",
-                imgURL : "https://portfolium.com/images/portfolio_entries/screenshot1_2.jpg",
+                imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485ea6eb907-screenshot1_2.jpg",
                 link : "http://www.blitz.pw"
   },
   {
                 "name" : "Projects Blog",
                 "date" : "Aug 2014",
                 "description" : "A blog app developed using Ruby on Rails to showcase my projects.",
-                imgURL : "https://portfolium.com/images/portfolio_entries/blog_2.jpg",
+                imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485f136a804-blog_2.jpg",
                 link : "http://blog.jcano.me"
   },
   {
                 "name" : "Rasperry Pi Camcorder",
                 "date" : "Jul 2014",
                 "description" : "Developed a Raspberry Pi camcorder for the UCR Entomology Department in order to successfully capture footage of insect eggs in remote urban and agriculture environments to look for natural predators of the Brown Marmorated Stink Bug.",
-                imgURL : "https://portfolium.com/images/portfolio_entries/Raspi_Colour_R.jpg",
+                imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485ee7e442d-Raspi_Colour_R.jpg",
                 link : "https://portfolium.com/portfolium/2014/8/21/Justin-Cano/RASPBERRY-PI-CAMCORDERUCR-ENTOMOLOGY-RESEARCH"
   },
   {
                 "name" : "To the Top",
                 "date" : "Apr 2014 - Jun 2014",
                 "description" : "A mobile 3D game developed with the Unity3D game engine. Recently released rights to a private game studio for further development and production.",
-                imgURL : "https://portfolium.com/images/portfolio_entries/TTTIcon.jpg",
+                imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485ee79e4b9-TTTIcon.jpg",
                 link : "https://portfolium.com/portfolium/2014/8/21/Justin-Cano/TO-THE-TOP"
   },
   {
                 "name" : "Learning Thermostat",
                 "date" : "Sep 2013 - Jun 2014",
                 "description" : "Our own version of the Nest Learning Thermostat using a Raspberry Pi and an Arduino Uno implemented with a multithreaded Python program",
-                imgURL : "https://portfolium.com/images/portfolio_entries/ee175-senior-design.jpg",
+                imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485ee572629-ee175-senior-design.jpg",
                 link : "https://portfolium.com/portfolium/2014/8/22/Justin-Cano/Learning-Thermostat"
   }];
 
