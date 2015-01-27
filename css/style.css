@@ -134,18 +134,18 @@ html, body {
 
 /* SECTION 3 */
 #section3 {
-  /*color: #21CE99;*/
-  color: #fff;
+  /*color: #fff;*/
+  color: #9C9C9C;
 }
 #section3 .connect {
-  background-color: #040D14;
+  background-color: #363636;
   text-align: center;
 }
 #section3 .content {
-  background-color: #040D14;
+  background-color: #363636;
 }
 #section3 .container-fluid {
-  background-color: #040D14;
+  background-color: #363636;
   padding-bottom: 50px;
 }
 #section3 .projects h1 {
@@ -154,7 +154,7 @@ html, body {
   font-size: 3em;
 }
 #section3 .row.body {
-  color: #21CE99;
+  color: #B59C61;
 }
 #section3 .contact {
  font-size: 1.5em;
@@ -164,7 +164,7 @@ html, body {
  text-align: center;
 }
 #section3 .contact-button a {
- color: #21CE99;
+ color: #B59C61;
  font-size: 3em;
  text-align: center;
 }
