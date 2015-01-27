@@ -1,3 +1,6 @@
 [submodule "skrollr"]
 	path = skrollr
 	url = https://github.com/Prinzhorn/skrollr.git
+[submodule "learning-how-to-learn"]
+	path = learning-how-to-learn
+	url = https://github.com/CrashPhoenix/learning-how-to-learn.git
