@@ -4,3 +4,6 @@
 [submodule "learning-how-to-learn"]
 	path = learning-how-to-learn
 	url = https://github.com/CrashPhoenix/learning-how-to-learn.git
+[submodule "mousebrain3d"]
+	path = mousebrain3d
+	url = https://github.com/CrashPhoenix/mousebrain3d.git
