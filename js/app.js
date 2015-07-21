@@ -19,6 +19,20 @@
                           ];
 
   var projects = [{
+                "name" : "Data Engineering Fellow @ Insight Data Science",
+                "date" : "Jun 2015 - Jul 2015",
+                "description" : "Built a data pipeline that runs a distributed process to create a hyperlink graph from Common Crawl's April 2015 web corpus and finds the page rank and reach of each vertex.",
+                imgURL : "https://github.com/bumrush/meshwork/raw/master/github/images/meshgraph.png",
+                link : "http://jcano.me/meshwork"
+  },
+  {
+                "name" : "Software Engineer @ GBG Loqate",
+                "date" : "Nov 2014 - May 2015",
+                "description" : "Worked a customer-facing role as a Software Engineer on the Support Team to communicate effectively with prospects, partners, and customers.",
+                imgURL : "http://www.loqate.com/wp-content/themes/loqate/images/gbgloqate-logo-web-15.png",
+                link : "http://www.loqate.com"
+  },
+  {
                 "name" : "Silver Cloud",
                 "date" : "Sep 2014",
                 "description" : "An enterprise solution for prospecting local clients using the Force.com API and Heroku for the 2014 Salesforce $1 Million Hackathon.",
