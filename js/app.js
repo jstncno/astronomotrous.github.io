@@ -88,7 +88,7 @@
   {
     "name" : "github",
     "fontAwesomeName" : "fa-github-square",
-    "link" : "http://github.com/crashphoenix"
+    "link" : "http://github.com/bumrush"
   },
   {
     "name" : "location",
