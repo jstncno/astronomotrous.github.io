@@ -22,7 +22,7 @@
                 "name" : "Data Engineering Fellow @ Insight Data Science",
                 "date" : "Jun 2015 - Jul 2015",
                 "description" : "Built a data pipeline that runs a distributed process to create a hyperlink graph from Common Crawl's April 2015 web corpus and finds the page rank and reach of each vertex.",
-                imgURL : "https://github.com/bumrush/meshwork/raw/master/github/images/meshgraph.png",
+                imgURL : "https://github.com/earthican/meshwork/raw/master/github/images/meshgraph.png",
                 link : "http://jcano.me/meshwork"
   },
   {
@@ -88,7 +88,7 @@
   {
     "name" : "github",
     "fontAwesomeName" : "fa-github-square",
-    "link" : "http://github.com/bumrush"
+    "link" : "http://github.com/earthican"
   },
   {
     "name" : "location",
