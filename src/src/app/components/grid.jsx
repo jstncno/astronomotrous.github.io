@@ -27,36 +27,25 @@ let Grid = React.createClass({
 
   render() {
 
+    let data = [
+      {author: "Pete Hunt", text: "This is one comment"},
+      {author: "Jordan Walke", text: "This is *another* comment"}
+    ];
+
+    var gridItems = this.props.data.map(function(data) {
+      return (
+        <Card className="col-md-4 grid-item">
+          <CardText>
+            <h1>{data.author}</h1>
+            {data.text}
+          </CardText>
+        </Card>
+      );
+    });
+
     return (
       <div className="grid">
-
-        <Card className="col-md-4 grid-item">
-          <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
-        </Card>
-
-        <Card className="col-md-4 grid-item">
-          <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
-        </Card>
-
-        <Card className="col-md-4 grid-item">
-          <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
-        </Card>
-
+        {gridItems}
       </div>
     );
   },

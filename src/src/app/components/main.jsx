@@ -69,7 +69,7 @@ let Main = React.createClass({
             onLeftIconButtonTouchTap={this.toggleMenu} />
         </div>
 
-        <Grid />
+        <Grid data={this.props.data}/>
 
       </div>
     );
