@@ -2,13 +2,8 @@
 
 let React = require('react');
 let mui = require('material-ui');
-let RaisedButton = mui.RaisedButton;
-let Dialog = mui.Dialog;
-let AppBar = mui.AppBar;
 let Card = mui.Card;
 let CardText = mui.CardText;
-let FloatingActionButton = mui.FloatingActionButton;
-let FontIcon = mui.FontIcon;
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
@@ -33,7 +28,8 @@ let Grid = React.createClass({
   render() {
 
     return (
-      <div>
+      <div className="grid">
+
         <Card className="col-md-4 grid-item">
           <CardText>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.

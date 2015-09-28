@@ -2,7 +2,6 @@
   let React = require('react/addons');
   let injectTapEventPlugin = require('react-tap-event-plugin');
   let Main = require('./components/main.jsx'); // Our custom react component
-  let Grid = require('./components/grid.jsx');
 
   //Needed for React Developer Tools
   window.React = React;
