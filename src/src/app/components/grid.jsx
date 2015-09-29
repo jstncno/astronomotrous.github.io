@@ -2,8 +2,15 @@
 
 let React = require('react');
 let mui = require('material-ui');
+let Avatar = mui.Avatar;
 let Card = mui.Card;
+let CardMedia = mui.CardMedia;
+let CardTitle = mui.CardTitle;
 let CardText = mui.CardText;
+let CardHeader = mui.CardHeader;
+let SchoolIcon = require('material-ui/lib/svg-icons/social/school');
+let PersonalProjectIcon = require('material-ui/lib/svg-icons/hardware/computer');
+let WorkIcon = require('material-ui/lib/svg-icons/action/work');
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
@@ -27,16 +34,26 @@ let Grid = React.createClass({
 
   render() {
 
-    let data = [
-      {author: "Pete Hunt", text: "This is one comment"},
-      {author: "Jordan Walke", text: "This is *another* comment"}
-    ];
+    let subtitles = {
+      'school': 'School Project',
+      'work': 'Work Experience',
+      'personal': 'Personal Project',
+      'hackathon': 'Hackathon'
+    }
+
+    let icons = {
+      'school': <SchoolIcon />,
+      'work': <WorkIcon />,
+      'personal': <PersonalProjectIcon />
+    }
 
     var gridItems = this.props.data.map(function(data) {
       return (
-        <Card className="col-md-4 grid-item">
+        <Card className="col-md-3 grid-item">
+          <CardMedia overlay={<CardTitle title={data.title} subtitle={subtitles[data.type]}/>}>
+            <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+          </CardMedia>
           <CardText>
-            <h1>{data.author}</h1>
             {data.text}
           </CardText>
         </Card>

@@ -63,13 +63,13 @@ let Main = React.createClass({
     return (
       <div>
         <LeftNav ref="leftNav" docked={false} menuItems={menuItems} />
-        <div>
-          <AppBar
-            title="Title"
-            onLeftIconButtonTouchTap={this.toggleMenu} />
-        </div>
+        <AppBar
+          title="Title"
+          onLeftIconButtonTouchTap={this.toggleMenu} />
 
-        <Grid data={this.props.data}/>
+        <div className="container">
+          <Grid data={this.props.data}/>
+        </div>
 
       </div>
     );
