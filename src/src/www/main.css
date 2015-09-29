@@ -6,3 +6,9 @@ body {
   font-size: 13px;
   line-height: 20px;
 }
+
+.grid-item {
+    float: left;
+    width: 30%;
+    margin-bottom: 15px;
+}

@@ -30,11 +30,18 @@
     })();
   </script>
   <script src="app.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
+  <script src="http://imagesloaded.desandro.com/imagesloaded.pkgd.min.js"></script>
   <script>
-    var grid = document.querySelector('#grid');
-    var iso = new Isotope(grid, {
-
+    var grid = document.querySelector('.grid');
+    var msnry = new Masonry(grid, {
+      // options...
+      itemSelector: '.grid-item',
+      gutter: 20
+    });
+    imagesLoaded( grid, function() {
+      // layout Masonry after each image loads
+      msnry.layout();
     });
   </script>
 </body>
