@@ -7,6 +7,14 @@ body {
   line-height: 20px;
 }
 
+.dialog-box {
+    width: 50px;
+}
+
+.grid {
+    padding-top: 65px;
+}
+
 /* Mobile-first */
 .grid-item {
     width: 100%;

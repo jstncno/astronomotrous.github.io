@@ -3,6 +3,7 @@
 let React = require('react');
 let mui = require('material-ui');
 let Avatar = mui.Avatar;
+let Dialog = mui.Dialog;
 let Card = mui.Card;
 let CardMedia = mui.CardMedia;
 let CardTitle = mui.CardTitle;
@@ -32,6 +33,11 @@ let Grid = React.createClass({
     });
   },
 
+  handleClick: function(i) {
+    console.log(i);
+    this.refs[i].show();
+  },
+
   render() {
 
     let subtitles = {
@@ -39,34 +45,59 @@ let Grid = React.createClass({
       'work': 'Work Experience',
       'personal': 'Personal Project',
       'hackathon': 'Hackathon'
-    }
+    };
 
     let icons = {
       'school': <SchoolIcon />,
       'work': <WorkIcon />,
       'personal': <PersonalProjectIcon />,
       'hackathon': <PersonalProjectIcon />
-    }
+    };
 
-    var gridItems = this.props.data.map(function(data) {
-      return (
-        <Card className="grid-item">
-          <CardMedia overlay={<CardTitle title={data.title} subtitle={subtitles[data.type] + " | " + data.date}/>}>
-            <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
-          </CardMedia>
-          <CardText>
-            {data.text}
-          </CardText>
-        </Card>
-      );
-    });
+    let standardActions = [
+      { text: 'Cancel' },
+      { text: 'Submit', onTouchTap: this._onDialogSubmit, ref: 'submit' }
+    ];
 
     return (
       <div className="grid">
-        {gridItems}
+       {this.props.data.map(function(data, i) {
+         var boundClick = this.handleClick.bind(this, i);
+
+          return (
+            <div key={i}>
+              <Dialog
+                actions={standardActions}
+                ref={i}
+                autoDetectWindowHeight={true}
+                autoScrollBodyContent={true}>
+                <Card>
+                  <CardHeader
+                    title={data.title}
+                    subtitle={subtitles[data.type]}
+                    avatar={icons[data.type]} />
+                  <CardMedia>
+                    <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+                  </CardMedia>
+                  <CardText>
+                    {data.text}
+                  </CardText>
+                </Card>
+              </Dialog>
+              <div onClick={boundClick}>
+                <Card
+                  className="grid-item">
+                  <CardMedia overlay={<CardTitle title={data.title} subtitle={subtitles[data.type] + " | " + data.date}/>}>
+                    <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+                  </CardMedia>
+                </Card>
+              </div>
+            </div>
+          );
+        }, this)}
       </div>
     );
-  },
+  }
 
 });
 

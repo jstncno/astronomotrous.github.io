@@ -10,8 +10,8 @@ module.exports = [
     title: "Software Engineer @ GBG Loqate",
     type: "work",
     date: "Nov 2014 - May 2015",
-    imgURL : "http://www.loqate.com/wp-content/themes/loqate/images/gbgloqate-logo-web-15.png",
-    text: "Worked a customer-facing role as a Software Engineer on the Support Team to communicate effectively with clients and customers and resolve their issues."
+    imgURL : "https://lh3.googleusercontent.com/-CVENmcV59mc/VT5UZ_haDCI/AAAAAAAAAL4/bPxPV7GnU4Q/s630-fcrop64=1,20301008df34cf5c/gbgloqate-googleplus-hero-logo.png",
+    text: "Worked a customer-facing role as a Software Engineer at GBG Loqate on the Support Team to communicate effectively with clients and customers and resolve their issues."
   },
   {
     title: "Silver Cloud",
@@ -40,5 +40,12 @@ module.exports = [
     date : "Sep 2013 - Jun 2014",
     imgURL : "https://33463d8ba37cd0a930f1-eb07ed6f28ab61e35047cec42359baf1.ssl.cf5.rackcdn.com/ugc/entry/54485ee572629-ee175-senior-design.jpg",
     text: "Our own version of the Nest Learning Thermostat, implemented using a Raspberry Pi and an Arduino Uno and programmed with a multithreaded Python program. Developed for my Senior Design Project in Electrical Engineering (Embedded Systems) at the University of California, Riverside."
+  },
+  {
+    title: "Software Engineer Intern @ JetHead Development",
+    type: "work",
+    date : "Jun 2013 - Sep 2013",
+    imgURL : "https://upload.wikimedia.org/wikipedia/en/7/7e/JetHead_Development_Inc.png",
+    text: "Worked as a Software Engineer Intern at JetHead Development during the summer of 2013. Contributed to development and ticket resolutions of middleware solutions in C++ for DirecTV Broadcom Set-Top-Boxes"
   }
 ];
