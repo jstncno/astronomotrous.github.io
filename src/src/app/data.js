@@ -17,7 +17,7 @@ module.exports = [
     title: "Silver Cloud",
     type: "hackathon",
     date: "Sep 2014",
-    imgURL : "http://res.cloudinary.com/hzxejch6p/image/upload/c_scale,w_250/v1384290617/2013hackathon_f2dtaj.png",
+    imgURL : "http://res.cloudinary.com/hzxejch6p/image/upload/v1410983669/2014-200x200-Hackathon-social_afqeb2.png",
     text: "An app designed for prospecting local clients using the Force.com API and Heroku. Developed during the 2014 Salesforce $1 Million Hackathon."
   },
   {
