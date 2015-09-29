@@ -48,21 +48,10 @@ let Grid = React.createClass({
       'hackathon': <PersonalProjectIcon />
     }
 
-    let gridStyle = {
-      'display': '-webkit-flex',
-      '-webkit-align-items': 'center',
-      'display': 'flex',
-      'align-items': 'center'
-    }
-
     var gridItems = this.props.data.map(function(data) {
       return (
-        <Card className="grid-item" style={gridStyle}>
-          <CardHeader
-            title={data.title}
-            subtitle={subtitles[data.type] + " | " + data.date}
-            avatar={<Avatar icon={icons[data.type]} />}/>
-          <CardMedia>
+        <Card className="grid-item">
+          <CardMedia overlay={<CardTitle title={data.title} subtitle={subtitles[data.type] + " | " + data.date}/>}>
             <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
           </CardMedia>
           <CardText>
