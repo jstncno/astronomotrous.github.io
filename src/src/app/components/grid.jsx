@@ -15,6 +15,8 @@ let WorkIcon = require('material-ui/lib/svg-icons/action/work');
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
+let GridItem = require('./grid-item.jsx');
+
 let Grid = React.createClass({
 
   childContextTypes: {
@@ -33,66 +35,15 @@ let Grid = React.createClass({
     });
   },
 
-  handleClick: function(i) {
-    console.log(i);
-    this.refs[i].show();
-  },
-
   render() {
-
-    let subtitles = {
-      'school': 'School Project',
-      'work': 'Work Experience',
-      'personal': 'Personal Project',
-      'hackathon': 'Hackathon'
-    };
-
-    let icons = {
-      'school': <SchoolIcon />,
-      'work': <WorkIcon />,
-      'personal': <PersonalProjectIcon />,
-      'hackathon': <PersonalProjectIcon />
-    };
-
-    let standardActions = [
-      { text: 'Cancel' },
-      { text: 'Submit', onTouchTap: this._onDialogSubmit, ref: 'submit' }
-    ];
 
     return (
       <div className="grid">
-       {this.props.data.map(function(data, i) {
-         var boundClick = this.handleClick.bind(this, i);
+        <h1 marginBottom="50px">Portfolio</h1>
+        {this.props.data.map(function(data, i) {
 
           return (
-            <div key={i}>
-              <Dialog
-                actions={standardActions}
-                ref={i}
-                autoDetectWindowHeight={true}
-                autoScrollBodyContent={true}>
-                <Card>
-                  <CardHeader
-                    title={data.title}
-                    subtitle={subtitles[data.type]}
-                    avatar={icons[data.type]} />
-                  <CardMedia>
-                    <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
-                  </CardMedia>
-                  <CardText>
-                    {data.text}
-                  </CardText>
-                </Card>
-              </Dialog>
-              <div onClick={boundClick}>
-                <Card
-                  className="grid-item">
-                  <CardMedia overlay={<CardTitle title={data.title} subtitle={subtitles[data.type] + " | " + data.date}/>}>
-                    <img src={data.imgURL || "http://lorempixel.com/600/337/nature/"} />
-                  </CardMedia>
-                </Card>
-              </div>
-            </div>
+            <GridItem data={data} index={i} key={i}/>
           );
         }, this)}
       </div>

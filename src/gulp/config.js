@@ -14,7 +14,7 @@ module.exports = {
     ]
   },
   markup: {
-    src: src + "/www/**",
+    src: [src + "/www/**", src + '/app/**'],
     dest: dest
   },
   browserify: {

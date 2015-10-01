@@ -68,6 +68,7 @@ let Main = React.createClass({
           onLeftIconButtonTouchTap={this.toggleMenu} />
 
         <div className="container">
+          <h1>Portfolio</h1>
           <Grid data={this.props.data}/>
         </div>
 

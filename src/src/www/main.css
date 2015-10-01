@@ -12,7 +12,11 @@ body {
 }
 
 .grid {
-    padding-top: 65px;
+    /*padding-top: 65px;*/
+}
+
+.grid-item:hover {
+    background-color: yellow;
 }
 
 /* Mobile-first */
