@@ -39,7 +39,6 @@ let Grid = React.createClass({
 
     return (
       <div className="grid">
-        <h1 marginBottom="50px">Portfolio</h1>
         {this.props.data.map(function(data, i) {
 
           return (

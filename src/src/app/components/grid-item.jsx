@@ -9,7 +9,6 @@ let CardMedia = mui.CardMedia;
 let CardTitle = mui.CardTitle;
 let CardText = mui.CardText;
 let CardHeader = mui.CardHeader;
-let Paper = mui.Paper;
 let SchoolIcon = require('material-ui/lib/svg-icons/social/school');
 let PersonalProjectIcon = require('material-ui/lib/svg-icons/hardware/computer');
 let WorkIcon = require('material-ui/lib/svg-icons/action/work');
@@ -44,8 +43,12 @@ let GridItem = React.createClass({
     this.setState({
       hover: true
     });
-    console.log('paper'+i);
-    console.log('hover: '+this.state.hover);
+  },
+
+  onMouseLeaveHandler(i) {
+    this.setState({
+      hover: false
+    });
   },
 
   handleClick(i) {
@@ -73,20 +76,15 @@ let GridItem = React.createClass({
     ];
 
     let boundClick = this.handleClick.bind(this, this.props.index);
-    let boundHover = this.onMouseEnterHandler.bind(this, this.props.index);
+    let boundEnterHover = this.onMouseEnterHandler.bind(this, this.props.index);
+    let boundLeaveHover = this.onMouseLeaveHandler.bind(this, this.props.index);
 
-    let normal = {
-      marginTop: '10px'
-    };
-
-    let hover = {
-      marginTop: '50px'
-    };
-
-    var inner = normal;
-    if(this.state.hover) {
-      inner = hover;
-    };
+    var overlay;
+    if (this.state.hover) {
+      overlay = <CardTitle title={this.props.data.title} subtitle={subtitles[this.props.data.type] + " | " + this.props.data.date}/>;
+    } else {
+      overlay = null;
+    }
 
     return (
 
@@ -110,13 +108,11 @@ let GridItem = React.createClass({
           </Card>
         </Dialog>
         <div onClick={boundClick}>
-          <Paper onMouseEnter={boundHover} ref={"paper"+this.props.index} zDepth={5} style={inner}>
-            <Card className="grid-item">
-              <CardMedia overlay={<CardTitle title={this.props.data.title} subtitle={subtitles[this.props.data.type] + " | " + this.props.data.date}/>}>
-                <img src={this.props.data.imgURL || "http://lorempixel.com/600/337/nature/"} />
-              </CardMedia>
-            </Card>
-          </Paper>
+          <Card className="grid-item">
+            <CardMedia overlay={overlay} onMouseEnter={boundEnterHover} onMouseLeave={boundLeaveHover}>
+              <img src={this.props.data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+            </CardMedia>
+          </Card>
         </div>
       </div>
     );

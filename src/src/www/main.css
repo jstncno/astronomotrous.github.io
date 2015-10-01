@@ -15,10 +15,6 @@ body {
     /*padding-top: 65px;*/
 }
 
-.grid-item:hover {
-    background-color: yellow;
-}
-
 /* Mobile-first */
 .grid-item {
     width: 100%;
