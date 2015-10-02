@@ -40,7 +40,6 @@ let Grid = React.createClass({
     return (
       <div className="grid">
         {this.props.data.map(function(data, i) {
-
           return (
             <GridItem data={data} index={i} key={i}/>
           );
