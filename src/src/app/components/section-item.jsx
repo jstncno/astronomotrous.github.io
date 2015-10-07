@@ -52,8 +52,9 @@ let SectionItem = React.createClass({
 
         <Paper className="paper-item" zDepth={this.state.zDepth}>
           <div>
-            <h2 className="section-title">{this.props.data.title}</h2>
-            <h3 className="section-subtitle"><a href={this.props.data.companyUrl}>{this.props.data.company}</a></h3>
+            <img className="section-img" src={this.props.data.imgUrl} />
+            <h3 className="section-title"><a href={this.props.data.companyUrl}>{this.props.data.company}</a></h3>
+            <h4 className="section-subtitle">{this.props.data.title}</h4>
             <p>
               <ul>
                 {this.props.data.description.map(function(point, i) {

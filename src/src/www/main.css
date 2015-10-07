@@ -24,6 +24,39 @@ body {
     margin-bottom: 10px;
 }
 
+/*
+ * Section Paper List
+ */
+.section-item {
+    font-size: 18px;
+    margin: 7px 0 7px 0;
+}
+
+.section-item li {
+    padding: 5px;
+}
+
+.section-title {
+    margin-bottom: 2px;
+}
+
+.section-subtitle {
+    margin-top: 2px;
+}
+
+.paper-item {
+    padding: 3px 20px 3px 20px;
+}
+
+/* Mobile-first */
+.section-img {
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+/*
+ * Media Queries
+ */
 @media screen and (min-width: 480px) {
     .grid-item {
         width: 40%;
@@ -36,23 +69,9 @@ body {
         width: 30%;
         margin-bottom: 15px;
     }
-}
 
-/*
- * Section Paper List
- */
-.section-item {
-    margin: 7px 0 7px 0;
-}
-
-.section-title {
-    margin-bottom: 0;
-}
-
-.section-subtitle {
-    margin-top: 0;
-}
-
-.paper-item {
-    padding: 3px 20px 3px 20px;
+    .section-img {
+        margin-top: 25px;
+        max-width: 20%;
+    }
 }
