@@ -58,7 +58,7 @@ let GridItem = React.createClass({
   render() {
 
     let subtitles = {
-      'school': 'School Project',
+      'school': 'Academic Project',
       'work': 'Work Experience',
       'personal': 'Personal Project',
       'hackathon': 'Hackathon'
