@@ -50,7 +50,7 @@ body {
 
 /* Mobile-first */
 .section-img {
-    margin-top: 10px;
+    margin-top: 25px;
     max-width: 100%;
 }
 
@@ -71,7 +71,6 @@ body {
     }
 
     .section-img {
-        margin-top: 25px;
         max-width: 20%;
     }
 }

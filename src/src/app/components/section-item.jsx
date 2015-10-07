@@ -44,6 +44,10 @@ let SectionItem = React.createClass({
 
   render() {
 
+    let dateStyle = {
+      "text-align": "right"
+    }
+
     return (
       <div
        className="section-item"
@@ -51,15 +55,28 @@ let SectionItem = React.createClass({
        onMouseLeave={this.onMouseLeaveHandler}>
 
         <Paper className="paper-item" zDepth={this.state.zDepth}>
-          <div>
-            <img className="section-img" src={this.props.data.imgUrl} />
-            <h3 className="section-title"><a href={this.props.data.companyUrl}>{this.props.data.company}</a></h3>
-            <h4 className="section-subtitle">{this.props.data.title}</h4>
-              <ul>
-                {this.props.data.description.map(function(point, i) {
-                  return (<li>{point}</li>);
-                })}
-              </ul>
+          <div className="row">
+            <div className="col-md-12">
+              <img className="section-img" src={this.props.data.imgUrl} />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-8">
+              <h3 className="section-title"><a href={this.props.data.companyUrl}>{this.props.data.company}</a></h3>
+              <h4 className="section-subtitle">{this.props.data.title}</h4>
+            </div>
+            <div className="col-md-4" style={dateStyle}>
+              <h4>{this.props.data.date}</h4>
+            </div>
+          </div>
+
+          <div className="row">
+            <ul>
+              {this.props.data.description.map(function(point, i) {
+                return (<li>{point}</li>);
+              })}
+            </ul>
           </div>
         </Paper>
 
