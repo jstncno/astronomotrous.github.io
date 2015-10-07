@@ -7,6 +7,9 @@ body {
   line-height: 20px;
 }
 
+/*
+ * Projects Card Grid 
+ */
 .dialog-box {
     width: 50px;
 }
@@ -33,4 +36,23 @@ body {
         width: 30%;
         margin-bottom: 15px;
     }
+}
+
+/*
+ * Section Paper List
+ */
+.section-item {
+    margin: 7px 0 7px 0;
+}
+
+.section-title {
+    margin-bottom: 0;
+}
+
+.section-subtitle {
+    margin-top: 0;
+}
+
+.paper-item {
+    padding: 3px 20px 3px 20px;
 }

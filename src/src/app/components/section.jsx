@@ -31,7 +31,7 @@ let Section = React.createClass({
       <div className="work-experience">
         {this.props.data.map(function(data, i) {
           return (
-            <SectionItem data={data} />
+            <SectionItem data={data} key={i} />
           );
         }, this)}
       </div>
