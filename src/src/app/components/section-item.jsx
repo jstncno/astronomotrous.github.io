@@ -2,6 +2,7 @@
 
 let React = require('react');
 let mui = require('material-ui');
+let Paper = mui.Paper;
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
@@ -26,12 +27,10 @@ let SectionItem = React.createClass({
   render() {
 
     return (
-      <div className="grid">
-        {this.props.data.map(function(data, i) {
-          return (
-            <div></div>
-          );
-        }, this)}
+      <div>
+        <Paper>
+          <h2>{this.props.data.title}</h2>
+        </Paper>
       </div>
     );
   }

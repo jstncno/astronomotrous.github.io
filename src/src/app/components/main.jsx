@@ -13,6 +13,7 @@ let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
 let Grid = require('./grid.jsx');
+let Section = require('./section.jsx');
 
 let Main = React.createClass({
 
@@ -68,8 +69,15 @@ let Main = React.createClass({
           onLeftIconButtonTouchTap={this.toggleMenu} />
 
         <div className="container">
-          <h1>Portfolio</h1>
-          <Grid data={this.props.data}/>
+          <div id="work-experience">
+            <h1>Work and Professional Experience</h1>
+            <Section data={this.props.work}/>
+          </div>
+
+          <div id="projects">
+            <h1>Personal and Academic Projects</h1>
+            <Grid data={this.props.projects}/>
+          </div>
         </div>
 
       </div>

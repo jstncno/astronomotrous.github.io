@@ -5,6 +5,8 @@ let mui = require('material-ui');
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
+let SectionItem = require('./section-item.jsx');
+
 let Section = React.createClass({
 
   childContextTypes: {
@@ -26,10 +28,10 @@ let Section = React.createClass({
   render() {
 
     return (
-      <div className="grid">
+      <div className="work-experience">
         {this.props.data.map(function(data, i) {
           return (
-            <div></div>
+            <SectionItem data={data} />
           );
         }, this)}
       </div>

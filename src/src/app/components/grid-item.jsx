@@ -100,7 +100,7 @@ let GridItem = React.createClass({
               subtitle={subtitles[this.props.data.type]}
               avatar={icons[this.props.data.type]} />
             <CardMedia>
-              <img src={this.props.data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+              <img src={this.props.data.imgUrl || "http://lorempixel.com/600/337/nature/"} />
             </CardMedia>
             <CardText>
               {this.props.data.text}
@@ -110,7 +110,7 @@ let GridItem = React.createClass({
         <div onClick={boundClick}>
           <Card className="grid-item">
             <CardMedia overlay={overlay} onMouseEnter={boundEnterHover} onMouseLeave={boundLeaveHover}>
-              <img src={this.props.data.imgURL || "http://lorempixel.com/600/337/nature/"} />
+              <img src={this.props.data.imgUrl || "http://lorempixel.com/600/337/nature/"} />
             </CardMedia>
           </Card>
         </div>
