@@ -70,7 +70,7 @@ let Main = React.createClass({
 
         <div className="container">
           <div id="work-experience">
-            <h1>Work and Professional Experience</h1>
+            <h1>Professional Experience</h1>
             <Section data={this.props.work}/>
           </div>
 

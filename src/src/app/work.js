@@ -38,6 +38,18 @@ module.exports = [
     ]
   },
   {
+    title: "Embedded Systems Developer",
+    company: "University of California, Riverside (Department of Entomology)",
+    companyUrl: "http://www.entomology.ucr.edu/",
+    type: "work",
+    date : "Jun 2014 - Jul 2014",
+    imgUrl : "http://politicalscience.ucr.edu/wp-content/uploads/2014/11/UCR-logo-1.png",
+    description: [
+      "Developed a Raspberry Pi camcorder for the University of California, Riverside Entomology Department to aid in research by capturing footage of insect eggs in to look for natural predators of the Brown Marmorated Stink Bug",
+      "Worked closely and diligently with a UCR Entomologist to create a product that would directly help with his research"
+    ]
+  },
+  {
     title: "Software Engineer Intern",
     company: "JetHead Development",
     companyUrl: "http://jetheaddev.com/",

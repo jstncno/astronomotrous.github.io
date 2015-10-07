@@ -55,13 +55,11 @@ let SectionItem = React.createClass({
             <img className="section-img" src={this.props.data.imgUrl} />
             <h3 className="section-title"><a href={this.props.data.companyUrl}>{this.props.data.company}</a></h3>
             <h4 className="section-subtitle">{this.props.data.title}</h4>
-            <p>
               <ul>
                 {this.props.data.description.map(function(point, i) {
                   return (<li>{point}</li>);
                 })}
               </ul>
-            </p>
           </div>
         </Paper>
 

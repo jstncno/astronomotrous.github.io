@@ -33,7 +33,7 @@ body {
 }
 
 .section-item li {
-    padding: 5px;
+    padding: 4px;
 }
 
 .section-title {
@@ -41,7 +41,7 @@ body {
 }
 
 .section-subtitle {
-    margin-top: 2px;
+    margin: 2px 0 5px 0;
 }
 
 .paper-item {
