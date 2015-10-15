@@ -34,6 +34,10 @@ let Main = React.createClass({
 
   render() {
 
+    let topSpacing = {
+      "margin-top": "350px"
+    }
+
     let menuItems = [
       { route: 'get-started', text: 'Get Started' },
       { route: 'customization', text: 'Customization' },
@@ -57,7 +61,7 @@ let Main = React.createClass({
     ];
 
     return (
-      <div>
+      <div style={topSpacing}>
         <Header menuItems={menuItems} />
 
         <div className="container">

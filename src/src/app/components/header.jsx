@@ -7,6 +7,12 @@ let Colors = mui.Styles.Colors;
 
 let Header = React.createClass({
 
+  getInitialState() {
+    return {
+      height: "350px"
+    };
+  },
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -32,12 +38,20 @@ let Header = React.createClass({
   },
 
   handleScroll(event) {
-      let scrollTop = event.srcElement.body.scrollTop,
-          itemTranslate = Math.min(0, scrollTop/3 - 60);
+    let scrollTop = event.srcElement.body.scrollTop,
+        itemTranslate = Math.min(0, scrollTop/3 - 60);
 
+    console.log(this.state.height);
+
+    if(scrollTop > 100) {
       this.setState({
-        transform: itemTranslate
+        height: "64px"
       });
+    } else {
+      this.setState({
+        height: "350px"
+      });
+    }
   },
 
   toggleMenu() {
@@ -46,12 +60,28 @@ let Header = React.createClass({
 
   render() {
 
+    let headerStyle = {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0
+    }
+
+    let appBarStyle = {
+      height : this.state.height
+    }
+
     return (
-      <div className="header">
-        <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
-        <AppBar
-          title="Justin Cano"
-          onLeftIconButtonTouchTap={this.toggleMenu} />
+      <div className="header" style={headerStyle}>
+        <div className="row">
+          <div className="col-md-12">
+            <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
+            <AppBar
+              title="Justin Cano"
+              style={appBarStyle}
+              onLeftIconButtonTouchTap={this.toggleMenu} />
+          </div>
+        </div>
       </div>
     );
   }
