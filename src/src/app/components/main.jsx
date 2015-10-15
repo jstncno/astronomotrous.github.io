@@ -4,14 +4,13 @@ let React = require('react');
 let mui = require('material-ui');
 let RaisedButton = mui.RaisedButton;
 let Dialog = mui.Dialog;
-let AppBar = mui.AppBar;
 let Card = mui.Card;
 let CardText = mui.CardText;
-let LeftNav = mui.LeftNav;
 let MenuItem = mui.MenuItem;
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
+let Header = require('./header.jsx');
 let Grid = require('./grid.jsx');
 let Section = require('./section.jsx');
 
@@ -31,10 +30,6 @@ let Main = React.createClass({
     ThemeManager.setPalette({
       accent1Color: Colors.deepOrange500
     });
-  },
-
-  toggleMenu() {
-    this.refs.leftNav.toggle();
   },
 
   render() {
@@ -63,10 +58,7 @@ let Main = React.createClass({
 
     return (
       <div>
-        <LeftNav ref="leftNav" docked={false} menuItems={menuItems} />
-        <AppBar
-          title="Justin Cano"
-          onLeftIconButtonTouchTap={this.toggleMenu} />
+        <Header menuItems={menuItems} />
 
         <div className="container">
           <div id="work-experience">
