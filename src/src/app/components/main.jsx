@@ -65,7 +65,7 @@ let Main = React.createClass({
       <div>
         <LeftNav ref="leftNav" docked={false} menuItems={menuItems} />
         <AppBar
-          title="Title"
+          title="Justin Cano"
           onLeftIconButtonTouchTap={this.toggleMenu} />
 
         <div className="container">
