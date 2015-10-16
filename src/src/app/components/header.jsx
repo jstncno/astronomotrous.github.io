@@ -5,6 +5,8 @@ let LeftNav = mui.LeftNav;
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
+let HeaderTitle = require('./header-title.jsx');
+
 let Header = React.createClass({
 
   getInitialState() {
@@ -71,13 +73,19 @@ let Header = React.createClass({
       height : this.state.height
     }
 
+    var header = function() {
+      return (
+        <Avatar>A</Avatar>
+      );
+    }
+
     return (
       <div className="header" style={headerStyle}>
         <div className="row">
           <div className="col-md-12">
             <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
             <AppBar
-              title="Justin Cano"
+              title={<HeaderTitle title="Justin Cano" height={this.state.height} />}
               style={appBarStyle}
               onLeftIconButtonTouchTap={this.toggleMenu} />
           </div>
