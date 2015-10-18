@@ -85,7 +85,7 @@ let Header = React.createClass({
           <div className="col-md-12">
             <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
             <AppBar
-              title={<HeaderTitle title="Justin Cano" height={this.state.height} />}
+              title={<HeaderTitle height={this.state.height} />}
               style={appBarStyle}
               onLeftIconButtonTouchTap={this.toggleMenu} />
           </div>

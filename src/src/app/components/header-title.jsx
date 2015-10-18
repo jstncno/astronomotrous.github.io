@@ -28,25 +28,36 @@ let HeaderTitle = React.createClass({
 
   render() {
 
-    let styles = {
+    let imgContainerstyle = {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      margin: 0,
+      // margin: 0,
+      "margin-left": "auto",
+      "margin-right": "auto",
       paddingTop: 0,
       letterSpacing: 0,
       fontSize: 24,
       fontWeight: Typography.fontWeightNormal,
       color: "rgba(255, 255, 255, 0.87)",
-      lineHeight: this.props.height ? this.props.height : this.state.height,
+      // lineHeight: this.props.height ? this.props.height : this.state.height,
       boxFlex: 1,
       flex: '1',
-      height: "100%"
+      height: this.props.height,
+      display: "table-cell",
+      "vertical-align": "middle"
+    }
+
+    let imgStyle = {
+      height: "75%",
+      width: "80%"
     }
 
     return (
-      <div className="header-title" style={styles}>
-        <h1>{this.props.title}</h1>
+      <div className="header-title">
+        <div style={imgContainerstyle}>
+          <img src={"./assets/JustinCano.svg"} style={imgStyle} />
+        </div>
       </div>
     );
   }
