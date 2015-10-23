@@ -35,7 +35,7 @@ let Main = React.createClass({
   render() {
 
     let topSpacing = {
-      "margin-top": "350px"
+      "margin-top": 0.75*window.innerHeight + "px"
     }
 
     let menuItems = [

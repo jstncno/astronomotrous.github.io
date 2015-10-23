@@ -11,7 +11,7 @@ let Header = React.createClass({
 
   getInitialState() {
     return {
-      height: "350px"
+      height: 0.75*window.innerHeight + "px"
     };
   },
 
@@ -51,7 +51,7 @@ let Header = React.createClass({
       });
     } else {
       this.setState({
-        height: "350px"
+        height: 0.75*window.innerHeight + "px"
       });
     }
   },
