@@ -7,14 +7,13 @@
   <title>Material UI Example</title>
   <meta name="description" content="Google's material design UI components built with React.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
 <body>
+  <div id="app"></div>
+  
   <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
-  <div id="main"></div>
-  <!-- <div id="grid"></div> -->
   <script>
     var WebFontConfig = {
       google: { families: [ 'Roboto:400,300,500:latin' ] }
@@ -30,20 +29,6 @@
     })();
   </script>
   <script src="app.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
-  <script src="http://imagesloaded.desandro.com/imagesloaded.pkgd.min.js"></script>
-  <script>
-    var grid = document.querySelector('.grid');
-    var msnry = new Masonry(grid, {
-      // options...
-      itemSelector: '.grid-item',
-      gutter: 20
-    });
-    imagesLoaded( grid, function() {
-      // layout Masonry after each image loads
-      msnry.layout();
-    });
-  </script>
 </body>
 
 </html>

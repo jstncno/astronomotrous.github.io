@@ -1,80 +1,62 @@
 /** In this file, we create a React component which incorporates components provided by material-ui */
 
-let React = require('react');
-let mui = require('material-ui');
-let RaisedButton = mui.RaisedButton;
-let Dialog = mui.Dialog;
-let Card = mui.Card;
-let CardText = mui.CardText;
-let MenuItem = mui.MenuItem;
-let ThemeManager = new mui.Styles.ThemeManager();
-let Colors = mui.Styles.Colors;
+const React = require('react');
+const RaisedButton = require('material-ui/lib/raised-button');
+const Dialog = require('material-ui/lib/dialog');
+const ThemeManager = require('material-ui/lib/styles/theme-manager');
+const LightRawTheme = require('material-ui/lib/styles/raw-themes/light-raw-theme');
+const Colors = require('material-ui/lib/styles/colors');
 
-let Header = require('./header.jsx');
-let Grid = require('./grid.jsx');
-let Section = require('./section.jsx');
-
-let Main = React.createClass({
+const Main = React.createClass({
 
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
 
+  getInitialState () {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
+    };
+  },
+
   getChildContext() {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
+      muiTheme: this.state.muiTheme,
     };
   },
 
   componentWillMount() {
-    ThemeManager.setPalette({
+    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
       accent1Color: Colors.deepOrange500
     });
+
+    this.setState({muiTheme: newMuiTheme});
   },
 
   render() {
 
-    let topSpacing = {
-      "margin-top": 0.75*window.innerHeight + "px"
-    }
+    let containerStyle = {
+      textAlign: 'center',
+      paddingTop: '200px'
+    };
 
-    let menuItems = [
-      { route: 'get-started', text: 'Get Started' },
-      { route: 'customization', text: 'Customization' },
-      { route: 'components', text: 'Components' },
-      { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
-      {
-         type: MenuItem.Types.LINK,
-         payload: 'https://github.com/callemall/material-ui',
-         text: 'GitHub'
-      },
-      {
-         text: 'Disabled',
-         disabled: true
-      },
-      {
-         type: MenuItem.Types.LINK,
-         payload: 'https://www.google.com',
-         text: 'Disabled Link',
-         disabled: true
-      },
+    let standardActions = [
+      { text: 'Okay' }
     ];
 
     return (
-      <div style={topSpacing}>
-        <Header menuItems={menuItems} />
+      <div style={containerStyle}>
+        <Dialog
+          title="Super Secret Password"
+          actions={standardActions}
+          ref="superSecretPasswordDialog">
+          1-2-3-4-5
+        </Dialog>
 
-        <div className="container">
-          <div id="work-experience">
-            <h1>Professional Experience</h1>
-            <Section data={this.props.work}/>
-          </div>
+        <h1>material-ui</h1>
+        <h2>example project</h2>
 
-          <div id="projects">
-            <h1>Personal and Academic Projects</h1>
-            <Grid data={this.props.projects}/>
-          </div>
-        </div>
+        <RaisedButton label="Super Secret Password" primary={true} onTouchTap={this._handleTouchTap} />
 
       </div>
     );
