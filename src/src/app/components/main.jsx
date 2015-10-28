@@ -69,11 +69,6 @@ const Main = React.createClass({
       <div style={containerStyle}>
         <Header menuItems={menuItems} />
 
-        <h1>material-ui</h1>
-        <h2>example project</h2>
-
-        <RaisedButton label="Super Secret Password" primary={true} onTouchTap={this._handleTouchTap} />
-
       </div>
     );
   },
