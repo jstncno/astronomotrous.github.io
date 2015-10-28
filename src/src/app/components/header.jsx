@@ -11,7 +11,7 @@ const Header = React.createClass({
 
   getInitialState() {
     return {
-      height: 0.75*window.innerHeight + "px"
+      height: 0.9*window.innerHeight + "px"
     };
   },
 
@@ -39,7 +39,7 @@ const Header = React.createClass({
       });
     } else {
       this.setState({
-        height: 0.75*window.innerHeight + "px"
+        height: 0.9*window.innerHeight + "px"
       });
     }
   },
