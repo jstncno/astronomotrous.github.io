@@ -4,7 +4,7 @@ const React = require('react');
 const mui = require('material-ui');
 const RaisedButton = require('material-ui/lib/raised-button');
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
-const LightRawTheme = require('material-ui/lib/styles/raw-themes/light-raw-theme');
+const DarkRawTheme = require('material-ui/lib/styles/raw-themes/dark-raw-theme');
 const Colors = require('material-ui/lib/styles/colors');
 const MenuItem = mui.MenuItem;
 
@@ -18,7 +18,7 @@ const Main = React.createClass({
 
   getInitialState () {
     return {
-      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
+      muiTheme: ThemeManager.getMuiTheme(DarkRawTheme),
     };
   },
 
@@ -29,9 +29,10 @@ const Main = React.createClass({
   },
 
   componentWillMount() {
-    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.deepOrange500
-    });
+    let newMuiTheme = this.state.muiTheme;
+
+    newMuiTheme.appBar.color = Colors.blueGrey900;
+    newMuiTheme.appBar.textColor = Colors.grey300;
 
     this.setState({muiTheme: newMuiTheme});
   },
