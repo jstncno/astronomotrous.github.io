@@ -4,6 +4,10 @@ const Typography = require('material-ui/lib/styles/typography');
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
 const Colors = mui.Styles.Colors;
 
+const Grid = require('react-bootstrap').Grid;
+const Row = require('react-bootstrap').Row;
+const Col = require('react-bootstrap').Col;
+
 const HeaderTitle = React.createClass({
 
   getInitialState() {
@@ -41,16 +45,31 @@ const HeaderTitle = React.createClass({
       "vertical-align": "middle"
     }
 
-    const imgStyle = {
-      height: "75%",
-      width: "80%"
+    const centerContainerStyle = {
+      height: this.props.height,
+      width: "100%",
+      display: "table"
+    }
+
+    const centerStyle = {
+      fontSize: 24,
+      color: "rgba(255, 255, 255, 0.7)",
+      display: "table-cell",
+      verticalAlign: "middle",
+      textAlign: "center"
+    }
+
+    const fullWidthStyle = {
+      width: "100%"
     }
 
     return (
       <div className="header-title">
-        <div style={imgContainerstyle}>
-          Justin Cano
-        </div>
+        <Grid>
+          <Row style={centerContainerStyle}>
+            <Col xs={12} style={centerStyle}>Justin Cano</Col>
+          </Row>
+        </Grid>
       </div>
     );
   }
