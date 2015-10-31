@@ -60,14 +60,24 @@ const HeaderTitle = React.createClass({
     }
 
     const fullWidthStyle = {
+      height: this.props.height,
       width: "100%"
+    }
+
+    const videoBackgroundStyle = {
+
+      backgroundSize: "cover"
     }
 
     return (
       <div className="header-title">
         <Grid>
           <Row style={centerContainerStyle}>
-            <Col xs={12} style={centerStyle}>Justin Cano</Col>
+            <Col xs={12} style={centerStyle}>
+              <video style={fullWidthStyle} ref="api" width="350px" id='video-player' autoPlay loop controls>
+                <source src="assets/skyline.mp4" type="video/mp4" />
+              </video>
+            </Col>
           </Row>
         </Grid>
       </div>

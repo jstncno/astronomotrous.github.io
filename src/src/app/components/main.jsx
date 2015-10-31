@@ -66,10 +66,20 @@ const Main = React.createClass({
       },
     ];
 
+    const tempStyle = {
+      width: "350px",
+      paddingTop: 1.5*window.innerHeight
+    }
+
     return (
       <div style={containerStyle}>
         <Header menuItems={menuItems} />
 
+        <div style={tempStyle}>
+          <video ref="api" width="350px" id='video-player' autoPlay controls>
+            <source src="assets/skyline.mp4" type="video/mp4" />
+          </video>
+        </div>
       </div>
     );
   },
