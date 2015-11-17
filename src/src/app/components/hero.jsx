@@ -19,7 +19,7 @@ const Hero = React.createClass({
 
   componentDidMount() {
     var offsetHeight,
-        diff = window.innerHeight - (this.refs.videoPlayer.offsetHeight+65);
+        diff = window.innerHeight - (this.refs.hero.offsetHeight+65);
     if (diff < 0) {
       offsetHeight = diff;
     } else {
@@ -28,8 +28,6 @@ const Hero = React.createClass({
     this.setState({
       offsetHeight: offsetHeight + "px"
     });
-    console.log(window.innerHeight);
-    console.log(this.refs.videoPlayer.offsetHeight+65);
   },
 
   componentWillUnmount() {
@@ -61,7 +59,7 @@ const Hero = React.createClass({
     }
 
     return (
-      <div className="hero" style={heroStyle}>
+      <div className="hero" style={heroStyle} ref="hero">
         <div style={videoContainerStyle}>
           <video style={fullWidthStyle} ref="videoPlayer" id="video-player" autoPlay loop>
             <source src="assets/skyline.mp4" type="video/mp4" />
