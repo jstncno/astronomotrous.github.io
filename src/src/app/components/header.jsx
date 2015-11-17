@@ -5,14 +5,13 @@ const LeftNav = mui.LeftNav;
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
 const Colors = mui.Styles.Colors;
 
+const Hero = require('./hero.jsx');
 const HeaderTitle = require('./header-title.jsx');
 
 const Header = React.createClass({
 
   getInitialState() {
-    return {
-      height: 0.9*window.innerHeight + "px"
-    };
+    return null;
   },
 
   childContextTypes: {
@@ -20,11 +19,9 @@ const Header = React.createClass({
   },
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
   },
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
   },
 
   handleScroll(event) {
@@ -51,33 +48,28 @@ const Header = React.createClass({
   render() {
 
     const headerStyle = {
-      position: "fixed",
+      position: "absolute",
       top: 0,
       left: 0,
-      right: 0
+      right: 0,
+      margin: 0,
+      padding: 0
     }
 
     const appBarStyle = {
-      height : this.state.height
-    }
-
-    var header = function() {
-      return (
-        <Avatar>A</Avatar>
-      );
+      // height : this.state.height,
+      backgroundColor: "black"
     }
 
     return (
       <div className="header" style={headerStyle}>
-        <div className="row">
-          <div className="col-md-12">
-            <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
-            <AppBar
-              title={<HeaderTitle height={this.state.height} />}
-              style={appBarStyle}
-              onLeftIconButtonTouchTap={this.toggleMenu} />
-          </div>
-        </div>
+        <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
+        <AppBar
+          id="appbar"
+          style={appBarStyle}
+          zDepth={0}
+          onLeftIconButtonTouchTap={this.toggleMenu} />
+        <Hero />
       </div>
     );
   }

@@ -31,7 +31,7 @@ const Main = React.createClass({
   componentWillMount() {
     let newMuiTheme = this.state.muiTheme;
 
-    newMuiTheme.appBar.color = Colors.blueGrey900;
+    newMuiTheme.appBar.color = Colors.grey900;
     newMuiTheme.appBar.textColor = Colors.grey300;
 
     this.setState({muiTheme: newMuiTheme});
@@ -40,8 +40,7 @@ const Main = React.createClass({
   render() {
 
     const containerStyle = {
-      textAlign: 'center',
-      paddingTop: '200px'
+      // textAlign: 'center',
     };
 
     const menuItems = [
@@ -74,12 +73,14 @@ const Main = React.createClass({
     return (
       <div style={containerStyle}>
         <Header menuItems={menuItems} />
-
-        <div style={tempStyle}>
-          <video ref="api" width="350px" id='video-player' autoPlay controls>
-            <source src="assets/skyline.mp4" type="video/mp4" />
-          </video>
-        </div>
+        Hello, world!
+        <br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        Hello again!
       </div>
     );
   },

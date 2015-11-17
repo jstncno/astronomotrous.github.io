@@ -71,15 +71,7 @@ const HeaderTitle = React.createClass({
 
     return (
       <div className="header-title">
-        <Grid>
-          <Row style={centerContainerStyle}>
-            <Col xs={12} style={centerStyle}>
-              <video style={fullWidthStyle} ref="api" width="350px" id='video-player' autoPlay loop controls>
-                <source src="assets/skyline.mp4" type="video/mp4" />
-              </video>
-            </Col>
-          </Row>
-        </Grid>
+        Justin Cano
       </div>
     );
   }
