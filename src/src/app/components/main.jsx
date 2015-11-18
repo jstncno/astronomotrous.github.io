@@ -1,6 +1,7 @@
 /** In this file, we create a React component which incorporates components provided by material-ui */
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const mui = require('material-ui');
 const RaisedButton = require('material-ui/lib/raised-button');
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
@@ -9,6 +10,7 @@ const Colors = require('material-ui/lib/styles/colors');
 const MenuItem = mui.MenuItem;
 
 const Header = require('./header.jsx');
+const Hero = require('./hero.jsx');
 
 const Main = React.createClass({
 
@@ -19,6 +21,7 @@ const Main = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(DarkRawTheme),
+      heightPadding: "65px"
     };
   },
 
@@ -28,11 +31,17 @@ const Main = React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.setState({
+      heightPadding: ReactDOM.findDOMNode(this.refs.header.refs.hero).offsetHeight + 100 + "px"
+    });
+  },
+
   componentWillMount() {
     let newMuiTheme = this.state.muiTheme;
 
     newMuiTheme.appBar.color = Colors.grey900;
-    newMuiTheme.appBar.textColor = Colors.grey300;
+    newMuiTheme.appBar.textColor = Colors.grey400;
 
     this.setState({muiTheme: newMuiTheme});
   },
@@ -41,6 +50,7 @@ const Main = React.createClass({
 
     const containerStyle = {
       // textAlign: 'center',
+      paddingTop: this.state.heightPadding
     };
 
     const menuItems = [
@@ -50,7 +60,7 @@ const Main = React.createClass({
       { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
       {
          type: MenuItem.Types.LINK,
-         payload: 'https://github.com/callemall/material-ui',
+         payload: 'https://github.com/earthican',
          text: 'GitHub'
       },
       {
@@ -72,8 +82,12 @@ const Main = React.createClass({
 
     return (
       <div style={containerStyle}>
-        <Header menuItems={menuItems} />
-        Hello, world!
+        <Header menuItems={menuItems} ref="header"/>
+        <div>
+          <p>
+            Hello, world!
+          </p>
+        </div>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>

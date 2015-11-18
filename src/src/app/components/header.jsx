@@ -69,7 +69,7 @@ const Header = React.createClass({
           style={appBarStyle}
           zDepth={0}
           onLeftIconButtonTouchTap={this.toggleMenu} />
-        <Hero />
+        <Hero ref="hero"/>
       </div>
     );
   }
