@@ -11,6 +11,7 @@ const MenuItem = mui.MenuItem;
 
 const Header = require('./header.jsx');
 const Hero = require('./hero.jsx');
+const Summary = require('./summary.jsx');
 
 const Main = React.createClass({
 
@@ -83,24 +84,9 @@ const Main = React.createClass({
     return (
       <div style={containerStyle}>
         <Header menuItems={menuItems} ref="header"/>
-        <div>
-          <p>
-            Hello, world!
-          </p>
-        </div>
-        <br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/>
-        Hello again!
+        <Summary />
       </div>
     );
-  },
-
-  _handleTouchTap() {
-    this.refs.superSecretPasswordDialog.show();
   }
 
 });
