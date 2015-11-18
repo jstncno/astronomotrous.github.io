@@ -58,7 +58,8 @@ const Header = React.createClass({
 
     const appBarStyle = {
       // height : this.state.height,
-      backgroundColor: "black"
+      backgroundColor: "black",
+      position: "fixed"
     }
 
     return (
@@ -67,7 +68,7 @@ const Header = React.createClass({
         <AppBar
           id="appbar"
           style={appBarStyle}
-          zDepth={0}
+          zDepth={3}
           onLeftIconButtonTouchTap={this.toggleMenu} />
         <Hero ref="hero"/>
       </div>

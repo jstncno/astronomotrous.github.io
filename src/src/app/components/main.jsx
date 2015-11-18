@@ -34,7 +34,7 @@ const Main = React.createClass({
 
   componentDidMount() {
     this.setState({
-      heightPadding: ReactDOM.findDOMNode(this.refs.header.refs.hero).offsetHeight + 100 + "px"
+      heightPadding: ReactDOM.findDOMNode(this.refs.header.refs.hero).offsetHeight + 65 + "px"
     });
   },
 

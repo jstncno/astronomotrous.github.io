@@ -25,7 +25,7 @@ const Hero = React.createClass({
 
   componentDidMount() {
     var offsetHeight,
-        diff = window.innerHeight - (this.refs.hero.offsetHeight+100);
+        diff = window.innerHeight - (this.refs.hero.offsetHeight+65);
     if (diff < 0) {
       offsetHeight = diff;
     } else {
@@ -33,7 +33,7 @@ const Hero = React.createClass({
     }
     this.setState({
       offsetHeight: offsetHeight + "px",
-      height: this.refs.hero.offsetHeight-100 + "px"
+      height: this.refs.hero.offsetHeight-65 + "px"
     });
   },
 
@@ -60,7 +60,6 @@ const Hero = React.createClass({
     const titleStyle = {
       position: "absolute",
       display: "table-cell",
-      zIndex: 10,
       // color: "rgba(172,148,86,0.6)",
       color: this.state.color,
       fontSize: 24,
