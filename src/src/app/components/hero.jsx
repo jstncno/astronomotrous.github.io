@@ -57,21 +57,6 @@ const Hero = React.createClass({
       width: "100%"
     }
 
-    const titleStyle = {
-      position: "absolute",
-      display: "table-cell",
-      // color: "rgba(172,148,86,0.6)",
-      color: this.state.color,
-      fontSize: "1.5em",
-      display: "table-cell",
-      verticalAlign: "middle",
-      height: this.state.height,
-      textAlign: "center",
-      transform: "translate(0, 25%)",
-      left: 0,
-      right: 0
-    }
-
     const textColor = {
       color: this.state.color
     }
