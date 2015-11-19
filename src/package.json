@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "autoresponsive-react": "^1.1.8",
+    "jquery": "^2.1.4",
     "material-ui": "^0.13.0",
     "react": "^0.14.0",
     "react-addons-create-fragment": "^0.14.0",
@@ -34,6 +35,7 @@
     "react-bootstrap": "^0.27.3",
     "react-dom": "^0.14.0",
     "react-drive-in": "^1.6.2",
+    "react-responsive": "^1.0.1",
     "react-tap-event-plugin": "^0.2.1"
   }
 }

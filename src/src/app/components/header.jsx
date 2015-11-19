@@ -26,9 +26,7 @@ const Header = React.createClass({
 
   handleScroll(event) {
     const scrollTop = event.srcElement.body.scrollTop,
-        itemTranslate = Math.min(0, scrollTop/3 - 60);
-
-    console.log(this.state.height);
+          itemTranslate = Math.min(0, scrollTop/3 - 60);
 
     if(scrollTop > 100) {
       this.setState({
@@ -59,17 +57,17 @@ const Header = React.createClass({
     const appBarStyle = {
       // height : this.state.height,
       backgroundColor: "black",
-      position: "fixed"
     }
 
     return (
-      <div className="header" style={headerStyle}>
+      <div className="header" id="header" style={headerStyle}>
         <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
         <AppBar
-          id="appbar"
+          id="app-bar"
           style={appBarStyle}
           zDepth={3}
-          onLeftIconButtonTouchTap={this.toggleMenu} />
+          onLeftIconButtonTouchTap={this.toggleMenu}
+          ref="appBar" />
         <Hero ref="hero"/>
       </div>
     );

@@ -9,6 +9,8 @@ const Typography = mui.Styles.Typography;
 const Colors = mui.Styles.Colors;
 const ResumeIcon = require('material-ui/lib/svg-icons/action/assignment');
 
+const extend = mui.Utils.Extend;
+
 const Hero = React.createClass({
 
   getInitialState() {
@@ -24,25 +26,23 @@ const Hero = React.createClass({
   },
 
   componentDidMount() {
-    var offsetHeight,
-        diff = window.innerHeight - (this.refs.hero.offsetHeight+65);
-    if (diff < 0) {
-      offsetHeight = diff;
-    } else {
-      offsetHeight = -65;
-    }
-    this.setState({
-      offsetHeight: offsetHeight + "px",
-      height: this.refs.hero.offsetHeight-65 + "px"
-    });
+    // var offsetHeight,
+    //     diff = window.innerHeight - (this.refs.hero.offsetHeight+100);
+    // if (diff < 0) {
+    //   offsetHeight = diff;
+    // } else {
+    //   offsetHeight = -100;
+    // }
+    // this.setState({
+    //   offsetHeight: offsetHeight + "px",
+    //   height: this.refs.hero.offsetHeight-100 + "px"
+    // });
   },
 
   componentWillUnmount() {
   },
 
   render() {
-    console.log(Typography);
-
     const heroStyle = {
       backgroundColor: "black",
       paddingBottom: 0
@@ -53,8 +53,9 @@ const Hero = React.createClass({
     }
 
     const fullWidthStyle = {
-      marginTop: this.state.offsetHeight,
-      width: "100%"
+      // marginTop: this.state.offsetHeight,
+      width: "100%",
+      position: "static"
     }
 
     const titleStyle = {
@@ -62,7 +63,7 @@ const Hero = React.createClass({
       display: "table-cell",
       // color: "rgba(172,148,86,0.6)",
       color: this.state.color,
-      fontSize: 24,
+      fontSize: "1.5em",
       display: "table-cell",
       verticalAlign: "middle",
       height: this.state.height,
@@ -77,7 +78,8 @@ const Hero = React.createClass({
     }
 
     const buttonStyle = {
-      color: this.state.color
+      color: this.state.color,
+      zIndex: "10"
     }
 
     const iconStyle = {
@@ -85,20 +87,18 @@ const Hero = React.createClass({
       display: 'inline-block',
       verticalAlign: 'middle',
       paddingRight: '12px',
-      lineHeight: '36px',
       color: this.state.color
     }
 
     return (
       <div className="hero" style={heroStyle} ref="hero">
-        <div style={titleStyle}>
+        <div id="hero-title">
           <h1>Justin Cano</h1>
           <p>
             software and data engineer
             <br/>
-            <a href="./dl/JustinCanoCEResume.pdf">
+            <a href="dl/JustinCanoCEResume.pdf">
               <RaisedButton style={buttonStyle} label="Resume" labelPosition="after">
-                <ResumeIcon style={iconStyle} />
               </RaisedButton>
             </a>
           </p>

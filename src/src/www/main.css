@@ -6,3 +6,66 @@ body {
   font-size: 13px;
   line-height: 20px;
 }
+
+/* Mobile First */
+/* Common Component attributes */
+#hero-title {
+  position: absolute;
+  display: table-cell;
+  color: #bdbdbd;
+  font-size: 1.25em;
+  vertical-align: middle;
+  text-align: center;
+  left: 0;
+  right: 0;
+}
+
+#greeting-header {
+  font-size: 3em;
+}
+
+.content-box {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    font-size: 1.2em;
+}
+
+/*
+ * Media Queries
+ */
+@media screen and (max-width: 1224px) {
+    /* Tablet or mobile phone */
+
+    .content-box {
+    }
+}
+
+@media screen and (min-width: 1225px) {
+    /* Desktop or laptop */
+    #greeting {
+      padding-top: 75px;
+    }
+
+    #hero-title {
+      font-size: 2.5em;
+      transform: translate(0, 75%);
+    }
+
+    #greeting-header {
+      font-size: 4em;
+    }
+
+    .content-box {
+      width: 60%;
+      padding-bottom: 50px;
+    }
+
+    @media screen and (min-width: 1824px) {
+        /* Huge screen */
+        #hero-title {
+          font-size: 4em;
+          transform: translate(0, 55%);
+        }
+    }
+}

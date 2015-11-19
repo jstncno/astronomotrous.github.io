@@ -9,9 +9,11 @@ const DarkRawTheme = require('material-ui/lib/styles/raw-themes/dark-raw-theme')
 const Colors = require('material-ui/lib/styles/colors');
 const MenuItem = mui.MenuItem;
 
+const $ = require('jquery');
+
 const Header = require('./header.jsx');
 const Hero = require('./hero.jsx');
-const Summary = require('./summary.jsx');
+const Greeting = require('./greeting.jsx');
 
 const Main = React.createClass({
 
@@ -33,8 +35,12 @@ const Main = React.createClass({
   },
 
   componentDidMount() {
+    var headerHeight = ReactDOM.findDOMNode(this.refs.header).offsetHeight;
+    var appBarHeight = ReactDOM.findDOMNode(this.refs.header.refs.appBar).offsetHeight;
+
     this.setState({
-      heightPadding: ReactDOM.findDOMNode(this.refs.header.refs.hero).offsetHeight + 65 + "px"
+      headerHeight: headerHeight,
+      heightPadding: headerHeight + appBarHeight + "px"
     });
   },
 
@@ -45,6 +51,8 @@ const Main = React.createClass({
     newMuiTheme.appBar.textColor = Colors.grey400;
 
     this.setState({muiTheme: newMuiTheme});
+
+    window.removeEventListener("video-rendered");
   },
 
   render() {
@@ -76,15 +84,10 @@ const Main = React.createClass({
       },
     ];
 
-    const tempStyle = {
-      width: "350px",
-      paddingTop: 1.5*window.innerHeight
-    }
-
     return (
-      <div style={containerStyle}>
+      <div style={containerStyle} id="main-container">
         <Header menuItems={menuItems} ref="header"/>
-        <Summary />
+        <Greeting />
       </div>
     );
   }
