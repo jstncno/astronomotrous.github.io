@@ -53,9 +53,8 @@ const Hero = React.createClass({
     }
 
     const fullWidthStyle = {
-      // marginTop: this.state.offsetHeight,
-      width: "100%",
-      position: "static"
+      marginTop: this.state.offsetHeight,
+      width: "100%"
     }
 
     const titleStyle = {
