@@ -21,15 +21,32 @@ body {
   right: 0;
 }
 
+#greeting {
+  padding: 0px 0 50px 0;
+}
+
 #greeting-header {
   font-size: 3em;
 }
 
+#greeting-subheader {
+  font-size: 1.5em;
+  color: #1976d2;
+}
+
 .content-box {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-    font-size: 1.2em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  font-size: 1.2em;
+}
+
+.parallax-inner-box {
+  height: 115px;
+}
+
+#experience {
+  padding: 165px 0 50px 0;
 }
 
 /*
@@ -37,15 +54,12 @@ body {
  */
 @media screen and (max-width: 1224px) {
     /* Tablet or mobile phone */
-
-    .content-box {
-    }
 }
 
 @media screen and (min-width: 1225px) {
     /* Desktop or laptop */
     #greeting {
-      padding-top: 75px;
+      padding: 150px 0 150px 0;
     }
 
     #hero-title {
@@ -57,9 +71,20 @@ body {
       font-size: 4em;
     }
 
+    #greeting-subheader {
+      font-size: 2.25em;
+    }
+
     .content-box {
       width: 60%;
-      padding-bottom: 50px;
+    }
+
+    .parallax-inner-box {
+      height: 250px;
+    }
+
+    #experience {
+      padding: 300px 0 50px 0;
     }
 
     @media screen and (min-width: 1824px) {

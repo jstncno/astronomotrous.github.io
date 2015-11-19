@@ -14,6 +14,8 @@ const $ = require('jquery');
 const Header = require('./header.jsx');
 const Hero = require('./hero.jsx');
 const Greeting = require('./greeting.jsx');
+const ParallaxBox = require('./parallax-box.jsx');
+const Experience = require('./experience.jsx');
 
 const Main = React.createClass({
 
@@ -88,6 +90,8 @@ const Main = React.createClass({
       <div style={containerStyle} id="main-container">
         <Header menuItems={menuItems} ref="header"/>
         <Greeting />
+        <ParallaxBox img="assets/aurora.jpg" />
+        <Experience />
       </div>
     );
   }

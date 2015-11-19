@@ -62,20 +62,11 @@ const Hero = React.createClass({
     }
 
     const buttonStyle = {
-      color: this.state.color,
-      zIndex: "10"
-    }
-
-    const iconStyle = {
-      height: '100%',
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      paddingRight: '12px',
       color: this.state.color
     }
 
-    return (
-      <div className="hero" style={heroStyle} ref="hero">
+    function heroTitle() {
+      return (
         <div id="hero-title">
           <h1>Justin Cano</h1>
           <p>
@@ -87,6 +78,12 @@ const Hero = React.createClass({
             </a>
           </p>
         </div>
+      );
+    }
+
+    return (
+      <div className="hero" style={heroStyle} ref="hero">
+        {heroTitle()}
         <video style={fullWidthStyle} ref="videoPlayer" id="video-player" autoPlay loop>
           <source src="assets/skyline.mp4" type="video/mp4" />
         </video>
