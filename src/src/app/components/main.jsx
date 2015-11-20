@@ -90,7 +90,7 @@ const Main = React.createClass({
       <div style={containerStyle} id="main-container">
         <Header menuItems={menuItems} ref="header"/>
         <Greeting />
-        <ParallaxBox img="assets/aurora.jpg" title={"Experience"} />
+        <ParallaxBox img="assets/aurora.jpg" title={"EXPERIENCE"} />
         <Experience />
       </div>
     );

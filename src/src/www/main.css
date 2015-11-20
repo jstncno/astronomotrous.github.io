@@ -25,11 +25,11 @@ body {
   padding: 0px 0 50px 0;
 }
 
-#greeting-header {
+#content-header {
   font-size: 3em;
 }
 
-#greeting-subheader {
+#content-subheader {
   font-size: 1.5em;
   color: #1976d2;
 }
@@ -48,7 +48,7 @@ body {
   text-align: center;
   color: #fff;
   padding: 50px 0 50px 0;
-  font-size: 1.5em;
+  font-size: 1.25em;
 }
 
 #experience {
@@ -73,11 +73,11 @@ body {
       transform: translate(0, 75%);
     }
 
-    #greeting-header {
+    #content-header {
       font-size: 4em;
     }
 
-    #greeting-subheader {
+    #content-subheader {
       font-size: 2.25em;
     }
 
