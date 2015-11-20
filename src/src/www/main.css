@@ -41,12 +41,18 @@ body {
   font-size: 1.2em;
 }
 
-.parallax-inner-box {
-  height: 115px;
+.parallax-box-title {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: #fff;
+  padding: 50px 0 50px 0;
+  font-size: 1.5em;
 }
 
 #experience {
-  padding: 165px 0 50px 0;
+  padding: 200px 0 50px 0;
 }
 
 /*
@@ -79,12 +85,13 @@ body {
       width: 60%;
     }
 
-    .parallax-inner-box {
-      height: 250px;
+    .parallax-box-title {
+      padding: 150px 0 150px 0;
+      font-size: 2.25em;
     }
 
     #experience {
-      padding: 300px 0 50px 0;
+      padding: 450px 0 50px 0;
     }
 
     @media screen and (min-width: 1824px) {
