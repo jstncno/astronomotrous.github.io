@@ -25,11 +25,11 @@ body {
   padding: 0px 0 50px 0;
 }
 
-#content-header {
+.content-header {
   font-size: 3em;
 }
 
-#content-subheader {
+.content-subheader {
   font-size: 1.5em;
   color: #1976d2;
 }
@@ -73,11 +73,11 @@ body {
       transform: translate(0, 75%);
     }
 
-    #content-header {
+    .content-header {
       font-size: 4em;
     }
 
-    #content-subheader {
+    .content-subheader {
       font-size: 2.25em;
     }
 

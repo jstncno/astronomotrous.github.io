@@ -21,8 +21,8 @@ const Greeting = React.createClass({
 
     return (
       <div className="content-box" id="greeting">
-        <h1 id="content-header"><strong>{data.greeting}</strong></h1>
-        <h2 id="content-subheader">Welcome to my page</h2>
+        <h1 className="content-header"><strong>{data.greeting}</strong></h1>
+        <h2 className="content-subheader">Welcome to my page</h2>
         <p>
           Thanks for visiting. My name is Justin, and I am a
           passionate and curious Software Engineer currently working a Software Data
