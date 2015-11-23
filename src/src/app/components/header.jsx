@@ -56,6 +56,7 @@ const Header = React.createClass({
 
     const appBarStyle = {
       // height : this.state.height,
+      position: "fixed",
       backgroundColor: "black",
     }
 

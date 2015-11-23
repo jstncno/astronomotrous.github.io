@@ -92,6 +92,8 @@ const Main = React.createClass({
         <Greeting />
         <ParallaxBox img="assets/aurora.jpg" title={"EXPERIENCE"} />
         <Experience />
+        <ParallaxBox img="assets/stars.jpg" title={"PORTFOLIO"} />
+        <Experience />
       </div>
     );
   }
