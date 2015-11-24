@@ -16,7 +16,10 @@ const Hero = require('./hero.jsx');
 const Greeting = require('./greeting.jsx');
 const ParallaxBox = require('./parallax-box.jsx');
 const Experience = require('./experience.jsx');
+const Grid = require('./grid.jsx');
 const Footer = require('./footer.jsx');
+
+const data = require('./data/data.js');
 
 const Main = React.createClass({
 
@@ -92,11 +95,11 @@ const Main = React.createClass({
         <Header menuItems={menuItems} ref="header"/>
         <Greeting />
         <ParallaxBox img="assets/aurora.jpg" title={"EXPERIENCE"} />
-        <Experience />
+        <Experience data={data.experience} />
         <ParallaxBox img="assets/stars.jpg" title={"PORTFOLIO"} />
-        <Experience />
+        <Grid data={data.portfolio} elementId="portfolio-grid" />
         <ParallaxBox img="assets/abstract.png" title={"CONTACT"} />
-        <Experience />
+        <Experience data={data.experience} />
         <Footer />
       </div>
     );

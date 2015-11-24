@@ -51,15 +51,29 @@ body {
   font-size: 1.25em;
 }
 
+#portfolio-grid,
 #experience {
   padding: 200px 0 50px 0;
 }
 
 #footer {
-  padding: 50px 0 50px 0;
   margin-left: auto;
   margin-right: auto;
   color: #fff;
+}
+
+.grid {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.grid-item {
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  width: 100%;
+  padding: 7px 0 7px 0;
 }
 
 /*
@@ -97,6 +111,7 @@ body {
       font-size: 2.25em;
     }
 
+    #portfolio-grid,
     #experience {
       padding: 450px 0 50px 0;
     }
@@ -106,11 +121,24 @@ body {
       width: 75%;
     }
 
+    .grid {
+      width: 80%;
+    }
+
+    .grid-item {
+      width: 20%;
+      padding: 10px;
+    }
+
     @media screen and (min-width: 1824px) {
         /* Huge screen */
         #hero-title {
           font-size: 4em;
           transform: translate(0, 55%);
+        }
+
+        .grid-item {
+          width: 25%;
         }
     }
 }
