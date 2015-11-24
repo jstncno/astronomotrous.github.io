@@ -1,7 +1,12 @@
 const React = require('react');
 const mui = require('material-ui');
+const Masonry = require('react-masonry-component')(React);
 
 const GridItem = require('./grid-item.jsx');
+
+var masonryOptions = {
+    transitionDuration: 0
+};
 
 const Grid = React.createClass({
 
@@ -18,13 +23,19 @@ const Grid = React.createClass({
 
   render() {
 
+    var childElements = this.props.data.map(function(data, i) {
+      return (
+        <GridItem data={data} index={i} key={i}/>
+      );
+    });
+
     return (
       <div className="grid" id={this.props.elementId}>
-        {this.props.data.map(function(data, i) {
-          return (
-            <GridItem data={data} index={i} key={i}/>
-          );
-        }, this)}
+        <Masonry
+          options={masonryOptions}
+          disableImagesLoaded={false} >
+          {childElements}
+        </Masonry>
       </div>
     );
   }

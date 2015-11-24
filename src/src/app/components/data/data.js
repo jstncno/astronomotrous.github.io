@@ -1,6 +1,12 @@
 module.exports = {
   "portfolio": [
     {
+      title: "mentionify.js",
+      type: "personal",
+      date: "Aug 2015 - Present",
+      text: "A tiny JS library that renders @'s in the DOM's text to social media profile links"
+    },
+    {
       title: "Meshwork",
       type: "school",
       date: "Jun 2015 - Jul 2015",
