@@ -2,11 +2,13 @@ const React = require('react');
 const mui = require('material-ui');
 const Colors = mui.Styles.Colors;
 const Card = mui.Card;
+const CardActions = mui.CardActions;
 const CardMedia = mui.CardMedia;
 const CardTitle = mui.CardTitle;
 const CardText = mui.CardText;
 const CardHeader = mui.CardHeader;
 const Dialog = mui.Dialog;
+const FlatButton = mui.FlatButton;
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
 const LightRawTheme = require('material-ui/lib/styles/raw-themes/light-raw-theme');
 
@@ -47,7 +49,7 @@ const GridItem = React.createClass({
     ];
 
     const dialogStyle = {
-      background: "#fff"
+      maxWidth: "50%"
     }
 
     const style = {
@@ -62,12 +64,17 @@ const GridItem = React.createClass({
           autoDetectWindowHeight={true}
           autoScrollBodyContent={true}>
           <Card>
-            <CardMedia>
-              <img src={this.props.data.imgUrl || "http://lorempixel.com/600/337/nature/"} />
-            </CardMedia>
+            <CardHeader
+              title={this.props.data.title}
+              subtitle={this.props.data.date}
+              avatar="http://lorempixel.com/100/100/nature/"/>
             <CardText>
               {this.props.data.text}
             </CardText>
+            <CardActions>
+              <FlatButton label="Action1"/>
+              <FlatButton label="Action2"/>
+            </CardActions>
           </Card>
         </Dialog>
         <div onClick={boundClick}>
