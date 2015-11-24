@@ -16,6 +16,7 @@ const Hero = require('./hero.jsx');
 const Greeting = require('./greeting.jsx');
 const ParallaxBox = require('./parallax-box.jsx');
 const Experience = require('./experience.jsx');
+const Footer = require('./footer.jsx');
 
 const Main = React.createClass({
 
@@ -94,6 +95,9 @@ const Main = React.createClass({
         <Experience />
         <ParallaxBox img="assets/stars.jpg" title={"PORTFOLIO"} />
         <Experience />
+        <ParallaxBox img="assets/abstract.png" title={"CONTACT"} />
+        <Experience />
+        <Footer />
       </div>
     );
   }

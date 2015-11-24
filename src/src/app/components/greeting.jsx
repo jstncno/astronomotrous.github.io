@@ -24,7 +24,7 @@ const Greeting = React.createClass({
         <h1 className="content-header"><strong>{data.greeting}</strong></h1>
         <h2 className="content-subheader">Welcome to my page</h2>
         <p>
-          Thanks for visiting. My name is Justin, and I am a
+          Thanks for visiting. I'm Justin, a
           passionate and curious Software Engineer currently working a Software Data
           Engineering role at <a href="https://www.rallyhealth.com/">Rally Health</a> in San Francisco, CA.
         </p>
