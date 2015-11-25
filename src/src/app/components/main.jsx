@@ -67,9 +67,9 @@ const Main = React.createClass({
     };
 
     const menuItems = [
-      { route: 'get-started', text: 'Get Started' },
-      { route: 'customization', text: 'Customization' },
-      { route: 'components', text: 'Components' },
+      { route: 'experience-section', text: 'Experience' },
+      { route: 'portfolio-section', text: 'Portfolio' },
+      { route: 'contact-section', text: 'Contact' },
       { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
       {
          type: MenuItem.Types.LINK,
@@ -83,20 +83,19 @@ const Main = React.createClass({
       {
          type: MenuItem.Types.LINK,
          payload: 'https://www.google.com',
-         text: 'Disabled Link',
-         disabled: true
-      },
+         text: 'Google',
+      }
     ];
 
     return (
       <div style={containerStyle} id="main-container">
         <Header menuItems={menuItems} ref="header"/>
         <Greeting />
-        <ParallaxBox img="assets/aurora.jpg" title={"EXPERIENCE"} />
+        <ParallaxBox id="experience-section" img="assets/aurora.jpg" title={"EXPERIENCE"} />
         <Experience data={data.experience} />
-        <ParallaxBox img="assets/stars.jpg" title={"PORTFOLIO"} />
+        <ParallaxBox id="portfolio-section" img="assets/stars.jpg" title={"PORTFOLIO"} />
         <Grid data={data.portfolio} elementId="portfolio-grid" />
-        <Footer />
+        <Footer id="contact-section" />
       </div>
     );
   }

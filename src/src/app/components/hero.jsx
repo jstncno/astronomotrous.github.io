@@ -85,7 +85,7 @@ const Hero = React.createClass({
     }
 
     return (
-      <div className="hero" style={heroStyle} ref="hero">
+      <div id="hero" style={heroStyle} ref="hero">
         {heroTitle()}
         <video style={fullWidthStyle} ref="videoPlayer" id="video-player" autoPlay loop>
           <source src="assets/skyline.mp4" type="video/mp4" />
