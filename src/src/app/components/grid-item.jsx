@@ -44,6 +44,17 @@ const GridItem = React.createClass({
 
     const boundClick = this.handleClick.bind(this, this.props.index);
 
+    const cardActions = this.props.data.links.map(function(data, i) {
+      return (
+        <FlatButton
+         key={i}
+         linkButton={true}
+         label={data.text}
+         href={data.url}
+         target="_blank" />
+      );
+    });
+
     const standardActions = [
       { text: 'Close' }
     ];
@@ -72,8 +83,7 @@ const GridItem = React.createClass({
               {this.props.data.text}
             </CardText>
             <CardActions>
-              <FlatButton label="Action1"/>
-              <FlatButton label="Action2"/>
+              {cardActions}
             </CardActions>
           </Card>
         </Dialog>

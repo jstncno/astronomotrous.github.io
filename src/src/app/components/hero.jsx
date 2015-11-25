@@ -72,10 +72,13 @@ const Hero = React.createClass({
           <p>
             software and data engineer
             <br/>
-            <a href="dl/JustinCanoCEResume.pdf">
-              <RaisedButton style={buttonStyle} label="Resume" labelPosition="after">
-              </RaisedButton>
-            </a>
+            <RaisedButton
+             linkButton={true}
+             href="dl/JustinCanoCEResume.pdf"
+             style={buttonStyle}
+             label="Resume"
+             labelPosition="after"
+             target="_blank" />
           </p>
         </div>
       );
