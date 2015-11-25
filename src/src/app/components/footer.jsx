@@ -61,7 +61,7 @@ const Footer = React.createClass({
       var fontAwesome = "fa " + data.fontAwesomeName + " fa-5x";
       return (
         <div style={iconStyle}>
-          <a href={data.link} style={linkStyle}>
+          <a href={data.link} style={linkStyle} target="_blank">
             <i className={fontAwesome}></i>
           </a>
         </div>
