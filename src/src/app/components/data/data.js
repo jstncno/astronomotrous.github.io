@@ -7,6 +7,7 @@ module.exports = {
       text: "A tiny JS library that renders @'s in the DOM's text to social media profile links",
       links: [
         {text: "Demo", url: "http://www.jcano.me/mentionify.js/"},
+        {text: "Source", url: "https://github.com/earthican/mentionify.js"}
       ]
     },
     {
