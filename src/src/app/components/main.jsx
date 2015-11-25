@@ -9,8 +9,6 @@ const DarkRawTheme = require('material-ui/lib/styles/raw-themes/dark-raw-theme')
 const Colors = require('material-ui/lib/styles/colors');
 const MenuItem = mui.MenuItem;
 
-const $ = require('jquery');
-
 const Header = require('./header.jsx');
 const Hero = require('./hero.jsx');
 const Greeting = require('./greeting.jsx');
@@ -98,8 +96,6 @@ const Main = React.createClass({
         <Experience data={data.experience} />
         <ParallaxBox img="assets/stars.jpg" title={"PORTFOLIO"} />
         <Grid data={data.portfolio} elementId="portfolio-grid" />
-        <ParallaxBox img="assets/abstract.png" title={"CONTACT"} />
-        <Experience data={data.experience} />
         <Footer />
       </div>
     );

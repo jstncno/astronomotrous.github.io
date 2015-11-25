@@ -58,9 +58,9 @@ body {
 }
 
 #footer {
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
   color: #fff;
+  bottom: 0;
 }
 
 .grid {
@@ -80,11 +80,12 @@ body {
 /*
  * Media Queries
  */
-@media screen and (max-width: 1224px) {
+/*@media screen and (max-width: 1224px) {*/
     /* Tablet or mobile phone */
-}
+/*}*/
 
-@media screen and (min-width: 1225px) {
+/*@media screen and (min-width: 1225px) {*/
+@media screen and (min-width: 840px) {
     /* Desktop or laptop */
     #greeting {
       padding: 150px 0 150px 0;

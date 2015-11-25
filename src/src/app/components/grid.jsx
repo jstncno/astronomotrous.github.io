@@ -4,7 +4,7 @@ const Masonry = require('react-masonry-component')(React);
 
 const GridItem = require('./grid-item.jsx');
 
-var masonryOptions = {
+const masonryOptions = {
     transitionDuration: 0
 };
 
@@ -23,7 +23,7 @@ const Grid = React.createClass({
 
   render() {
 
-    var childElements = this.props.data.map(function(data, i) {
+    const childElements = this.props.data.map(function(data, i) {
       return (
         <GridItem data={data} index={i} key={i}/>
       );
