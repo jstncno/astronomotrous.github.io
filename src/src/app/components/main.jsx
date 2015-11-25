@@ -55,8 +55,6 @@ const Main = React.createClass({
     newMuiTheme.appBar.textColor = Colors.grey400;
 
     this.setState({muiTheme: newMuiTheme});
-
-    window.removeEventListener("video-rendered");
   },
 
   render() {
