@@ -54,6 +54,10 @@ const Header = React.createClass({
       padding: 0
     }
 
+    const navStyle = {
+      zIndex: 20
+    }
+
     const appBarStyle = {
       // height : this.state.height,
       position: "fixed",
@@ -62,7 +66,11 @@ const Header = React.createClass({
 
     return (
       <div className="header" id="header" style={headerStyle}>
-        <LeftNav ref="leftNav" docked={false} menuItems={this.props.menuItems} />
+        <LeftNav
+         ref="leftNav"
+         docked={false}
+         style={navStyle}
+         menuItems={this.props.menuItems} />
         <AppBar
           id="app-bar"
           style={appBarStyle}

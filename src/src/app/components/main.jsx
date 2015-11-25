@@ -67,9 +67,22 @@ const Main = React.createClass({
     };
 
     const menuItems = [
-      { route: 'experience-section', text: 'Experience' },
-      { route: 'portfolio-section', text: 'Portfolio' },
-      { route: 'contact-section', text: 'Contact' },
+      { type: MenuItem.Types.SUBHEADER, text: 'Nav' },
+      {
+         type: MenuItem.Types.LINK,
+         payload: '#experience-section',
+         text: 'Experience'
+      },
+      {
+         type: MenuItem.Types.LINK,
+         payload: '#portfolio-section',
+         text: 'Portfolio'
+      },
+      {
+         type: MenuItem.Types.LINK,
+         payload: '#contact-section',
+         text: 'Contact'
+      },
       { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
       {
          type: MenuItem.Types.LINK,
@@ -77,13 +90,14 @@ const Main = React.createClass({
          text: 'GitHub'
       },
       {
-         text: 'Disabled',
-         disabled: true
+         type: MenuItem.Types.LINK,
+         payload: 'http://linkedin.com/in/justincano',
+         text: 'LinkedIn',
       },
       {
          type: MenuItem.Types.LINK,
-         payload: 'https://www.google.com',
-         text: 'Google',
+         payload: 'mailto:jcano001@ucr.edu',
+         text: 'Email',
       }
     ];
 
@@ -91,11 +105,11 @@ const Main = React.createClass({
       <div style={containerStyle} id="main-container">
         <Header menuItems={menuItems} ref="header"/>
         <Greeting />
-        <ParallaxBox id="experience-section" img="assets/aurora.jpg" title={"EXPERIENCE"} />
+        <ParallaxBox elementId="experience-section" img="assets/aurora.jpg" title={"EXPERIENCE"} />
         <Experience data={data.experience} />
-        <ParallaxBox id="portfolio-section" img="assets/stars.jpg" title={"PORTFOLIO"} />
+        <ParallaxBox elementId="portfolio-section" img="assets/stars.jpg" title={"PORTFOLIO"} />
         <Grid data={data.portfolio} elementId="portfolio-grid" />
-        <Footer id="contact-section" />
+        <Footer elementId="contact-section" />
       </div>
     );
   }

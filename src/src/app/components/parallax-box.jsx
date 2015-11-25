@@ -26,7 +26,7 @@ const ParallaxBox = React.createClass({
     }
 
     return (
-      <div className="parallax-box" style={style}>
+      <div className="parallax-box" id={this.props.elementId} style={style}>
         <Parallax bgImage={this.props.img} strength={400}>
           <div className="parallax-box-title">
             <h1>// {this.props.title}</h1>

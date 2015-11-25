@@ -69,7 +69,7 @@ const Footer = React.createClass({
     });
 
     return (
-      <div style={style}>
+      <div id={this.props.elementId} style={style}>
         <div id="footer" className="content-box">
           <h2>Contact</h2>
           {icons}
