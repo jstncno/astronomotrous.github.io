@@ -1,145 +1,36 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="homePage">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Justin Cano</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Raleway|Arvo|Lato' rel='stylesheet' type='text/css'>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  </head>
-  <body>
+<!doctype html>
+<html class="no-js" lang="">
 
-    <!-- START NAVBAR -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="http://www.jcano.me">Justin Cano</a>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Material UI Example</title>
+  <meta name="description" content="Google's material design UI components built with React.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://blog.jcano.me">Blog</a></li>
-            <li><a href="dl/JustinCanoCEResume.pdf">Resume</a></li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-    <!-- END NAVBAR -->
+<body>
+  <div id="main"></div>
+  
+  <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
+  <script>
+    var WebFontConfig = {
+      google: { families: [ 'Roboto:400,300,500:latin' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+    })();
+  </script>
+  <script src="app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/packery/1.4.3/packery.pkgd.min.js"></script>
+</body>
 
-
-    <div id="hero">
-
-      <div class="jumbotron">
-        <div class="container">
-          <!-- image complements from http://wall.alphacoders.com -->
-          <div class="row header">
-            <div class="justincano">
-              Justin Cano
-            </div>
-            <div class="tagline">
-              software developer and maker
-            </div>
-            <div class="resume hidden-xs">
-              <a href="dl/JustinCanoCEResume.pdf"><i class="fa fa-file-text-o"></i> Resume</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-
-    <section id="section1" ng-controller="HeaderController as header">
-      <div class="container-fluid">
-        <div class="content row">
-          <div class="about col-md-6 col-md-offset-3">
-            <p ng-repeat="block in header.blocks">
-              {{ block }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <section id="section2" ng-controller="ProjectsController as projects">
-      <div class="container">
-        <div class="row">
-          <div class="projects col-md-12">
-            <h1>Recent Activity</h1>
-            <p>
-              A few things I've been working on...
-            </p>
-          </div>
-        </div>
-
-        <div class="row project" ng-repeat="project in projects.projects">
-          <div class="col-md-2">
-            <a href="{{ project.link }}">
-              <img class="project-img" src="{{ project.imgURL }}">
-            </a>
-          </div>
-          <div class="col-md-10 project-description">
-            <h3>{{ project.name }}</h3> <em>{{ project.date }}</em>
-            <p>
-              {{ project.description }}
-            </p>
-          </div>
-        </div>
-
-
-      </div>
-    </section>
-
-
-    <section id="section3" ng-controller="ContactsController as contacts">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="connect col-md-12">
-            <h1>Connect</h1>
-            <p>
-              Feel free to reach out!
-            </p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="contact-button col-md-3" ng-repeat="button in contacts.buttons">
-              <a href="{{ button.link }}">
-                <i class="fa {{ button.fontAwesomeName }}"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Analytics -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-54475839-2', 'auto');
-    ga('send', 'pageview');
-    </script>
-
-  </body>
 </html>

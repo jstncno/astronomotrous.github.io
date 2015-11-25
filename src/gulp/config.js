@@ -10,7 +10,8 @@ module.exports = {
       baseDir: [dest, src]
     },
     files: [
-      dest + '/**'
+      dest + '/*',
+      src + '/**'
     ]
   },
   markup: {
