@@ -1,4 +1,4 @@
-var dest = './build',
+var dest = '..',
   src = './src',
   mui = './node_modules/material-ui/src';
 
