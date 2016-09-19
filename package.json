@@ -1,0 +1,38 @@
+{
+  "name": "earthican.github.io",
+  "version": "3.0.0",
+  "description": "My personal website",
+  "main": "app.js",
+  "scripts": {
+    "test": "",
+    "build:browserify": "browserify -t babelify main.js -o app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/earthican/earthican.github.io.git"
+  },
+  "author": "Justin Cano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/earthican/earthican.github.io/issues"
+  },
+  "homepage": "https://github.com/earthican/earthican.github.io#readme",
+  "dependencies": {
+    "fetch": "^1.1.0",
+    "node-fetch": "^1.6.1",
+    "unsplash-api": "^1.2.0",
+    "unsplash-js": "^4.2.0",
+    "whatwg-fetch": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
+}
