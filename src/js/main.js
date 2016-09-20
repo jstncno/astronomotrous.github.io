@@ -13,32 +13,26 @@ const unsplash = new Unsplash({
 function randomElement(arr) {
    return arr[Math.floor(Math.random() * arr.length)];
 }
-var fullSizeUrl = defaultPhotoUrl;
-unsplash.users.likes(username)
-  .then(resp => resp.json())
-  .then(json => {
-    // Your code
-    var pictureObj = randomElement(json);
-    var photographerName = pictureObj.user.name;
-    fullSizeUrl = pictureObj.urls.full;
-    console.log(fullSizeUrl);
-  });
-
-var divStyle = {
-  background: 'url(' + fullSizeUrl + ')',
-  backgroundSize: 'cover'
-};
-
-var imgStyle = {
-  flex: 1,
-  resizeMode: 'cover', // or 'stretch'
-};
 
 var UnsplashBackground = React.createClass({
+  getInitialState: function() {    
+    return {imgUrl: ''};
+  },
+  componentDidMount: function() {
+    unsplash.users.likes(username)
+    .then(resp => resp.json())
+    .then(json => {
+      // Your code
+      var pictureObj = randomElement(json);
+      var photographerName = pictureObj.user.name;
+      var fullSizeUrl = pictureObj.urls.full;
+      this.setState({imgUrl: fullSizeUrl});
+    });
+  },
   render: function() {
     return (
         <div id='unsplash' style={{
-          background: 'url(' + fullSizeUrl + ')',
+          backgroundImage: 'url(' + this.state.imgUrl + ')',
           backgroundSize: 'cover',
           width: this.props.width,
           height: this.props.height
@@ -55,27 +49,7 @@ ReactDOM.render(
   document.getElementById('background')
 );
 
-//class UnsplashBackground extends React.Component {
-//  render() {
-//    return <div style={{
-//      background: 'url(' + fullSizeUrl + ')',
-//      width: this.props.width,
-//      height: this.props.height
-//    }}>
-//      Hello, world!
-//    </div>;
-//  }
-//}
-//
 UnsplashBackground.propTypes = {
   width: React.PropTypes.number,
   height: React.PropTypes.number
 };
-//
-//
-//const rootInstance = ReactDOM.render(
-//  <FullScreen>
-//    <UnsplashBackground />
-//  </FullScreen>,
-//  document.getElementById('background')
-//);

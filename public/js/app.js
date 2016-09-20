@@ -21864,32 +21864,29 @@ var unsplash = new _unsplashJs2.default({
 function randomElement(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-var fullSizeUrl = defaultPhotoUrl;
-unsplash.users.likes(username).then(function (resp) {
-  return resp.json();
-}).then(function (json) {
-  // Your code
-  var pictureObj = randomElement(json);
-  var photographerName = pictureObj.user.name;
-  fullSizeUrl = pictureObj.urls.full;
-  console.log(fullSizeUrl);
-});
-
-var divStyle = {
-  background: 'url(' + fullSizeUrl + ')',
-  backgroundSize: 'cover'
-};
-
-var imgStyle = {
-  flex: 1,
-  resizeMode: 'cover' };
 
 var UnsplashBackground = _react2.default.createClass({
   displayName: 'UnsplashBackground',
 
+  getInitialState: function getInitialState() {
+    return { imgUrl: '' };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    unsplash.users.likes(username).then(function (resp) {
+      return resp.json();
+    }).then(function (json) {
+      // Your code
+      var pictureObj = randomElement(json);
+      var photographerName = pictureObj.user.name;
+      var fullSizeUrl = pictureObj.urls.full;
+      _this.setState({ imgUrl: fullSizeUrl });
+    });
+  },
   render: function render() {
     return _react2.default.createElement('div', { id: 'unsplash', style: {
-        background: 'url(' + fullSizeUrl + ')',
+        backgroundImage: 'url(' + this.state.imgUrl + ')',
         backgroundSize: 'cover',
         width: this.props.width,
         height: this.props.height
@@ -21903,29 +21900,9 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(UnsplashBackground, null)
 ), document.getElementById('background'));
 
-//class UnsplashBackground extends React.Component {
-//  render() {
-//    return <div style={{
-//      background: 'url(' + fullSizeUrl + ')',
-//      width: this.props.width,
-//      height: this.props.height
-//    }}>
-//      Hello, world!
-//    </div>;
-//  }
-//}
-//
 UnsplashBackground.propTypes = {
   width: _react2.default.PropTypes.number,
   height: _react2.default.PropTypes.number
 };
-//
-//
-//const rootInstance = ReactDOM.render(
-//  <FullScreen>
-//    <UnsplashBackground />
-//  </FullScreen>,
-//  document.getElementById('background')
-//);
 
 },{"react":176,"react-dom":32,"react-fullscreen":33,"unsplash-js":186}]},{},[188]);
