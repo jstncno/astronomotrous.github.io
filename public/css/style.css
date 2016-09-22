@@ -1,9 +1,21 @@
 body {
   margin: 0px;
+  font-family: "Raleway", "Poppins", "Questrial", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  color: white;
 }
 #unsplash {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+#hello {
+  font-family: "Rokkitt", "Arvo", "Slabo 27px", serif;
+  font-size: 5.5em;
+  font-weight: 600;
+  display: inline-block;
+}
+#greeting {
+  font-family: "Raleway", "Poppins", "Questrial", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-size: 1em;
 }
