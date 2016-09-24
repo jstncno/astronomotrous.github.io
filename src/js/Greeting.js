@@ -12,7 +12,6 @@ export default class Greeting extends React.Component {
   }
 
   componentDidMount() {
-    console.log('greeting mounted!');
     this.setState({
       helloHeight: document.getElementById('hello').clientHeight,
       helloWidth: document.getElementById('hello').clientWidth,

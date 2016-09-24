@@ -21874,7 +21874,6 @@ var Greeting = function (_React$Component) {
   _createClass(Greeting, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('greeting mounted!');
       this.setState({
         helloHeight: document.getElementById('hello').clientHeight,
         helloWidth: document.getElementById('hello').clientWidth,
