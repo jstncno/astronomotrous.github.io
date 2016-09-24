@@ -21976,9 +21976,107 @@ exports.default = Greeting;
 },{"react":176}],189:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _unsplashJs = require('unsplash-js');
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
+
+var _Greeting = require('./Greeting');
+
+var _Greeting2 = _interopRequireDefault(_Greeting);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var username = 'boost';
+var clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
+var defaultPhotoUrl = 'https://hd.unsplash.com/photo-1450740199001-78e928502994';
+var unsplash = new _unsplashJs2.default({
+  applicationId: clientId
+});
+
+var UnsplashBackground = function (_React$Component) {
+  _inherits(UnsplashBackground, _React$Component);
+
+  function UnsplashBackground(props) {
+    _classCallCheck(this, UnsplashBackground);
+
+    var _this = _possibleConstructorReturn(this, (UnsplashBackground.__proto__ || Object.getPrototypeOf(UnsplashBackground)).call(this, props));
+
+    _this.state = {
+      imgUrl: ''
+    };
+    return _this;
+  }
+
+  _createClass(UnsplashBackground, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      unsplash.users.likes(username).then(function (resp) {
+        return resp.json();
+      }).then(function (json) {
+        // Your code
+        var pictureObj = _this2.randomElement(json);
+        var photographerName = pictureObj.user.name;
+        var fullSizeUrl = pictureObj.urls.full;
+        _this2.setState({ imgUrl: fullSizeUrl });
+      });
+    }
+  }, {
+    key: 'randomElement',
+    value: function randomElement(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+  }, {
+    key: 'unsplashStyle',
+    value: function unsplashStyle() {
+      return {
+        backgroundImage: 'url(' + this.state.imgUrl + ')',
+        backgroundSize: 'cover',
+        width: this.props.width,
+        height: this.props.height
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { id: 'unsplash', style: this.unsplashStyle() },
+        _react2.default.createElement(_Greeting2.default, this.props)
+      );
+    }
+  }]);
+
+  return UnsplashBackground;
+}(_react2.default.Component);
+
+exports.default = UnsplashBackground;
+
+
+UnsplashBackground.propTypes = {
+  width: _react2.default.PropTypes.number,
+  height: _react2.default.PropTypes.number
+};
+
+},{"./Greeting":188,"react":176,"unsplash-js":186}],190:[function(require,module,exports){
+'use strict';
 
 var _react = require('react');
 
@@ -21992,74 +22090,16 @@ var _reactFullscreen = require('react-fullscreen');
 
 var _reactFullscreen2 = _interopRequireDefault(_reactFullscreen);
 
-var _Greeting = require('./Greeting');
+var _UnsplashBackground = require('./UnsplashBackground');
 
-var _Greeting2 = _interopRequireDefault(_Greeting);
+var _UnsplashBackground2 = _interopRequireDefault(_UnsplashBackground);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var username = 'boost';
-var clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
-var defaultPhotoUrl = 'https://hd.unsplash.com/photo-1450740199001-78e928502994';
-var unsplash = new _unsplashJs2.default({
-  applicationId: clientId
-});
-
-function randomElement(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-var UnsplashBackground = _react2.default.createClass({
-  displayName: 'UnsplashBackground',
-
-  getInitialState: function getInitialState() {
-    return {
-      imgUrl: ''
-    };
-  },
-
-  componentDidMount: function componentDidMount() {
-    var _this = this;
-
-    unsplash.users.likes(username).then(function (resp) {
-      return resp.json();
-    }).then(function (json) {
-      // Your code
-      var pictureObj = randomElement(json);
-      var photographerName = pictureObj.user.name;
-      var fullSizeUrl = pictureObj.urls.full;
-      _this.setState({ imgUrl: fullSizeUrl });
-    });
-  },
-
-  unsplashStyle: function unsplashStyle() {
-    return {
-      backgroundImage: 'url(' + this.state.imgUrl + ')',
-      backgroundSize: 'cover',
-      width: this.props.width,
-      height: this.props.height
-    };
-  },
-
-  render: function render() {
-    var greeting = _react2.default.createElement(_Greeting2.default, this.props);
-    return _react2.default.createElement(
-      'div',
-      { id: 'unsplash', style: this.unsplashStyle() },
-      greeting
-    );
-  }
-});
-
-UnsplashBackground.propTypes = {
-  width: _react2.default.PropTypes.number,
-  height: _react2.default.PropTypes.number
-};
 
 var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _reactFullscreen2.default,
   null,
-  _react2.default.createElement(UnsplashBackground, null)
+  _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./Greeting":188,"react":176,"react-dom":32,"react-fullscreen":33,"unsplash-js":186}]},{},[189]);
+},{"./UnsplashBackground":189,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[190]);
