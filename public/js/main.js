@@ -21836,6 +21836,147 @@ function buildFetchOptions(options) {
 },{"form-urlencoded":30,"querystring":4}],188:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Greeting = function (_React$Component) {
+  _inherits(Greeting, _React$Component);
+
+  function Greeting(props) {
+    _classCallCheck(this, Greeting);
+
+    var _this = _possibleConstructorReturn(this, (Greeting.__proto__ || Object.getPrototypeOf(Greeting)).call(this, props));
+
+    _this.state = {
+      helloHeight: 10,
+      helloWidth: 10,
+      greetingHeight: 10,
+      greetingWidth: 10
+    };
+    return _this;
+  }
+
+  _createClass(Greeting, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log('greeting mounted!');
+      this.setState({
+        helloHeight: document.getElementById('hello').clientHeight,
+        helloWidth: document.getElementById('hello').clientWidth,
+        greetingHeight: document.getElementById('greeting').clientHeight,
+        greetingWidth: document.getElementById('greeting').clientWidth
+      });
+    }
+  }, {
+    key: 'calculateHelloTop',
+    value: function calculateHelloTop() {
+      return this.props.height / 2 - this.state.helloHeight * 1.25;
+    }
+  }, {
+    key: 'calculateHelloLeft',
+    value: function calculateHelloLeft() {
+      return this.props.width / 2 - this.state.helloWidth / 2;
+    }
+  }, {
+    key: 'maxGreetingWidth',
+    value: function maxGreetingWidth() {
+      return this.state.helloWidth * 1.5;
+    }
+  }, {
+    key: 'calculateGreetingTop',
+    value: function calculateGreetingTop() {
+      return this.calculateHelloTop();
+    }
+  }, {
+    key: 'calculateGreetingLeft',
+    value: function calculateGreetingLeft() {
+      return this.props.width / 2 - this.maxGreetingWidth() / 2;
+    }
+  }, {
+    key: 'calculateHelloTop',
+    value: function calculateHelloTop() {
+      return this.props.height / 2 - this.state.helloHeight * 1.25;
+    }
+  }, {
+    key: 'calculateHelloLeft',
+    value: function calculateHelloLeft() {
+      return this.props.width / 2 - this.state.helloWidth / 2;
+    }
+  }, {
+    key: 'maxGreetingWidth',
+    value: function maxGreetingWidth() {
+      return this.state.helloWidth * 1.5;
+    }
+  }, {
+    key: 'calculateGreetingTop',
+    value: function calculateGreetingTop() {
+      return this.calculateHelloTop();
+    }
+  }, {
+    key: 'calculateGreetingLeft',
+    value: function calculateGreetingLeft() {
+      return this.props.width / 2 - this.maxGreetingWidth() / 2;
+    }
+  }, {
+    key: 'helloStyle',
+    value: function helloStyle() {
+      return {
+        marginLeft: this.calculateHelloLeft(),
+        marginTop: this.calculateHelloTop()
+      };
+    }
+  }, {
+    key: 'greetingStyle',
+    value: function greetingStyle() {
+      return {
+        textAlign: 'center',
+        maxWidth: this.maxGreetingWidth(),
+        marginLeft: this.calculateGreetingLeft()
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { id: 'hello', style: this.helloStyle() },
+          'Hi there.'
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'greeting', style: this.greetingStyle() },
+          'Welcome to my site! I\'m Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.'
+        )
+      );
+    }
+  }]);
+
+  return Greeting;
+}(_react2.default.Component);
+
+exports.default = Greeting;
+
+},{"react":176}],189:[function(require,module,exports){
+'use strict';
+
 var _unsplashJs = require('unsplash-js');
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
@@ -21851,6 +21992,10 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 var _reactFullscreen = require('react-fullscreen');
 
 var _reactFullscreen2 = _interopRequireDefault(_reactFullscreen);
+
+var _Greeting = require('./Greeting');
+
+var _Greeting2 = _interopRequireDefault(_Greeting);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21870,9 +22015,7 @@ var UnsplashBackground = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      imgUrl: '',
-      helloHeight: 0,
-      helloWidth: 0
+      imgUrl: ''
     };
   },
 
@@ -21888,60 +22031,23 @@ var UnsplashBackground = _react2.default.createClass({
       var fullSizeUrl = pictureObj.urls.full;
       _this.setState({ imgUrl: fullSizeUrl });
     });
-    this.setState({
-      helloHeight: document.getElementById('hello').clientHeight,
-      helloWidth: document.getElementById('hello').clientWidth,
-      greetingHeight: document.getElementById('greeting').clientHeight,
-      greetingWidth: document.getElementById('greeting').clientWidth
-    });
   },
 
-  calculateHelloTop: function calculateHelloTop() {
-    return this.props.height / 2 - this.state.helloHeight * 1.25;
-  },
-
-  calculateHelloLeft: function calculateHelloLeft() {
-    return this.props.width / 2 - this.state.helloWidth / 2;
-  },
-
-  maxGreetingWidth: function maxGreetingWidth() {
-    return this.state.helloWidth * 1.5;
-  },
-
-  calculateGreetingTop: function calculateGreetingTop() {
-    return this.calculateHelloTop();
-  },
-
-  calculateGreetingLeft: function calculateGreetingLeft() {
-    return this.props.width / 2 - this.maxGreetingWidth() / 2;
+  unsplashStyle: function unsplashStyle() {
+    return {
+      backgroundImage: 'url(' + this.state.imgUrl + ')',
+      backgroundSize: 'cover',
+      width: this.props.width,
+      height: this.props.height
+    };
   },
 
   render: function render() {
+    var greeting = _react2.default.createElement(_Greeting2.default, this.props);
     return _react2.default.createElement(
       'div',
-      { id: 'unsplash', style: {
-          backgroundImage: 'url(' + this.state.imgUrl + ')',
-          backgroundSize: 'cover',
-          width: this.props.width,
-          height: this.props.height
-        } },
-      _react2.default.createElement(
-        'div',
-        { id: 'hello', style: {
-            marginLeft: this.calculateHelloLeft(),
-            marginTop: this.calculateHelloTop()
-          } },
-        'Hi there.'
-      ),
-      _react2.default.createElement(
-        'div',
-        { id: 'greeting', style: {
-            textAlign: 'center',
-            maxWidth: this.maxGreetingWidth(),
-            marginLeft: this.calculateGreetingLeft()
-          } },
-        'Welcome to my site! I\'m Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.'
-      )
+      { id: 'unsplash', style: this.unsplashStyle() },
+      greeting
     );
   }
 });
@@ -21951,10 +22057,10 @@ UnsplashBackground.propTypes = {
   height: _react2.default.PropTypes.number
 };
 
-_reactDom2.default.render(_react2.default.createElement(
+var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _reactFullscreen2.default,
   null,
   _react2.default.createElement(UnsplashBackground, null)
 ), document.getElementById('background'));
 
-},{"react":176,"react-dom":32,"react-fullscreen":33,"unsplash-js":186}]},{},[188]);
+},{"./Greeting":188,"react":176,"react-dom":32,"react-fullscreen":33,"unsplash-js":186}]},{},[189]);

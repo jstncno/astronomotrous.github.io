@@ -6,9 +6,9 @@
   "scripts": {
     "test": "",
     "build:less": "lessc src/less/style.less public/css/style.css",
-    "build:browserify": "browserify -t babelify src/js/main.js -o public/js/app.js",
+    "build:browserify": "browserify -t babelify src/js/main.js -o public/js/main.js",
     "build": "npm run build:less && npm run build:browserify",
-    "watch:js": "watchify -t babelify src/js/main.js -o public/js/app.js"
+    "watch:main": "watchify -t babelify src/js/main.js -o public/js/main.js"
   },
   "repository": {
     "type": "git",
