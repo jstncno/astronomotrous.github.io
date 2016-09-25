@@ -18,15 +18,24 @@ export default class UnsplashBackground extends React.Component {
   }
 
   componentDidMount() {
+    var fullSizeUrl = '';
     unsplash.users.likes(username)
     .then(resp => resp.json())
     .then(json => {
       // Your code
       var pictureObj = this.randomElement(json);
       var photographerName = pictureObj.user.name;
-      var fullSizeUrl = pictureObj.urls.full;
+      fullSizeUrl = pictureObj.urls.full;
+      console.log(fullSizeUrl);
+      
       this.setState({imgUrl: fullSizeUrl});
     });
+    
+    window.onload = function() {
+      getDataUri(fullSizeUrl, function(data) {
+        console.log(data);
+      });
+    };
   }
   
   randomElement(arr) {
@@ -46,9 +55,34 @@ export default class UnsplashBackground extends React.Component {
     return (
       <div id='unsplash' style={this.unsplashStyle()}>
         {React.createElement(Greeting, this.props)}
+        <img id='img' src={this.state.imgUrl} style={{display:'none'}}/>
       </div>
     );
   }
+}
+
+// https://davidwalsh.name/convert-image-data-uri-javascript
+var getDataUri = function(url, callback) {
+    var colorThief = new ColorThief();
+    var image = new Image();
+
+    image.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.id = 'backgroundImg';
+        canvas.style.display = 'none';
+//        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+//        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+        canvas.getContext('2d').drawImage(this, 0, 0);
+      
+        document.body.appendChild(canvas);
+
+        var color = colorThief.getColor(canvas);
+        callback(color);
+    };
+
+    image.src = url + '?' + new Date().getTime();
+    image.setAttribute('crossOrigin', '');
 }
 
 UnsplashBackground.propTypes = {

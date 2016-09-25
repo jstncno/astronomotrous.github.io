@@ -22028,15 +22028,24 @@ var UnsplashBackground = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      var fullSizeUrl = '';
       unsplash.users.likes(username).then(function (resp) {
         return resp.json();
       }).then(function (json) {
         // Your code
         var pictureObj = _this2.randomElement(json);
         var photographerName = pictureObj.user.name;
-        var fullSizeUrl = pictureObj.urls.full;
+        fullSizeUrl = pictureObj.urls.full;
+        console.log(fullSizeUrl);
+
         _this2.setState({ imgUrl: fullSizeUrl });
       });
+
+      window.onload = function () {
+        getDataUri(fullSizeUrl, function (data) {
+          console.log(data);
+        });
+      };
     }
   }, {
     key: 'randomElement',
@@ -22059,7 +22068,8 @@ var UnsplashBackground = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { id: 'unsplash', style: this.unsplashStyle() },
-        _react2.default.createElement(_Greeting2.default, this.props)
+        _react2.default.createElement(_Greeting2.default, this.props),
+        _react2.default.createElement('img', { id: 'img', src: this.state.imgUrl, style: { display: 'none' } })
       );
     }
   }]);
@@ -22067,8 +22077,32 @@ var UnsplashBackground = function (_React$Component) {
   return UnsplashBackground;
 }(_react2.default.Component);
 
-exports.default = UnsplashBackground;
+// https://davidwalsh.name/convert-image-data-uri-javascript
 
+
+exports.default = UnsplashBackground;
+var getDataUri = function getDataUri(url, callback) {
+  var colorThief = new ColorThief();
+  var image = new Image();
+
+  image.onload = function () {
+    var canvas = document.createElement('canvas');
+    canvas.id = 'backgroundImg';
+    canvas.style.display = 'none';
+    //        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+    //        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+    canvas.getContext('2d').drawImage(this, 0, 0);
+
+    document.body.appendChild(canvas);
+
+    var color = colorThief.getColor(canvas);
+    callback(color);
+  };
+
+  image.src = url + '?' + new Date().getTime();
+  image.setAttribute('crossOrigin', '');
+};
 
 UnsplashBackground.propTypes = {
   width: _react2.default.PropTypes.number,
