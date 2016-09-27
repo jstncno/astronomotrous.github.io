@@ -77,7 +77,7 @@ export default class Greeting extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='copy'>
         <div id='hello' style={this.helloStyle()}>
           Hi there.
         </div>

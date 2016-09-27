@@ -21953,7 +21953,7 @@ var Greeting = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'copy' },
         _react2.default.createElement(
           'div',
           { id: 'hello', style: this.helloStyle() },
@@ -22042,9 +22042,11 @@ var UnsplashBackground = function (_React$Component) {
       });
 
       window.onload = function () {
-        getDataUri(fullSizeUrl, function (data) {
-          console.log(data);
-        });
+        //      getDataUri(fullSizeUrl, function(rgbArr) {
+        //        var rgbColor = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')'
+        //        var overlay = document.getElementById('overlay');
+        //        overlay.style.backgroundColor = rgbColor;
+        //      });
       };
     }
   }, {
@@ -22069,6 +22071,7 @@ var UnsplashBackground = function (_React$Component) {
         'div',
         { id: 'unsplash', style: this.unsplashStyle() },
         _react2.default.createElement(_Greeting2.default, this.props),
+        _react2.default.createElement('div', { id: 'overlay' }),
         _react2.default.createElement('img', { id: 'img', src: this.state.imgUrl, style: { display: 'none' } })
       );
     }

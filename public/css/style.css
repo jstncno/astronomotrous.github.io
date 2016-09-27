@@ -9,6 +9,20 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+#overlay {
+  background-color: SlateGray;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0.45;
+  -moz-opacity: 45%;
+  -webkit-opacity: 45%;
+  z-index: 1;
+}
+#copy {
+  position: absolute;
+  z-index: 2;
+}
 #hello {
   font-family: "Rokkitt", "Arvo", "Slabo 27px", serif;
   font-size: 5.5em;
