@@ -29,6 +29,7 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-fullscreen": "^0.1.0",
+    "underscore": "^1.8.3",
     "unsplash-api": "^1.2.0",
     "unsplash-js": "^4.2.0",
     "whatwg-fetch": "^1.0.0"

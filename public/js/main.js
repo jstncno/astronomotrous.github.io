@@ -21074,6 +21074,1556 @@ module.exports = validateDOMNesting;
 module.exports = require('./lib/React');
 
 },{"./lib/React":59}],177:[function(require,module,exports){
+//     Underscore.js 1.8.3
+//     http://underscorejs.org
+//     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     Underscore may be freely distributed under the MIT license.
+
+(function() {
+
+  // Baseline setup
+  // --------------
+
+  // Establish the root object, `window` in the browser, or `exports` on the server.
+  var root = this;
+
+  // Save the previous value of the `_` variable.
+  var previousUnderscore = root._;
+
+  // Save bytes in the minified (but not gzipped) version:
+  var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
+
+  // Create quick reference variables for speed access to core prototypes.
+  var
+    push             = ArrayProto.push,
+    slice            = ArrayProto.slice,
+    toString         = ObjProto.toString,
+    hasOwnProperty   = ObjProto.hasOwnProperty;
+
+  // All **ECMAScript 5** native function implementations that we hope to use
+  // are declared here.
+  var
+    nativeIsArray      = Array.isArray,
+    nativeKeys         = Object.keys,
+    nativeBind         = FuncProto.bind,
+    nativeCreate       = Object.create;
+
+  // Naked function reference for surrogate-prototype-swapping.
+  var Ctor = function(){};
+
+  // Create a safe reference to the Underscore object for use below.
+  var _ = function(obj) {
+    if (obj instanceof _) return obj;
+    if (!(this instanceof _)) return new _(obj);
+    this._wrapped = obj;
+  };
+
+  // Export the Underscore object for **Node.js**, with
+  // backwards-compatibility for the old `require()` API. If we're in
+  // the browser, add `_` as a global object.
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = _;
+    }
+    exports._ = _;
+  } else {
+    root._ = _;
+  }
+
+  // Current version.
+  _.VERSION = '1.8.3';
+
+  // Internal function that returns an efficient (for current engines) version
+  // of the passed-in callback, to be repeatedly applied in other Underscore
+  // functions.
+  var optimizeCb = function(func, context, argCount) {
+    if (context === void 0) return func;
+    switch (argCount == null ? 3 : argCount) {
+      case 1: return function(value) {
+        return func.call(context, value);
+      };
+      case 2: return function(value, other) {
+        return func.call(context, value, other);
+      };
+      case 3: return function(value, index, collection) {
+        return func.call(context, value, index, collection);
+      };
+      case 4: return function(accumulator, value, index, collection) {
+        return func.call(context, accumulator, value, index, collection);
+      };
+    }
+    return function() {
+      return func.apply(context, arguments);
+    };
+  };
+
+  // A mostly-internal function to generate callbacks that can be applied
+  // to each element in a collection, returning the desired result — either
+  // identity, an arbitrary callback, a property matcher, or a property accessor.
+  var cb = function(value, context, argCount) {
+    if (value == null) return _.identity;
+    if (_.isFunction(value)) return optimizeCb(value, context, argCount);
+    if (_.isObject(value)) return _.matcher(value);
+    return _.property(value);
+  };
+  _.iteratee = function(value, context) {
+    return cb(value, context, Infinity);
+  };
+
+  // An internal function for creating assigner functions.
+  var createAssigner = function(keysFunc, undefinedOnly) {
+    return function(obj) {
+      var length = arguments.length;
+      if (length < 2 || obj == null) return obj;
+      for (var index = 1; index < length; index++) {
+        var source = arguments[index],
+            keys = keysFunc(source),
+            l = keys.length;
+        for (var i = 0; i < l; i++) {
+          var key = keys[i];
+          if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
+        }
+      }
+      return obj;
+    };
+  };
+
+  // An internal function for creating a new object that inherits from another.
+  var baseCreate = function(prototype) {
+    if (!_.isObject(prototype)) return {};
+    if (nativeCreate) return nativeCreate(prototype);
+    Ctor.prototype = prototype;
+    var result = new Ctor;
+    Ctor.prototype = null;
+    return result;
+  };
+
+  var property = function(key) {
+    return function(obj) {
+      return obj == null ? void 0 : obj[key];
+    };
+  };
+
+  // Helper for collection methods to determine whether a collection
+  // should be iterated as an array or as an object
+  // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
+  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  var getLength = property('length');
+  var isArrayLike = function(collection) {
+    var length = getLength(collection);
+    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+  };
+
+  // Collection Functions
+  // --------------------
+
+  // The cornerstone, an `each` implementation, aka `forEach`.
+  // Handles raw objects in addition to array-likes. Treats all
+  // sparse array-likes as if they were dense.
+  _.each = _.forEach = function(obj, iteratee, context) {
+    iteratee = optimizeCb(iteratee, context);
+    var i, length;
+    if (isArrayLike(obj)) {
+      for (i = 0, length = obj.length; i < length; i++) {
+        iteratee(obj[i], i, obj);
+      }
+    } else {
+      var keys = _.keys(obj);
+      for (i = 0, length = keys.length; i < length; i++) {
+        iteratee(obj[keys[i]], keys[i], obj);
+      }
+    }
+    return obj;
+  };
+
+  // Return the results of applying the iteratee to each element.
+  _.map = _.collect = function(obj, iteratee, context) {
+    iteratee = cb(iteratee, context);
+    var keys = !isArrayLike(obj) && _.keys(obj),
+        length = (keys || obj).length,
+        results = Array(length);
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
+      results[index] = iteratee(obj[currentKey], currentKey, obj);
+    }
+    return results;
+  };
+
+  // Create a reducing function iterating left or right.
+  function createReduce(dir) {
+    // Optimized iterator function as using arguments.length
+    // in the main function will deoptimize the, see #1991.
+    function iterator(obj, iteratee, memo, keys, index, length) {
+      for (; index >= 0 && index < length; index += dir) {
+        var currentKey = keys ? keys[index] : index;
+        memo = iteratee(memo, obj[currentKey], currentKey, obj);
+      }
+      return memo;
+    }
+
+    return function(obj, iteratee, memo, context) {
+      iteratee = optimizeCb(iteratee, context, 4);
+      var keys = !isArrayLike(obj) && _.keys(obj),
+          length = (keys || obj).length,
+          index = dir > 0 ? 0 : length - 1;
+      // Determine the initial value if none is provided.
+      if (arguments.length < 3) {
+        memo = obj[keys ? keys[index] : index];
+        index += dir;
+      }
+      return iterator(obj, iteratee, memo, keys, index, length);
+    };
+  }
+
+  // **Reduce** builds up a single result from a list of values, aka `inject`,
+  // or `foldl`.
+  _.reduce = _.foldl = _.inject = createReduce(1);
+
+  // The right-associative version of reduce, also known as `foldr`.
+  _.reduceRight = _.foldr = createReduce(-1);
+
+  // Return the first value which passes a truth test. Aliased as `detect`.
+  _.find = _.detect = function(obj, predicate, context) {
+    var key;
+    if (isArrayLike(obj)) {
+      key = _.findIndex(obj, predicate, context);
+    } else {
+      key = _.findKey(obj, predicate, context);
+    }
+    if (key !== void 0 && key !== -1) return obj[key];
+  };
+
+  // Return all the elements that pass a truth test.
+  // Aliased as `select`.
+  _.filter = _.select = function(obj, predicate, context) {
+    var results = [];
+    predicate = cb(predicate, context);
+    _.each(obj, function(value, index, list) {
+      if (predicate(value, index, list)) results.push(value);
+    });
+    return results;
+  };
+
+  // Return all the elements for which a truth test fails.
+  _.reject = function(obj, predicate, context) {
+    return _.filter(obj, _.negate(cb(predicate)), context);
+  };
+
+  // Determine whether all of the elements match a truth test.
+  // Aliased as `all`.
+  _.every = _.all = function(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var keys = !isArrayLike(obj) && _.keys(obj),
+        length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
+      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+    }
+    return true;
+  };
+
+  // Determine if at least one element in the object matches a truth test.
+  // Aliased as `any`.
+  _.some = _.any = function(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var keys = !isArrayLike(obj) && _.keys(obj),
+        length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
+      if (predicate(obj[currentKey], currentKey, obj)) return true;
+    }
+    return false;
+  };
+
+  // Determine if the array or object contains a given item (using `===`).
+  // Aliased as `includes` and `include`.
+  _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
+    if (!isArrayLike(obj)) obj = _.values(obj);
+    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    return _.indexOf(obj, item, fromIndex) >= 0;
+  };
+
+  // Invoke a method (with arguments) on every item in a collection.
+  _.invoke = function(obj, method) {
+    var args = slice.call(arguments, 2);
+    var isFunc = _.isFunction(method);
+    return _.map(obj, function(value) {
+      var func = isFunc ? method : value[method];
+      return func == null ? func : func.apply(value, args);
+    });
+  };
+
+  // Convenience version of a common use case of `map`: fetching a property.
+  _.pluck = function(obj, key) {
+    return _.map(obj, _.property(key));
+  };
+
+  // Convenience version of a common use case of `filter`: selecting only objects
+  // containing specific `key:value` pairs.
+  _.where = function(obj, attrs) {
+    return _.filter(obj, _.matcher(attrs));
+  };
+
+  // Convenience version of a common use case of `find`: getting the first object
+  // containing specific `key:value` pairs.
+  _.findWhere = function(obj, attrs) {
+    return _.find(obj, _.matcher(attrs));
+  };
+
+  // Return the maximum element (or element-based computation).
+  _.max = function(obj, iteratee, context) {
+    var result = -Infinity, lastComputed = -Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = isArrayLike(obj) ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value > result) {
+          result = value;
+        }
+      }
+    } else {
+      iteratee = cb(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    return result;
+  };
+
+  // Return the minimum element (or element-based computation).
+  _.min = function(obj, iteratee, context) {
+    var result = Infinity, lastComputed = Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = isArrayLike(obj) ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value < result) {
+          result = value;
+        }
+      }
+    } else {
+      iteratee = cb(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed < lastComputed || computed === Infinity && result === Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    return result;
+  };
+
+  // Shuffle a collection, using the modern version of the
+  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
+  _.shuffle = function(obj) {
+    var set = isArrayLike(obj) ? obj : _.values(obj);
+    var length = set.length;
+    var shuffled = Array(length);
+    for (var index = 0, rand; index < length; index++) {
+      rand = _.random(0, index);
+      if (rand !== index) shuffled[index] = shuffled[rand];
+      shuffled[rand] = set[index];
+    }
+    return shuffled;
+  };
+
+  // Sample **n** random values from a collection.
+  // If **n** is not specified, returns a single random element.
+  // The internal `guard` argument allows it to work with `map`.
+  _.sample = function(obj, n, guard) {
+    if (n == null || guard) {
+      if (!isArrayLike(obj)) obj = _.values(obj);
+      return obj[_.random(obj.length - 1)];
+    }
+    return _.shuffle(obj).slice(0, Math.max(0, n));
+  };
+
+  // Sort the object's values by a criterion produced by an iteratee.
+  _.sortBy = function(obj, iteratee, context) {
+    iteratee = cb(iteratee, context);
+    return _.pluck(_.map(obj, function(value, index, list) {
+      return {
+        value: value,
+        index: index,
+        criteria: iteratee(value, index, list)
+      };
+    }).sort(function(left, right) {
+      var a = left.criteria;
+      var b = right.criteria;
+      if (a !== b) {
+        if (a > b || a === void 0) return 1;
+        if (a < b || b === void 0) return -1;
+      }
+      return left.index - right.index;
+    }), 'value');
+  };
+
+  // An internal function used for aggregate "group by" operations.
+  var group = function(behavior) {
+    return function(obj, iteratee, context) {
+      var result = {};
+      iteratee = cb(iteratee, context);
+      _.each(obj, function(value, index) {
+        var key = iteratee(value, index, obj);
+        behavior(result, value, key);
+      });
+      return result;
+    };
+  };
+
+  // Groups the object's values by a criterion. Pass either a string attribute
+  // to group by, or a function that returns the criterion.
+  _.groupBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key].push(value); else result[key] = [value];
+  });
+
+  // Indexes the object's values by a criterion, similar to `groupBy`, but for
+  // when you know that your index values will be unique.
+  _.indexBy = group(function(result, value, key) {
+    result[key] = value;
+  });
+
+  // Counts instances of an object that group by a certain criterion. Pass
+  // either a string attribute to count by, or a function that returns the
+  // criterion.
+  _.countBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key]++; else result[key] = 1;
+  });
+
+  // Safely create a real, live array from anything iterable.
+  _.toArray = function(obj) {
+    if (!obj) return [];
+    if (_.isArray(obj)) return slice.call(obj);
+    if (isArrayLike(obj)) return _.map(obj, _.identity);
+    return _.values(obj);
+  };
+
+  // Return the number of elements in an object.
+  _.size = function(obj) {
+    if (obj == null) return 0;
+    return isArrayLike(obj) ? obj.length : _.keys(obj).length;
+  };
+
+  // Split a collection into two arrays: one whose elements all satisfy the given
+  // predicate, and one whose elements all do not satisfy the predicate.
+  _.partition = function(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var pass = [], fail = [];
+    _.each(obj, function(value, key, obj) {
+      (predicate(value, key, obj) ? pass : fail).push(value);
+    });
+    return [pass, fail];
+  };
+
+  // Array Functions
+  // ---------------
+
+  // Get the first element of an array. Passing **n** will return the first N
+  // values in the array. Aliased as `head` and `take`. The **guard** check
+  // allows it to work with `_.map`.
+  _.first = _.head = _.take = function(array, n, guard) {
+    if (array == null) return void 0;
+    if (n == null || guard) return array[0];
+    return _.initial(array, array.length - n);
+  };
+
+  // Returns everything but the last entry of the array. Especially useful on
+  // the arguments object. Passing **n** will return all the values in
+  // the array, excluding the last N.
+  _.initial = function(array, n, guard) {
+    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+  };
+
+  // Get the last element of an array. Passing **n** will return the last N
+  // values in the array.
+  _.last = function(array, n, guard) {
+    if (array == null) return void 0;
+    if (n == null || guard) return array[array.length - 1];
+    return _.rest(array, Math.max(0, array.length - n));
+  };
+
+  // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
+  // Especially useful on the arguments object. Passing an **n** will return
+  // the rest N values in the array.
+  _.rest = _.tail = _.drop = function(array, n, guard) {
+    return slice.call(array, n == null || guard ? 1 : n);
+  };
+
+  // Trim out all falsy values from an array.
+  _.compact = function(array) {
+    return _.filter(array, _.identity);
+  };
+
+  // Internal implementation of a recursive `flatten` function.
+  var flatten = function(input, shallow, strict, startIndex) {
+    var output = [], idx = 0;
+    for (var i = startIndex || 0, length = getLength(input); i < length; i++) {
+      var value = input[i];
+      if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
+        //flatten current level of array or arguments object
+        if (!shallow) value = flatten(value, shallow, strict);
+        var j = 0, len = value.length;
+        output.length += len;
+        while (j < len) {
+          output[idx++] = value[j++];
+        }
+      } else if (!strict) {
+        output[idx++] = value;
+      }
+    }
+    return output;
+  };
+
+  // Flatten out an array, either recursively (by default), or just one level.
+  _.flatten = function(array, shallow) {
+    return flatten(array, shallow, false);
+  };
+
+  // Return a version of the array that does not contain the specified value(s).
+  _.without = function(array) {
+    return _.difference(array, slice.call(arguments, 1));
+  };
+
+  // Produce a duplicate-free version of the array. If the array has already
+  // been sorted, you have the option of using a faster algorithm.
+  // Aliased as `unique`.
+  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+    if (!_.isBoolean(isSorted)) {
+      context = iteratee;
+      iteratee = isSorted;
+      isSorted = false;
+    }
+    if (iteratee != null) iteratee = cb(iteratee, context);
+    var result = [];
+    var seen = [];
+    for (var i = 0, length = getLength(array); i < length; i++) {
+      var value = array[i],
+          computed = iteratee ? iteratee(value, i, array) : value;
+      if (isSorted) {
+        if (!i || seen !== computed) result.push(value);
+        seen = computed;
+      } else if (iteratee) {
+        if (!_.contains(seen, computed)) {
+          seen.push(computed);
+          result.push(value);
+        }
+      } else if (!_.contains(result, value)) {
+        result.push(value);
+      }
+    }
+    return result;
+  };
+
+  // Produce an array that contains the union: each distinct element from all of
+  // the passed-in arrays.
+  _.union = function() {
+    return _.uniq(flatten(arguments, true, true));
+  };
+
+  // Produce an array that contains every item shared between all the
+  // passed-in arrays.
+  _.intersection = function(array) {
+    var result = [];
+    var argsLength = arguments.length;
+    for (var i = 0, length = getLength(array); i < length; i++) {
+      var item = array[i];
+      if (_.contains(result, item)) continue;
+      for (var j = 1; j < argsLength; j++) {
+        if (!_.contains(arguments[j], item)) break;
+      }
+      if (j === argsLength) result.push(item);
+    }
+    return result;
+  };
+
+  // Take the difference between one array and a number of other arrays.
+  // Only the elements present in just the first array will remain.
+  _.difference = function(array) {
+    var rest = flatten(arguments, true, true, 1);
+    return _.filter(array, function(value){
+      return !_.contains(rest, value);
+    });
+  };
+
+  // Zip together multiple lists into a single array -- elements that share
+  // an index go together.
+  _.zip = function() {
+    return _.unzip(arguments);
+  };
+
+  // Complement of _.zip. Unzip accepts an array of arrays and groups
+  // each array's elements on shared indices
+  _.unzip = function(array) {
+    var length = array && _.max(array, getLength).length || 0;
+    var result = Array(length);
+
+    for (var index = 0; index < length; index++) {
+      result[index] = _.pluck(array, index);
+    }
+    return result;
+  };
+
+  // Converts lists into objects. Pass either a single array of `[key, value]`
+  // pairs, or two parallel arrays of the same length -- one of keys, and one of
+  // the corresponding values.
+  _.object = function(list, values) {
+    var result = {};
+    for (var i = 0, length = getLength(list); i < length; i++) {
+      if (values) {
+        result[list[i]] = values[i];
+      } else {
+        result[list[i][0]] = list[i][1];
+      }
+    }
+    return result;
+  };
+
+  // Generator function to create the findIndex and findLastIndex functions
+  function createPredicateIndexFinder(dir) {
+    return function(array, predicate, context) {
+      predicate = cb(predicate, context);
+      var length = getLength(array);
+      var index = dir > 0 ? 0 : length - 1;
+      for (; index >= 0 && index < length; index += dir) {
+        if (predicate(array[index], index, array)) return index;
+      }
+      return -1;
+    };
+  }
+
+  // Returns the first index on an array-like that passes a predicate test
+  _.findIndex = createPredicateIndexFinder(1);
+  _.findLastIndex = createPredicateIndexFinder(-1);
+
+  // Use a comparator function to figure out the smallest index at which
+  // an object should be inserted so as to maintain order. Uses binary search.
+  _.sortedIndex = function(array, obj, iteratee, context) {
+    iteratee = cb(iteratee, context, 1);
+    var value = iteratee(obj);
+    var low = 0, high = getLength(array);
+    while (low < high) {
+      var mid = Math.floor((low + high) / 2);
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+    }
+    return low;
+  };
+
+  // Generator function to create the indexOf and lastIndexOf functions
+  function createIndexFinder(dir, predicateFind, sortedIndex) {
+    return function(array, item, idx) {
+      var i = 0, length = getLength(array);
+      if (typeof idx == 'number') {
+        if (dir > 0) {
+            i = idx >= 0 ? idx : Math.max(idx + length, i);
+        } else {
+            length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
+        }
+      } else if (sortedIndex && idx && length) {
+        idx = sortedIndex(array, item);
+        return array[idx] === item ? idx : -1;
+      }
+      if (item !== item) {
+        idx = predicateFind(slice.call(array, i, length), _.isNaN);
+        return idx >= 0 ? idx + i : -1;
+      }
+      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
+        if (array[idx] === item) return idx;
+      }
+      return -1;
+    };
+  }
+
+  // Return the position of the first occurrence of an item in an array,
+  // or -1 if the item is not included in the array.
+  // If the array is large and already in sort order, pass `true`
+  // for **isSorted** to use binary search.
+  _.indexOf = createIndexFinder(1, _.findIndex, _.sortedIndex);
+  _.lastIndexOf = createIndexFinder(-1, _.findLastIndex);
+
+  // Generate an integer Array containing an arithmetic progression. A port of
+  // the native Python `range()` function. See
+  // [the Python documentation](http://docs.python.org/library/functions.html#range).
+  _.range = function(start, stop, step) {
+    if (stop == null) {
+      stop = start || 0;
+      start = 0;
+    }
+    step = step || 1;
+
+    var length = Math.max(Math.ceil((stop - start) / step), 0);
+    var range = Array(length);
+
+    for (var idx = 0; idx < length; idx++, start += step) {
+      range[idx] = start;
+    }
+
+    return range;
+  };
+
+  // Function (ahem) Functions
+  // ------------------
+
+  // Determines whether to execute a function as a constructor
+  // or a normal function with the provided arguments
+  var executeBound = function(sourceFunc, boundFunc, context, callingContext, args) {
+    if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
+    var self = baseCreate(sourceFunc.prototype);
+    var result = sourceFunc.apply(self, args);
+    if (_.isObject(result)) return result;
+    return self;
+  };
+
+  // Create a function bound to a given object (assigning `this`, and arguments,
+  // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
+  // available.
+  _.bind = function(func, context) {
+    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
+    var args = slice.call(arguments, 2);
+    var bound = function() {
+      return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
+    };
+    return bound;
+  };
+
+  // Partially apply a function by creating a version that has had some of its
+  // arguments pre-filled, without changing its dynamic `this` context. _ acts
+  // as a placeholder, allowing any combination of arguments to be pre-filled.
+  _.partial = function(func) {
+    var boundArgs = slice.call(arguments, 1);
+    var bound = function() {
+      var position = 0, length = boundArgs.length;
+      var args = Array(length);
+      for (var i = 0; i < length; i++) {
+        args[i] = boundArgs[i] === _ ? arguments[position++] : boundArgs[i];
+      }
+      while (position < arguments.length) args.push(arguments[position++]);
+      return executeBound(func, bound, this, this, args);
+    };
+    return bound;
+  };
+
+  // Bind a number of an object's methods to that object. Remaining arguments
+  // are the method names to be bound. Useful for ensuring that all callbacks
+  // defined on an object belong to it.
+  _.bindAll = function(obj) {
+    var i, length = arguments.length, key;
+    if (length <= 1) throw new Error('bindAll must be passed function names');
+    for (i = 1; i < length; i++) {
+      key = arguments[i];
+      obj[key] = _.bind(obj[key], obj);
+    }
+    return obj;
+  };
+
+  // Memoize an expensive function by storing its results.
+  _.memoize = function(func, hasher) {
+    var memoize = function(key) {
+      var cache = memoize.cache;
+      var address = '' + (hasher ? hasher.apply(this, arguments) : key);
+      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
+      return cache[address];
+    };
+    memoize.cache = {};
+    return memoize;
+  };
+
+  // Delays a function for the given number of milliseconds, and then calls
+  // it with the arguments supplied.
+  _.delay = function(func, wait) {
+    var args = slice.call(arguments, 2);
+    return setTimeout(function(){
+      return func.apply(null, args);
+    }, wait);
+  };
+
+  // Defers a function, scheduling it to run after the current call stack has
+  // cleared.
+  _.defer = _.partial(_.delay, _, 1);
+
+  // Returns a function, that, when invoked, will only be triggered at most once
+  // during a given window of time. Normally, the throttled function will run
+  // as much as it can, without ever going more than once per `wait` duration;
+  // but if you'd like to disable the execution on the leading edge, pass
+  // `{leading: false}`. To disable execution on the trailing edge, ditto.
+  _.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    if (!options) options = {};
+    var later = function() {
+      previous = options.leading === false ? 0 : _.now();
+      timeout = null;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    };
+    return function() {
+      var now = _.now();
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0 || remaining > wait) {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        previous = now;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+      return result;
+    };
+  };
+
+  // Returns a function, that, as long as it continues to be invoked, will not
+  // be triggered. The function will be called after it stops being called for
+  // N milliseconds. If `immediate` is passed, trigger the function on the
+  // leading edge, instead of the trailing.
+  _.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      var last = _.now() - timestamp;
+
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = _.now();
+      var callNow = immediate && !timeout;
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+
+  // Returns the first function passed as an argument to the second,
+  // allowing you to adjust arguments, run code before and after, and
+  // conditionally execute the original function.
+  _.wrap = function(func, wrapper) {
+    return _.partial(wrapper, func);
+  };
+
+  // Returns a negated version of the passed-in predicate.
+  _.negate = function(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    };
+  };
+
+  // Returns a function that is the composition of a list of functions, each
+  // consuming the return value of the function that follows.
+  _.compose = function() {
+    var args = arguments;
+    var start = args.length - 1;
+    return function() {
+      var i = start;
+      var result = args[start].apply(this, arguments);
+      while (i--) result = args[i].call(this, result);
+      return result;
+    };
+  };
+
+  // Returns a function that will only be executed on and after the Nth call.
+  _.after = function(times, func) {
+    return function() {
+      if (--times < 1) {
+        return func.apply(this, arguments);
+      }
+    };
+  };
+
+  // Returns a function that will only be executed up to (but not including) the Nth call.
+  _.before = function(times, func) {
+    var memo;
+    return function() {
+      if (--times > 0) {
+        memo = func.apply(this, arguments);
+      }
+      if (times <= 1) func = null;
+      return memo;
+    };
+  };
+
+  // Returns a function that will be executed at most one time, no matter how
+  // often you call it. Useful for lazy initialization.
+  _.once = _.partial(_.before, 2);
+
+  // Object Functions
+  // ----------------
+
+  // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
+  var hasEnumBug = !{toString: null}.propertyIsEnumerable('toString');
+  var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString',
+                      'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
+
+  function collectNonEnumProps(obj, keys) {
+    var nonEnumIdx = nonEnumerableProps.length;
+    var constructor = obj.constructor;
+    var proto = (_.isFunction(constructor) && constructor.prototype) || ObjProto;
+
+    // Constructor is a special case.
+    var prop = 'constructor';
+    if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
+
+    while (nonEnumIdx--) {
+      prop = nonEnumerableProps[nonEnumIdx];
+      if (prop in obj && obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
+        keys.push(prop);
+      }
+    }
+  }
+
+  // Retrieve the names of an object's own properties.
+  // Delegates to **ECMAScript 5**'s native `Object.keys`
+  _.keys = function(obj) {
+    if (!_.isObject(obj)) return [];
+    if (nativeKeys) return nativeKeys(obj);
+    var keys = [];
+    for (var key in obj) if (_.has(obj, key)) keys.push(key);
+    // Ahem, IE < 9.
+    if (hasEnumBug) collectNonEnumProps(obj, keys);
+    return keys;
+  };
+
+  // Retrieve all the property names of an object.
+  _.allKeys = function(obj) {
+    if (!_.isObject(obj)) return [];
+    var keys = [];
+    for (var key in obj) keys.push(key);
+    // Ahem, IE < 9.
+    if (hasEnumBug) collectNonEnumProps(obj, keys);
+    return keys;
+  };
+
+  // Retrieve the values of an object's properties.
+  _.values = function(obj) {
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var values = Array(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = obj[keys[i]];
+    }
+    return values;
+  };
+
+  // Returns the results of applying the iteratee to each element of the object
+  // In contrast to _.map it returns an object
+  _.mapObject = function(obj, iteratee, context) {
+    iteratee = cb(iteratee, context);
+    var keys =  _.keys(obj),
+          length = keys.length,
+          results = {},
+          currentKey;
+      for (var index = 0; index < length; index++) {
+        currentKey = keys[index];
+        results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
+      }
+      return results;
+  };
+
+  // Convert an object into a list of `[key, value]` pairs.
+  _.pairs = function(obj) {
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var pairs = Array(length);
+    for (var i = 0; i < length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
+    }
+    return pairs;
+  };
+
+  // Invert the keys and values of an object. The values must be serializable.
+  _.invert = function(obj) {
+    var result = {};
+    var keys = _.keys(obj);
+    for (var i = 0, length = keys.length; i < length; i++) {
+      result[obj[keys[i]]] = keys[i];
+    }
+    return result;
+  };
+
+  // Return a sorted list of the function names available on the object.
+  // Aliased as `methods`
+  _.functions = _.methods = function(obj) {
+    var names = [];
+    for (var key in obj) {
+      if (_.isFunction(obj[key])) names.push(key);
+    }
+    return names.sort();
+  };
+
+  // Extend a given object with all the properties in passed-in object(s).
+  _.extend = createAssigner(_.allKeys);
+
+  // Assigns a given object with all the own properties in the passed-in object(s)
+  // (https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+  _.extendOwn = _.assign = createAssigner(_.keys);
+
+  // Returns the first key on an object that passes a predicate test
+  _.findKey = function(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var keys = _.keys(obj), key;
+    for (var i = 0, length = keys.length; i < length; i++) {
+      key = keys[i];
+      if (predicate(obj[key], key, obj)) return key;
+    }
+  };
+
+  // Return a copy of the object only containing the whitelisted properties.
+  _.pick = function(object, oiteratee, context) {
+    var result = {}, obj = object, iteratee, keys;
+    if (obj == null) return result;
+    if (_.isFunction(oiteratee)) {
+      keys = _.allKeys(obj);
+      iteratee = optimizeCb(oiteratee, context);
+    } else {
+      keys = flatten(arguments, false, false, 1);
+      iteratee = function(value, key, obj) { return key in obj; };
+      obj = Object(obj);
+    }
+    for (var i = 0, length = keys.length; i < length; i++) {
+      var key = keys[i];
+      var value = obj[key];
+      if (iteratee(value, key, obj)) result[key] = value;
+    }
+    return result;
+  };
+
+   // Return a copy of the object without the blacklisted properties.
+  _.omit = function(obj, iteratee, context) {
+    if (_.isFunction(iteratee)) {
+      iteratee = _.negate(iteratee);
+    } else {
+      var keys = _.map(flatten(arguments, false, false, 1), String);
+      iteratee = function(value, key) {
+        return !_.contains(keys, key);
+      };
+    }
+    return _.pick(obj, iteratee, context);
+  };
+
+  // Fill in a given object with default properties.
+  _.defaults = createAssigner(_.allKeys, true);
+
+  // Creates an object that inherits from the given prototype object.
+  // If additional properties are provided then they will be added to the
+  // created object.
+  _.create = function(prototype, props) {
+    var result = baseCreate(prototype);
+    if (props) _.extendOwn(result, props);
+    return result;
+  };
+
+  // Create a (shallow-cloned) duplicate of an object.
+  _.clone = function(obj) {
+    if (!_.isObject(obj)) return obj;
+    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  };
+
+  // Invokes interceptor with the obj, and then returns obj.
+  // The primary purpose of this method is to "tap into" a method chain, in
+  // order to perform operations on intermediate results within the chain.
+  _.tap = function(obj, interceptor) {
+    interceptor(obj);
+    return obj;
+  };
+
+  // Returns whether an object has a given set of `key:value` pairs.
+  _.isMatch = function(object, attrs) {
+    var keys = _.keys(attrs), length = keys.length;
+    if (object == null) return !length;
+    var obj = Object(object);
+    for (var i = 0; i < length; i++) {
+      var key = keys[i];
+      if (attrs[key] !== obj[key] || !(key in obj)) return false;
+    }
+    return true;
+  };
+
+
+  // Internal recursive comparison function for `isEqual`.
+  var eq = function(a, b, aStack, bStack) {
+    // Identical objects are equal. `0 === -0`, but they aren't identical.
+    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+    if (a === b) return a !== 0 || 1 / a === 1 / b;
+    // A strict comparison is necessary because `null == undefined`.
+    if (a == null || b == null) return a === b;
+    // Unwrap any wrapped objects.
+    if (a instanceof _) a = a._wrapped;
+    if (b instanceof _) b = b._wrapped;
+    // Compare `[[Class]]` names.
+    var className = toString.call(a);
+    if (className !== toString.call(b)) return false;
+    switch (className) {
+      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+      case '[object RegExp]':
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+      case '[object String]':
+        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+        // equivalent to `new String("5")`.
+        return '' + a === '' + b;
+      case '[object Number]':
+        // `NaN`s are equivalent, but non-reflexive.
+        // Object(NaN) is equivalent to NaN
+        if (+a !== +a) return +b !== +b;
+        // An `egal` comparison is performed for other numeric values.
+        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+      case '[object Date]':
+      case '[object Boolean]':
+        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
+        // millisecond representations. Note that invalid dates with millisecond representations
+        // of `NaN` are not equivalent.
+        return +a === +b;
+    }
+
+    var areArrays = className === '[object Array]';
+    if (!areArrays) {
+      if (typeof a != 'object' || typeof b != 'object') return false;
+
+      // Objects with different constructors are not equivalent, but `Object`s or `Array`s
+      // from different frames are.
+      var aCtor = a.constructor, bCtor = b.constructor;
+      if (aCtor !== bCtor && !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
+                               _.isFunction(bCtor) && bCtor instanceof bCtor)
+                          && ('constructor' in a && 'constructor' in b)) {
+        return false;
+      }
+    }
+    // Assume equality for cyclic structures. The algorithm for detecting cyclic
+    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+
+    // Initializing stack of traversed objects.
+    // It's done here since we only need them for objects and arrays comparison.
+    aStack = aStack || [];
+    bStack = bStack || [];
+    var length = aStack.length;
+    while (length--) {
+      // Linear search. Performance is inversely proportional to the number of
+      // unique nested structures.
+      if (aStack[length] === a) return bStack[length] === b;
+    }
+
+    // Add the first object to the stack of traversed objects.
+    aStack.push(a);
+    bStack.push(b);
+
+    // Recursively compare objects and arrays.
+    if (areArrays) {
+      // Compare array lengths to determine if a deep comparison is necessary.
+      length = a.length;
+      if (length !== b.length) return false;
+      // Deep compare the contents, ignoring non-numeric properties.
+      while (length--) {
+        if (!eq(a[length], b[length], aStack, bStack)) return false;
+      }
+    } else {
+      // Deep compare objects.
+      var keys = _.keys(a), key;
+      length = keys.length;
+      // Ensure that both objects contain the same number of properties before comparing deep equality.
+      if (_.keys(b).length !== length) return false;
+      while (length--) {
+        // Deep compare each member
+        key = keys[length];
+        if (!(_.has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
+      }
+    }
+    // Remove the first object from the stack of traversed objects.
+    aStack.pop();
+    bStack.pop();
+    return true;
+  };
+
+  // Perform a deep comparison to check if two objects are equal.
+  _.isEqual = function(a, b) {
+    return eq(a, b);
+  };
+
+  // Is a given array, string, or object empty?
+  // An "empty" object has no enumerable own-properties.
+  _.isEmpty = function(obj) {
+    if (obj == null) return true;
+    if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
+    return _.keys(obj).length === 0;
+  };
+
+  // Is a given value a DOM element?
+  _.isElement = function(obj) {
+    return !!(obj && obj.nodeType === 1);
+  };
+
+  // Is a given value an array?
+  // Delegates to ECMA5's native Array.isArray
+  _.isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+
+  // Is a given variable an object?
+  _.isObject = function(obj) {
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
+  };
+
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
+    _['is' + name] = function(obj) {
+      return toString.call(obj) === '[object ' + name + ']';
+    };
+  });
+
+  // Define a fallback version of the method in browsers (ahem, IE < 9), where
+  // there isn't any inspectable "Arguments" type.
+  if (!_.isArguments(arguments)) {
+    _.isArguments = function(obj) {
+      return _.has(obj, 'callee');
+    };
+  }
+
+  // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
+  // IE 11 (#1621), and in Safari 8 (#1929).
+  if (typeof /./ != 'function' && typeof Int8Array != 'object') {
+    _.isFunction = function(obj) {
+      return typeof obj == 'function' || false;
+    };
+  }
+
+  // Is a given object a finite number?
+  _.isFinite = function(obj) {
+    return isFinite(obj) && !isNaN(parseFloat(obj));
+  };
+
+  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
+  _.isNaN = function(obj) {
+    return _.isNumber(obj) && obj !== +obj;
+  };
+
+  // Is a given value a boolean?
+  _.isBoolean = function(obj) {
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+  };
+
+  // Is a given value equal to null?
+  _.isNull = function(obj) {
+    return obj === null;
+  };
+
+  // Is a given variable undefined?
+  _.isUndefined = function(obj) {
+    return obj === void 0;
+  };
+
+  // Shortcut function for checking if an object has a given property directly
+  // on itself (in other words, not on a prototype).
+  _.has = function(obj, key) {
+    return obj != null && hasOwnProperty.call(obj, key);
+  };
+
+  // Utility Functions
+  // -----------------
+
+  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
+  // previous owner. Returns a reference to the Underscore object.
+  _.noConflict = function() {
+    root._ = previousUnderscore;
+    return this;
+  };
+
+  // Keep the identity function around for default iteratees.
+  _.identity = function(value) {
+    return value;
+  };
+
+  // Predicate-generating functions. Often useful outside of Underscore.
+  _.constant = function(value) {
+    return function() {
+      return value;
+    };
+  };
+
+  _.noop = function(){};
+
+  _.property = property;
+
+  // Generates a function for a given object that returns a given property.
+  _.propertyOf = function(obj) {
+    return obj == null ? function(){} : function(key) {
+      return obj[key];
+    };
+  };
+
+  // Returns a predicate for checking whether an object has a given set of
+  // `key:value` pairs.
+  _.matcher = _.matches = function(attrs) {
+    attrs = _.extendOwn({}, attrs);
+    return function(obj) {
+      return _.isMatch(obj, attrs);
+    };
+  };
+
+  // Run a function **n** times.
+  _.times = function(n, iteratee, context) {
+    var accum = Array(Math.max(0, n));
+    iteratee = optimizeCb(iteratee, context, 1);
+    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
+    return accum;
+  };
+
+  // Return a random integer between min and max (inclusive).
+  _.random = function(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    return min + Math.floor(Math.random() * (max - min + 1));
+  };
+
+  // A (possibly faster) way to get the current timestamp as an integer.
+  _.now = Date.now || function() {
+    return new Date().getTime();
+  };
+
+   // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
+  };
+  var unescapeMap = _.invert(escapeMap);
+
+  // Functions for escaping and unescaping strings to/from HTML interpolation.
+  var createEscaper = function(map) {
+    var escaper = function(match) {
+      return map[match];
+    };
+    // Regexes for identifying a key that needs to be escaped
+    var source = '(?:' + _.keys(map).join('|') + ')';
+    var testRegexp = RegExp(source);
+    var replaceRegexp = RegExp(source, 'g');
+    return function(string) {
+      string = string == null ? '' : '' + string;
+      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+  _.escape = createEscaper(escapeMap);
+  _.unescape = createEscaper(unescapeMap);
+
+  // If the value of the named `property` is a function then invoke it with the
+  // `object` as context; otherwise, return it.
+  _.result = function(object, property, fallback) {
+    var value = object == null ? void 0 : object[property];
+    if (value === void 0) {
+      value = fallback;
+    }
+    return _.isFunction(value) ? value.call(object) : value;
+  };
+
+  // Generate a unique integer id (unique within the entire client session).
+  // Useful for temporary DOM ids.
+  var idCounter = 0;
+  _.uniqueId = function(prefix) {
+    var id = ++idCounter + '';
+    return prefix ? prefix + id : id;
+  };
+
+  // By default, Underscore uses ERB-style template delimiters, change the
+  // following template settings to use alternative delimiters.
+  _.templateSettings = {
+    evaluate    : /<%([\s\S]+?)%>/g,
+    interpolate : /<%=([\s\S]+?)%>/g,
+    escape      : /<%-([\s\S]+?)%>/g
+  };
+
+  // When customizing `templateSettings`, if you don't want to define an
+  // interpolation, evaluation or escaping regex, we need one that is
+  // guaranteed not to match.
+  var noMatch = /(.)^/;
+
+  // Certain characters need to be escaped so that they can be put into a
+  // string literal.
+  var escapes = {
+    "'":      "'",
+    '\\':     '\\',
+    '\r':     'r',
+    '\n':     'n',
+    '\u2028': 'u2028',
+    '\u2029': 'u2029'
+  };
+
+  var escaper = /\\|'|\r|\n|\u2028|\u2029/g;
+
+  var escapeChar = function(match) {
+    return '\\' + escapes[match];
+  };
+
+  // JavaScript micro-templating, similar to John Resig's implementation.
+  // Underscore templating handles arbitrary delimiters, preserves whitespace,
+  // and correctly escapes quotes within interpolated code.
+  // NB: `oldSettings` only exists for backwards compatibility.
+  _.template = function(text, settings, oldSettings) {
+    if (!settings && oldSettings) settings = oldSettings;
+    settings = _.defaults({}, settings, _.templateSettings);
+
+    // Combine delimiters into one regular expression via alternation.
+    var matcher = RegExp([
+      (settings.escape || noMatch).source,
+      (settings.interpolate || noMatch).source,
+      (settings.evaluate || noMatch).source
+    ].join('|') + '|$', 'g');
+
+    // Compile the template source, escaping string literals appropriately.
+    var index = 0;
+    var source = "__p+='";
+    text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+      source += text.slice(index, offset).replace(escaper, escapeChar);
+      index = offset + match.length;
+
+      if (escape) {
+        source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
+      } else if (interpolate) {
+        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+      } else if (evaluate) {
+        source += "';\n" + evaluate + "\n__p+='";
+      }
+
+      // Adobe VMs need the match returned to produce the correct offest.
+      return match;
+    });
+    source += "';\n";
+
+    // If a variable is not specified, place data values in local scope.
+    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+
+    source = "var __t,__p='',__j=Array.prototype.join," +
+      "print=function(){__p+=__j.call(arguments,'');};\n" +
+      source + 'return __p;\n';
+
+    try {
+      var render = new Function(settings.variable || 'obj', '_', source);
+    } catch (e) {
+      e.source = source;
+      throw e;
+    }
+
+    var template = function(data) {
+      return render.call(this, data, _);
+    };
+
+    // Provide the compiled source as a convenience for precompilation.
+    var argument = settings.variable || 'obj';
+    template.source = 'function(' + argument + '){\n' + source + '}';
+
+    return template;
+  };
+
+  // Add a "chain" function. Start chaining a wrapped Underscore object.
+  _.chain = function(obj) {
+    var instance = _(obj);
+    instance._chain = true;
+    return instance;
+  };
+
+  // OOP
+  // ---------------
+  // If Underscore is called as a function, it returns a wrapped object that
+  // can be used OO-style. This wrapper holds altered versions of all the
+  // underscore functions. Wrapped objects may be chained.
+
+  // Helper function to continue chaining intermediate results.
+  var result = function(instance, obj) {
+    return instance._chain ? _(obj).chain() : obj;
+  };
+
+  // Add your own custom functions to the Underscore object.
+  _.mixin = function(obj) {
+    _.each(_.functions(obj), function(name) {
+      var func = _[name] = obj[name];
+      _.prototype[name] = function() {
+        var args = [this._wrapped];
+        push.apply(args, arguments);
+        return result(this, func.apply(_, args));
+      };
+    });
+  };
+
+  // Add all of the Underscore functions to the wrapper object.
+  _.mixin(_);
+
+  // Add all mutator Array functions to the wrapper.
+  _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+    var method = ArrayProto[name];
+    _.prototype[name] = function() {
+      var obj = this._wrapped;
+      method.apply(obj, arguments);
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
+      return result(this, obj);
+    };
+  });
+
+  // Add all accessor Array functions to the wrapper.
+  _.each(['concat', 'join', 'slice'], function(name) {
+    var method = ArrayProto[name];
+    _.prototype[name] = function() {
+      return result(this, method.apply(this._wrapped, arguments));
+    };
+  });
+
+  // Extracts the result from a wrapped and chained object.
+  _.prototype.value = function() {
+    return this._wrapped;
+  };
+
+  // Provide unwrapping proxy for some methods used in engine operations
+  // such as arithmetic and JSON stringification.
+  _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+
+  _.prototype.toString = function() {
+    return '' + this._wrapped;
+  };
+
+  // AMD registration happens at the end for compatibility with AMD loaders
+  // that may not enforce next-turn semantics on modules. Even though general
+  // practice for AMD registration is to be anonymous, underscore registers
+  // as a named module because, like jQuery, it is a base library that is
+  // popular enough to be bundled in a third party lib, but not be part of
+  // an AMD load request. Those cases could generate an error when an
+  // anonymous define() is called outside of a loader request.
+  if (typeof define === 'function' && define.amd) {
+    define('underscore', [], function() {
+      return _;
+    });
+  }
+}.call(this));
+
+},{}],178:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21083,7 +22633,7 @@ var API_URL = exports.API_URL = "https://api.unsplash.com";
 var API_VERSION = exports.API_VERSION = "v1";
 var OAUTH_AUTHORIZE_URL = exports.OAUTH_AUTHORIZE_URL = "https://unsplash.com/oauth/authorize";
 var OAUTH_TOKEN_URL = exports.OAUTH_TOKEN_URL = "https://unsplash.com/oauth/token";
-},{}],178:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21140,7 +22690,7 @@ function auth() {
     }
   };
 }
-},{"../constants":177,"querystring":4}],179:[function(require,module,exports){
+},{"../constants":178,"querystring":4}],180:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21185,7 +22735,7 @@ function categories() {
     }
   };
 }
-},{}],180:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21335,7 +22885,7 @@ function createUpdateCollection(id, title, description, isPrivate) {
     body: body
   });
 }
-},{}],181:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21391,7 +22941,7 @@ function currentUser() {
     }
   };
 }
-},{}],182:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21557,7 +23107,7 @@ function photos() {
     }
   };
 }
-},{}],183:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21591,7 +23141,7 @@ function searcher(url) {
     query: query
   });
 }
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21612,7 +23162,7 @@ function stats() {
     }
   };
 }
-},{}],185:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21688,7 +23238,7 @@ function users() {
     }
   };
 }
-},{}],186:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21780,7 +23330,7 @@ exports.default = Unsplash;
 function toJson(res) {
   return res.json();
 }
-},{"./constants":177,"./methods/auth":178,"./methods/categories":179,"./methods/collections":180,"./methods/currentUser":181,"./methods/photos":182,"./methods/search":183,"./methods/stats":184,"./methods/users":185,"./utils":187}],187:[function(require,module,exports){
+},{"./constants":178,"./methods/auth":179,"./methods/categories":180,"./methods/collections":181,"./methods/currentUser":182,"./methods/photos":183,"./methods/search":184,"./methods/stats":185,"./methods/users":186,"./utils":188}],188:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21833,7 +23383,7 @@ function buildFetchOptions(options) {
     }
   };
 }
-},{"form-urlencoded":30,"querystring":4}],188:[function(require,module,exports){
+},{"form-urlencoded":30,"querystring":4}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21953,7 +23503,7 @@ var Greeting = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'copy' },
         _react2.default.createElement(
           'div',
           { id: 'hello', style: this.helloStyle() },
@@ -21973,7 +23523,7 @@ var Greeting = function (_React$Component) {
 
 exports.default = Greeting;
 
-},{"react":176}],189:[function(require,module,exports){
+},{"react":176}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21990,9 +23540,17 @@ var _unsplashJs = require('unsplash-js');
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 var _Greeting = require('./Greeting');
 
 var _Greeting2 = _interopRequireDefault(_Greeting);
+
+var _colors = require('./colors');
+
+var _colors2 = _interopRequireDefault(_colors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22002,12 +23560,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+//console.log(new Set(_.map(allColors, function(colorObj) {
+//  return colorObj.type;
+//})));
+
 var username = 'boost';
 var clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
 var defaultPhotoUrl = 'https://hd.unsplash.com/photo-1450740199001-78e928502994';
 var unsplash = new _unsplashJs2.default({
   applicationId: clientId
 });
+
+var randomElement = function randomElement(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
 
 var UnsplashBackground = function (_React$Component) {
   _inherits(UnsplashBackground, _React$Component);
@@ -22033,7 +23599,7 @@ var UnsplashBackground = function (_React$Component) {
         return resp.json();
       }).then(function (json) {
         // Your code
-        var pictureObj = _this2.randomElement(json);
+        var pictureObj = randomElement(json);
         var photographerName = pictureObj.user.name;
         fullSizeUrl = pictureObj.urls.full;
         console.log(fullSizeUrl);
@@ -22042,15 +23608,10 @@ var UnsplashBackground = function (_React$Component) {
       });
 
       window.onload = function () {
-        getDataUri(fullSizeUrl, function (data) {
+        getDominantBackgroundColor(fullSizeUrl, function (data) {
           console.log(data);
         });
       };
-    }
-  }, {
-    key: 'randomElement',
-    value: function randomElement(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
     }
   }, {
     key: 'unsplashStyle',
@@ -22077,11 +23638,10 @@ var UnsplashBackground = function (_React$Component) {
   return UnsplashBackground;
 }(_react2.default.Component);
 
-// https://davidwalsh.name/convert-image-data-uri-javascript
-
-
 exports.default = UnsplashBackground;
-var getDataUri = function getDataUri(url, callback) {
+
+
+var getDominantBackgroundColor = function getDominantBackgroundColor(url, callback) {
   var colorThief = new ColorThief();
   var image = new Image();
 
@@ -22089,19 +23649,66 @@ var getDataUri = function getDataUri(url, callback) {
     var canvas = document.createElement('canvas');
     canvas.id = 'backgroundImg';
     canvas.style.display = 'none';
-    //        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-    //        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
     canvas.getContext('2d').drawImage(this, 0, 0);
 
     document.body.appendChild(canvas);
 
-    var color = colorThief.getColor(canvas);
-    callback(color);
+    var colors = colorThief.getColor(canvas);
+    callback(colors);
+    getPassingColors(colors);
   };
 
   image.src = url + '?' + new Date().getTime();
   image.setAttribute('crossOrigin', '');
+};
+
+var currentRatio = 7.0;
+// https://github.com/donnieberg/accessible-color-palette/blob/41c957d69ed98dc400842fb65e0a049e1c1cfd88/js/app.js#L353
+function getPassingColors(dominantBackgroundColor) {
+  var passingColors = [];
+  _underscore2.default.each(_colors2.default, function (color) {
+    var ratio = contrastRatio(color.rgb, dominantBackgroundColor);
+    color.currentRatio = ratio;
+    if (color.currentRatio >= currentRatio) {
+      color.pass = true;
+      passingColors.push(color);
+    } else {
+      color.pass = false;
+    }
+  });
+
+  //  passingColors = _.filter(passingColors, function(colorObj) {
+  //    return colorObj.type.indexOf('colorSibling') == -1
+  //    return colorObj.type == 'flatUIcolor';
+  //  });
+
+  if (passingColors.length > 0) {
+    var chosenColor = randomElement(passingColors);
+    console.log('getPassingColors() is working', passingColors.length);
+    console.log('chosen color:', chosenColor, chosenColor.currentRatio);
+
+    var copy = document.getElementById('copy');
+    copy.style.color = chosenColor.hex;
+  }
+};
+
+function contrastRatio(foreground, background) {
+  var L1 = luminance(_underscore2.default.map(foreground.split(','), function (intStr) {
+    return parseInt(intStr);
+  }));
+  var L2 = luminance(background);
+  return Math.round((Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05) * 100) / 100;
+}
+
+var luminance = function luminance(rgbArr) {
+  // convert RGB to sRGB
+  var sRGB = _underscore2.default.map(rgbArr, function (value) {
+    value /= 255;
+    return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+  });
+  // calculate luminance
+  return sRGB[0] * 0.2126 + sRGB[1] * 0.7152 + sRGB[2] * 0.0722;
 };
 
 UnsplashBackground.propTypes = {
@@ -22109,7 +23716,18 @@ UnsplashBackground.propTypes = {
   height: _react2.default.PropTypes.number
 };
 
-},{"./Greeting":188,"react":176,"unsplash-js":186}],190:[function(require,module,exports){
+},{"./Greeting":189,"./colors":191,"react":176,"underscore":177,"unsplash-js":187}],191:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// https://github.com/donnieberg/accessible-color-palette/blob/41c957d69ed98dc400842fb65e0a049e1c1cfd88/js/app.js#L499
+var allColors = [{ "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#c8f7c5", "rgb": "200,247,197", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#7fffd4", "rgb": "127,255,212", "name": "aquamarine", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#baf73c", "rgb": "186,247,60", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#98fb98", "rgb": "152,251,152", "name": "palegreen", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#00ff7f", "rgb": "0,255,127", "name": "springgreen", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#90ee90", "rgb": "144,238,144", "name": "lightgreen", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#00ff00", "rgb": "0,255,0", "name": "lime", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#00fa9a", "rgb": "0,250,154", "name": "mediumspringgreen", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#38f689", "rgb": "56,246,137", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#a2ded0", "rgb": "162,222,208", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#3cf73c", "rgb": "60,247,60", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#abe338", "rgb": "171,227,56", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#86e2d5", "rgb": "134,226,213", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#4ae08c", "rgb": "74,224,140", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#4add8c", "rgb": "74,221,140", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#87d37c", "rgb": "135,211,124", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#6ad4b1", "rgb": "106,212,177", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#9acd32", "rgb": "154,205,50", "name": "yellowgreen", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#36d7b7", "rgb": "54,215,183", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#7ed07e", "rgb": "126,208,126", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#90c695", "rgb": "144,198,149", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#4ecdc4", "rgb": "78,205,196", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#66cc99", "rgb": "102,204,153", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#65c6bb", "rgb": "101,198,187", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00d46a", "rgb": "0,212,106", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#2eccb0", "rgb": "46,204,176", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00d400", "rgb": "0,212,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00cf80", "rgb": "0,207,128", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#2ecc91", "rgb": "46,204,145", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#68c3a3", "rgb": "104,195,163", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#76c376", "rgb": "118,195,118", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#2ecc71", "rgb": "46,204,113", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#03c9a9", "rgb": "3,201,169", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#32cd32", "rgb": "50,205,50", "name": "limegreen", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#2ecc51", "rgb": "46,204,81", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#2ecc32", "rgb": "46,204,50", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#3fc380", "rgb": "63,195,128", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#8bb82d", "rgb": "139,184,45", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#26c281", "rgb": "38,194,129", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#1bbc9b", "rgb": "27,188,155", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#2abb9b", "rgb": "42,187,155", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#3cb572", "rgb": "60,181,114", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#3cb371", "rgb": "60,179,113", "name": "mediumseagreen", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#4daf7c", "rgb": "77,175,124", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#55aa8d", "rgb": "85,170,141", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#00b16a", "rgb": "0,177,106", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#65a665", "rgb": "101,166,101", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#7aa228", "rgb": "122,162,40", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00aa55", "rgb": "0,170,85", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#1ba39c", "rgb": "27,163,156", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#03a678", "rgb": "3,166,120", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00aa00", "rgb": "0,170,0", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#26a65b", "rgb": "38,166,91", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00a566", "rgb": "0,165,102", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#16a085", "rgb": "22,160,133", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#5d995d", "rgb": "93,153,93", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#24a159", "rgb": "36,161,89", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#28a228", "rgb": "40,162,40", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#019875", "rgb": "1,152,117", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#6b8e23", "rgb": "107,142,35", "name": "olivedrab", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#049372", "rgb": "4,147,114", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#008b8b", "rgb": "0,139,139", "name": "darkcyan", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "green", "pass": true, "hex": "#2e8b57", "rgb": "46,139,87", "name": "seagreen", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#2e8856", "rgb": "46,136,86", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#40806a", "rgb": "64,128,106", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "green", "pass": true, "hex": "#1e824c", "rgb": "30,130,76", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#4b7b4b", "rgb": "75,123,75", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#5a781d", "rgb": "90,120,29", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#008040", "rgb": "0,128,64", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#007a7c", "rgb": "0,122,124", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#008000", "rgb": "0,128,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#007a4b", "rgb": "0,122,75", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#1b7742", "rgb": "27,119,66", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#1d781d", "rgb": "29,120,29", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#436e43", "rgb": "67,110,67", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#4b6319", "rgb": "75,99,25", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#006060", "rgb": "0,96,96", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#20603c", "rgb": "32,96,60", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#345a5e", "rgb": "52,90,94", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#205e3b", "rgb": "32,94,59", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#2a5547", "rgb": "42,85,71", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#005555", "rgb": "0,85,85", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#315131", "rgb": "49,81,49", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#00552a", "rgb": "0,85,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#005500", "rgb": "0,85,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#3a4d13", "rgb": "58,77,19", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#005031", "rgb": "0,80,49", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#134d13", "rgb": "19,77,19", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#114c2a", "rgb": "17,76,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#294429", "rgb": "41,68,41", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#2b390e", "rgb": "43,57,14", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#003636", "rgb": "0,54,54", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#123622", "rgb": "18,54,34", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#113321", "rgb": "17,51,33", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#152a23", "rgb": "21,42,35", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#002a15", "rgb": "0,42,21", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#002a00", "rgb": "0,42,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#172617", "rgb": "23,38,23", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#002627", "rgb": "0,38,39", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#1a2309", "rgb": "26,35,9", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "green", "pass": true, "hex": "#002517", "rgb": "0,37,23", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "green", "pass": true, "hex": "#082213", "rgb": "8,34,19", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#e0ffff", "rgb": "224,255,255", "name": "lightcyan", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#e4f1fe", "rgb": "228,241,254", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#c5eff7", "rgb": "197,239,247", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#00ffff", "rgb": "0,255,255", "name": "aqua", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00f8fb", "rgb": "0,248,251", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#add8e6", "rgb": "173,216,230", "name": "lightblue", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#bbd4d4", "rgb": "187,212,212", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00e0e0", "rgb": "0,224,224", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#34dbdb", "rgb": "52,219,219", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#81cfe0", "rgb": "129,207,224", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#89c4f4", "rgb": "137,196,244", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00d4d4", "rgb": "0,212,212", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#00ced1", "rgb": "0,206,209", "name": "darkturquoise", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#6bb9f0", "rgb": "107,185,240", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#00bfff", "rgb": "0,191,255", "name": "deepskyblue", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#8db0bb", "rgb": "141,176,187", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#34b9db", "rgb": "52,185,219", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#95aaaa", "rgb": "149,170,170", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#19b5fe", "rgb": "25,181,254", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#52b3d9", "rgb": "82,179,217", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#59abe3", "rgb": "89,171,227", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00b5b5", "rgb": "0,181,181", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#22a7f0", "rgb": "34,167,240", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00aaaa", "rgb": "0,170,170", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#6495ed", "rgb": "100,149,237", "name": "cornflowerblue", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#009fd4", "rgb": "0,159,212", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00a4a6", "rgb": "0,164,166", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#5c97bf", "rgb": "92,151,191", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#3498db", "rgb": "52,152,219", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#1e90ff", "rgb": "30,144,255", "name": "dodgerblue", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#638bb3", "rgb": "99,139,179", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#6d8891", "rgb": "109,136,145", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#1e8bc3", "rgb": "30,139,195", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#4183d7", "rgb": "65,131,215", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#67809f", "rgb": "103,128,159", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#527ac2", "rgb": "82,122,194", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#3477db", "rgb": "52,119,219", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#4b77be", "rgb": "75,119,190", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#1978d4", "rgb": "25,120,212", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#007faa", "rgb": "0,127,170", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#2a7ab0", "rgb": "42,122,176", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#008080", "rgb": "0,128,128", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#2574a9", "rgb": "37,116,169", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#336e7b", "rgb": "51,110,123", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#406098", "rgb": "64,96,152", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#3455db", "rgb": "52,85,219", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#1460aa", "rgb": "20,96,170", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#006080", "rgb": "0,96,128", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#205d86", "rgb": "32,93,134", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#3a539b", "rgb": "58,83,155", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#34495e", "rgb": "52,73,94", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#005051", "rgb": "0,80,81", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#0f4880", "rgb": "15,72,128", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#2e456d", "rgb": "46,69,109", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#34415e", "rgb": "52,65,94", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#1f3a93", "rgb": "31,58,147", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#2c3e50", "rgb": "44,62,80", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#16405b", "rgb": "22,64,91", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#34385e", "rgb": "52,56,94", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#0000e0", "rgb": "0,0,224", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#004055", "rgb": "0,64,85", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#2d383c", "rgb": "45,56,60", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#0000b5", "rgb": "0,0,181", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "blue", "pass": true, "hex": "#22313f", "rgb": "34,49,63", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#0a3055", "rgb": "10,48,85", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#1c2a43", "rgb": "28,42,67", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#252a2a", "rgb": "37,42,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#002a2a", "rgb": "0,42,42", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "blue", "pass": true, "hex": "#00008b", "rgb": "0,0,139", "name": "darkblue", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "blue", "pass": true, "hex": "#0c2231", "rgb": "12,34,49", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#00202a", "rgb": "0,32,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#000060", "rgb": "0,0,96", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#05182a", "rgb": "5,24,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "blue", "pass": true, "hex": "#000036", "rgb": "0,0,54", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#ffecdb", "rgb": "255,236,219", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#dcc6e0", "rgb": "220,198,224", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#f1a9a0", "rgb": "241,169,160", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#dda0dd", "rgb": "221,160,221", "name": "plum", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#aea8d3", "rgb": "174,168,211", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#be90d4", "rgb": "190,144,212", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#e08283", "rgb": "224,130,131", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#fc6399", "rgb": "252,99,153", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#b381b3", "rgb": "179,129,179", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#e26a6a", "rgb": "226,106,106", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#bf6ee0", "rgb": "191,110,224", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#ff00ff", "rgb": "255,0,255", "name": "fuchsia", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#bf55ec", "rgb": "191,85,236", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#d252b2", "rgb": "210,82,178", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#9370db", "rgb": "147,112,219", "name": "mediumpurple", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#d25299", "rgb": "210,82,153", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#d25852", "rgb": "210,88,82", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#d2527f", "rgb": "210,82,127", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#e73c70", "rgb": "231,60,112", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#f62459", "rgb": "246,36,89", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#d25265", "rgb": "210,82,101", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#e000e0", "rgb": "224,0,224", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#b659ac", "rgb": "182,89,172", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#ae59b6", "rgb": "174,89,182", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#b93cf6", "rgb": "185,60,246", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#d400d4", "rgb": "212,0,212", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#9b59b6", "rgb": "155,89,182", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#7462e0", "rgb": "116,98,224", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#886288", "rgb": "136,98,136", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#db0a5b", "rgb": "219,10,91", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#8859b6", "rgb": "136,89,182", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#b200fd", "rgb": "178,0,253", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#7659b6", "rgb": "118,89,182", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#765ab0", "rgb": "118,90,176", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#a74165", "rgb": "167,65,101", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#9932cc", "rgb": "153,50,204", "name": "darkorchid", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#b500b5", "rgb": "181,0,181", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#8e44ad", "rgb": "142,68,173", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#8a2be2", "rgb": "138,43,226", "name": "blueviolet", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#aa00aa", "rgb": "170,0,170", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#913d88", "rgb": "145,61,136", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#5e50b5", "rgb": "94,80,181", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#9400d3", "rgb": "148,0,211", "name": "darkviolet", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#9a12b3", "rgb": "154,18,179", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#77448b", "rgb": "119,68,139", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#5a4586", "rgb": "90,69,134", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#7928a1", "rgb": "121,40,161", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#674172", "rgb": "103,65,114", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#7023b7", "rgb": "112,35,183", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#8b008b", "rgb": "139,0,139", "name": "darkmagenta", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "purple", "pass": true, "hex": "#663399", "rgb": "102,51,153", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#5d445d", "rgb": "93,68,93", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#7d314c", "rgb": "125,49,76", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#7600a8", "rgb": "118,0,168", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "purple", "pass": true, "hex": "#483d8b", "rgb": "72,61,139", "name": "darkslateblue", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#800080", "rgb": "128,0,128", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#532f61", "rgb": "83,47,97", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#561b8d", "rgb": "86,27,141", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#591d77", "rgb": "89,29,119", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#3d2f5b", "rgb": "61,47,91", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#58007e", "rgb": "88,0,126", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#600060", "rgb": "96,0,96", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#522032", "rgb": "82,32,50", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#322a60", "rgb": "50,42,96", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#550055", "rgb": "85,0,85", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#3c1362", "rgb": "60,19,98", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#332533", "rgb": "51,37,51", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#39134c", "rgb": "57,19,76", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#3b0053", "rgb": "59,0,83", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "purple", "pass": true, "hex": "#2e1b36", "rgb": "46,27,54", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#360036", "rgb": "54,0,54", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#211931", "rgb": "33,25,49", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#1c1836", "rgb": "28,24,54", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#220b38", "rgb": "34,11,56", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#2a002a", "rgb": "42,0,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "purple", "pass": true, "hex": "#1d0029", "rgb": "29,0,41", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#ffffff", "rgb": "255,255,255", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#fefefe", "rgb": "254,254,254", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#f2f1ef", "rgb": "242,241,239", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#ecf0f1", "rgb": "236,240,241", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#eeeeee", "rgb": "238,238,238", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#ececec", "rgb": "236,236,236", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#e8e8e8", "rgb": "232,232,232", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#dadfe1", "rgb": "218,223,225", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#d2d7d3", "rgb": "210,215,211", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#d5d5d5", "rgb": "213,213,213", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#d4d4d4", "rgb": "212,212,212", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#d3d3d3", "rgb": "211,211,211", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#b2cce5", "rgb": "178,204,229", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#bdc3c7", "rgb": "189,195,199", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#bfbfbf", "rgb": "191,191,191", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#bebebe", "rgb": "190,190,190", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#abb7b7", "rgb": "171,183,183", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#aaaaaa", "rgb": "170,170,170", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "gray", "pass": true, "hex": "#a9a9a9", "rgb": "169,169,169", "name": "darkgray", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "gray", "pass": true, "hex": "#7bacdd", "rgb": "123,172,221", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#91a6ba", "rgb": "145,166,186", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#95a5a6", "rgb": "149,165,166", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#939393", "rgb": "147,147,147", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "gray", "pass": true, "hex": "#808080", "rgb": "128,128,128", "name": "gray", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#7e7e7e", "rgb": "126,126,126", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "gray", "pass": true, "hex": "#708090", "rgb": "112,128,144", "name": "slategray", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#708080", "rgb": "112,128,128", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#6c7a89", "rgb": "108,122,137", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "gray", "pass": true, "hex": "#696969", "rgb": "105,105,105", "name": "dimgray", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "gray", "pass": true, "hex": "#4b6a88", "rgb": "75,106,136", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#4d6066", "rgb": "77,96,102", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#4f5a65", "rgb": "79,90,101", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#555555", "rgb": "85,85,85", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#545454", "rgb": "84,84,84", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#4b5555", "rgb": "75,85,85", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "gray", "pass": true, "hex": "#34515e", "rgb": "52,81,94", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#3e3e3e", "rgb": "62,62,62", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#2e343b", "rgb": "46,52,59", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#2b2b2b", "rgb": "43,43,43", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#2a2a2a", "rgb": "42,42,42", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "gray", "pass": true, "hex": "#292929", "rgb": "41,41,41", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "gray", "pass": true, "hex": "#1c2833", "rgb": "28,40,51", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "gray", "pass": true, "hex": "#050709", "rgb": "5,7,9", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "gray", "pass": true, "hex": "#000000", "rgb": "0,0,0", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "yellow", "pass": true, "hex": "#fffacd", "rgb": "255,250,205", "name": "lemonchiffon", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#f1f227", "rgb": "241,242,39", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#c9f227", "rgb": "201,242,39", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "yellow", "pass": true, "hex": "#ffd700", "rgb": "255,215,0", "name": "gold", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "yellow", "pass": true, "hex": "#f5d76e", "rgb": "245,215,110", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "yellow", "pass": true, "hex": "#f4d03f", "rgb": "244,208,63", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "yellow", "pass": true, "hex": "#f7ca18", "rgb": "247,202,24", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#d4d0ab", "rgb": "212,208,171", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#f2ca27", "rgb": "242,202,39", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#d4b300", "rgb": "212,179,0", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#f2a127", "rgb": "242,161,39", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#e2a50e", "rgb": "226,165,14", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "yellow", "pass": true, "hex": "#daa520", "rgb": "218,165,32", "name": "goldenrod", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#c7a720", "rgb": "199,167,32", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#aaa789", "rgb": "170,167,137", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#f27927", "rgb": "242,121,39", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#aa8f00", "rgb": "170,143,0", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "yellow", "pass": true, "hex": "#b8860b", "rgb": "184,134,11", "name": "darkgoldenrod", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#af851a", "rgb": "175,133,26", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#9d8319", "rgb": "157,131,25", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#807d67", "rgb": "128,125,103", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#8d6708", "rgb": "141,103,8", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#806c00", "rgb": "128,108,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#856514", "rgb": "133,101,20", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#726012", "rgb": "114,96,18", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#555344", "rgb": "85,83,68", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#634806", "rgb": "99,72,6", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#554800", "rgb": "85,72,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#5a440d", "rgb": "90,68,13", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#483c0c", "rgb": "72,60,12", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#382903", "rgb": "56,41,3", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#2a2a22", "rgb": "42,42,34", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#302407", "rgb": "48,36,7", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "yellow", "pass": true, "hex": "#2a2400", "rgb": "42,36,0", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "yellow", "pass": true, "hex": "#1d1905", "rgb": "29,25,5", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#fde3a7", "rgb": "253,227,167", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#e6cc22", "rgb": "230,204,34", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f9bf3b", "rgb": "249,191,59", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f4b350", "rgb": "244,179,80", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f5ab35", "rgb": "245,171,53", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "orange", "pass": true, "hex": "#ffa07a", "rgb": "255,160,122", "name": "lightsalmon", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "orange", "pass": true, "hex": "#f4a460", "rgb": "244,164,96", "name": "sandybrown", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#e6a522", "rgb": "230,165,34", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f39c12", "rgb": "243,156,18", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f89406", "rgb": "248,148,6", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#eb974e", "rgb": "235,151,78", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "orange", "pass": true, "hex": "#ff8c00", "rgb": "255,140,0", "name": "darkorange", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#eb9532", "rgb": "235,149,50", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "orange", "pass": true, "hex": "#ff7f50", "rgb": "255,127,80", "name": "coral", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f2784b", "rgb": "242,120,75", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f27935", "rgb": "242,121,53", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#e87e04", "rgb": "232,126,4", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#e67e22", "rgb": "230,126,34", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#d48566", "rgb": "212,133,102", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#c9874f", "rgb": "201,135,79", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#f9690e", "rgb": "249,105,14", "name": "", "textColor": "text-dark" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#d47500", "rgb": "212,117,0", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "orange", "pass": true, "hex": "#ff4500", "rgb": "255,69,0", "name": "orangered", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#d46a43", "rgb": "212,106,67", "name": "", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#e65722", "rgb": "230,87,34", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#bb671c", "rgb": "187,103,28", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "orange", "pass": true, "hex": "#d35400", "rgb": "211,84,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#aa6b51", "rgb": "170,107,81", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#e63022", "rgb": "230,48,34", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#9f6b3f", "rgb": "159,107,63", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#d43900", "rgb": "212,57,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#aa5d00", "rgb": "170,93,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#aa5535", "rgb": "170,85,53", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#914f15", "rgb": "145,79,21", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#80503d", "rgb": "128,80,61", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#aa2e00", "rgb": "170,46,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#744e2e", "rgb": "116,78,46", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#804600", "rgb": "128,70,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#804028", "rgb": "128,64,40", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#802200", "rgb": "128,34,0", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#66380f", "rgb": "102,56,15", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#553529", "rgb": "85,53,41", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#552f00", "rgb": "85,47,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#4a321d", "rgb": "74,50,29", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#552a1b", "rgb": "85,42,27", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#551700", "rgb": "85,23,0", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "orange", "pass": true, "hex": "#3c2109", "rgb": "60,33,9", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "orange", "pass": true, "hex": "#2a150d", "rgb": "42,21,13", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#e7903c", "rgb": "231,144,60", "name": "", "textColor": "text-dark" }, { "type": "colorSibling", "colorParent": "red", "pass": true, "hex": "#ff6347", "rgb": "255,99,71", "name": "tomato", "textColor": "text-dark" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#e76e3c", "rgb": "231,110,60", "name": "", "textColor": "text-dark" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#f64747", "rgb": "246,71,71", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#ef4836", "rgb": "239,72,54", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#e74c3c", "rgb": "231,76,60", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#d4533b", "rgb": "212,83,59", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#e73c4e", "rgb": "231,60,78", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#ff0000", "rgb": "255,0,0", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#d24d57", "rgb": "210,77,87", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#f22613", "rgb": "242,38,19", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#d64541", "rgb": "214,69,65", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#dc2a2a", "rgb": "220,42,42", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "red", "pass": true, "hex": "#dc143c", "rgb": "220,20,60", "name": "crimson", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#e00000", "rgb": "224,0,0", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#d91e18", "rgb": "217,30,24", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#bc3e31", "rgb": "188,62,49", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#c0392b", "rgb": "192,57,43", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#d50000", "rgb": "213,0,0", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#cf000f", "rgb": "207,0,15", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#aa422f", "rgb": "170,66,47", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "red", "pass": true, "hex": "#b22222", "rgb": "178,34,34", "name": "firebrick", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#b50000", "rgb": "181,0,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#b11030", "rgb": "177,16,48", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#aa0000", "rgb": "170,0,0", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#923026", "rgb": "146,48,38", "name": "", "textColor": "text-white" }, { "type": "flatUIcolor", "colorParent": "red", "pass": true, "hex": "#96281b", "rgb": "150,40,27", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#803224", "rgb": "128,50,36", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#871a1a", "rgb": "135,26,26", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "red", "pass": true, "hex": "#8b0000", "rgb": "139,0,0", "name": "darkred", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#870c25", "rgb": "135,12,37", "name": "", "textColor": "text-white" }, { "type": "colorSibling", "colorParent": "red", "pass": true, "hex": "#800000", "rgb": "128,0,0", "name": "maroon", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#67221b", "rgb": "103,34,27", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#552118", "rgb": "85,33,24", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#5d1212", "rgb": "93,18,18", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#600000", "rgb": "96,0,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#5c0819", "rgb": "92,8,25", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#550000", "rgb": "85,0,0", "name": "", "textColor": "text-white" }, { "type": "tinyColor", "colorParent": "red", "pass": true, "hex": "#3d1410", "rgb": "61,20,16", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#360000", "rgb": "54,0,0", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#320a0a", "rgb": "50,10,10", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#32050e", "rgb": "50,5,14", "name": "", "textColor": "text-white" }, { "type": "colorSiblingTinyColor", "colorParent": "red", "pass": true, "hex": "#2b0000", "rgb": "43,0,0", "name": "", "textColor": "text-white" }];
+
+exports.default = allColors;
+
+},{}],192:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22136,4 +23754,4 @@ var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./UnsplashBackground":189,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[190]);
+},{"./UnsplashBackground":190,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[192]);
