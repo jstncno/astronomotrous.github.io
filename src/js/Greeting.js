@@ -61,7 +61,7 @@ export default class Greeting extends React.Component {
   }
     
   helloStyle() {
-    return {
+    return {      
       marginLeft: this.calculateHelloLeft(),
       marginTop: this.calculateHelloTop()
     }
@@ -78,11 +78,9 @@ export default class Greeting extends React.Component {
   render() {
     return (
       <div id='copy'>
-        <div id='hello' style={this.helloStyle()}>
-          Hi there.
-        </div>
+        <div id='hello' style={this.helloStyle()}>Hi there.</div>
         <div id='greeting' style={this.greetingStyle()}>
-          Welcome to my site! I'm Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.
+          Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.
         </div>
       </div>
     );
