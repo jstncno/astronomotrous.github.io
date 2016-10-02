@@ -1,6 +1,7 @@
 import React from 'react';
 import Unsplash from 'unsplash-js';
 import Greeting from './Greeting';
+import PhotoCredits from './PhotoCredits';
 
 const username = 'boost';
 const clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
@@ -14,21 +15,27 @@ export default class UnsplashBackground extends React.Component {
     super(props);
     this.state = {
       imgUrl: '',
+      photographer: '',
+      photographerUrl: ''
     };
   }
 
   componentDidMount() {
-    var fullSizeUrl = '';
     unsplash.users.likes(username)
     .then(resp => resp.json())
     .then(json => {
       // Your code
       var pictureObj = this.randomElement(json);
       var photographerName = pictureObj.user.name;
-      fullSizeUrl = pictureObj.urls.full;
+      var photographerUrl = pictureObj.user.portfolio_url;
+      var fullSizeUrl = pictureObj.urls.full;
       console.log(fullSizeUrl);
       
-      this.setState({imgUrl: fullSizeUrl});
+      this.setState({
+        imgUrl: fullSizeUrl,
+        photographer: photographerName,
+        photographerUrl: photographerUrl
+      });
     });
     
     window.onload = function() {
@@ -69,6 +76,8 @@ export default class UnsplashBackground extends React.Component {
     return (
       <div id='unsplash' style={this.unsplashStyle()}>
         {React.createElement(Greeting, this.props)}
+        {React.createElement(PhotoCredits, Object.assign({}, this.props, this.state))}
+
         <div id='overlay'></div>
         <img id='img' src={this.state.imgUrl} style={{display:'none'}}/>
       </div>

@@ -1,0 +1,138 @@
+/* https://codepen.io/a-guerrero/pen/XbyPEj */
+
+div#loader-wrapper {
+  z-index: 3;
+  width: 100%;
+  height: 100vh;
+  font-family: "Bitstream Vera Sans Mono", "Consolas", "Courier", monospace;
+  -webkit-font-smoothing: antialiased;
+  background-color: #1B101F;
+}
+div#loader-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: slategray;
+  background-size: cover;
+  opacity: 0.25;
+}
+
+#loader-wrapper,
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#loader-wrapper {
+  overflow: visible;
+  height: 0;
+  width: 2em;
+}
+
+.loader {
+  height: 0;
+  width: 0;
+  box-sizing: border-box;
+  border: 0 solid #FE665C;
+  border-radius: 50%;
+  -webkit-animation: loader-figure 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  -moz-animation: loader-figure 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation: loader-figure 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@-webkit-keyframes loader-figure {
+  0% {
+    height: 0;
+    width: 0;
+  }
+  30% {
+    height: 2em;
+    width: 2em;
+    border-width: 1em;
+    opacity: 1;
+  }
+  100% {
+    height: 2em;
+    width: 2em;
+    border-width: 0;
+    opacity: 0;
+  }
+}
+@-moz-keyframes loader-figure {
+  0% {
+    height: 0;
+    width: 0;
+  }
+  30% {
+    height: 2em;
+    width: 2em;
+    border-width: 1em;
+    opacity: 1;
+  }
+  100% {
+    height: 2em;
+    width: 2em;
+    border-width: 0;
+    opacity: 0;
+  }
+}
+@keyframes loader-figure {
+  0% {
+    height: 0;
+    width: 0;
+  }
+  30% {
+    height: 2em;
+    width: 2em;
+    border-width: 1em;
+    opacity: 1;
+  }
+  100% {
+    height: 2em;
+    width: 2em;
+    border-width: 0;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes loader-label {
+  0% {
+    opacity: 0.35;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+@-moz-keyframes loader-label {
+  0% {
+    opacity: 0.35;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+@keyframes loader-label {
+  0% {
+    opacity: 0.35;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}

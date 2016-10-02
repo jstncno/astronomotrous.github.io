@@ -21953,7 +21953,7 @@ var Greeting = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'copy' },
+        { className: 'copy' },
         _react2.default.createElement(
           'div',
           { id: 'hello', style: this.helloStyle() },
@@ -21992,6 +21992,94 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PhotoCredits = function (_React$Component) {
+  _inherits(PhotoCredits, _React$Component);
+
+  function PhotoCredits(props) {
+    _classCallCheck(this, PhotoCredits);
+
+    var _this = _possibleConstructorReturn(this, (PhotoCredits.__proto__ || Object.getPrototypeOf(PhotoCredits)).call(this, props));
+
+    _this.state = {
+      height: 0,
+      width: 0
+    };
+    return _this;
+  }
+
+  _createClass(PhotoCredits, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.setState({
+        height: document.getElementById('photo-credits').clientHeight,
+        width: document.getElementById('photo-credits').clientWidth
+      });
+    }
+  }, {
+    key: 'calculateLeft',
+    value: function calculateLeft() {
+      return this.props.width * (3 / 4);
+    }
+  }, {
+    key: 'calculateTop',
+    value: function calculateTop() {
+      return this.props.height * 0.95 - this.state.height;
+    }
+  }, {
+    key: 'style',
+    value: function style() {
+      return {
+        marginLeft: this.calculateLeft(),
+        marginTop: this.calculateTop()
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'copy' },
+        _react2.default.createElement(
+          'div',
+          { id: 'photo-credits', style: this.style() },
+          'Photo by ',
+          _react2.default.createElement(
+            'a',
+            { href: this.props.photographerUrl },
+            this.props.photographer
+          ),
+          '.'
+        )
+      );
+    }
+  }]);
+
+  return PhotoCredits;
+}(_react2.default.Component);
+
+exports.default = PhotoCredits;
+
+},{"react":176}],190:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _unsplashJs = require('unsplash-js');
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
@@ -21999,6 +22087,10 @@ var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
 var _Greeting = require('./Greeting');
 
 var _Greeting2 = _interopRequireDefault(_Greeting);
+
+var _PhotoCredits = require('./PhotoCredits');
+
+var _PhotoCredits2 = _interopRequireDefault(_PhotoCredits);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22024,7 +22116,9 @@ var UnsplashBackground = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (UnsplashBackground.__proto__ || Object.getPrototypeOf(UnsplashBackground)).call(this, props));
 
     _this.state = {
-      imgUrl: ''
+      imgUrl: '',
+      photographer: '',
+      photographerUrl: ''
     };
     return _this;
   }
@@ -22034,17 +22128,21 @@ var UnsplashBackground = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var fullSizeUrl = '';
       unsplash.users.likes(username).then(function (resp) {
         return resp.json();
       }).then(function (json) {
         // Your code
         var pictureObj = _this2.randomElement(json);
         var photographerName = pictureObj.user.name;
-        fullSizeUrl = pictureObj.urls.full;
+        var photographerUrl = pictureObj.user.portfolio_url;
+        var fullSizeUrl = pictureObj.urls.full;
         console.log(fullSizeUrl);
 
-        _this2.setState({ imgUrl: fullSizeUrl });
+        _this2.setState({
+          imgUrl: fullSizeUrl,
+          photographer: photographerName,
+          photographerUrl: photographerUrl
+        });
       });
 
       window.onload = function () {
@@ -22089,6 +22187,7 @@ var UnsplashBackground = function (_React$Component) {
         'div',
         { id: 'unsplash', style: this.unsplashStyle() },
         _react2.default.createElement(_Greeting2.default, this.props),
+        _react2.default.createElement(_PhotoCredits2.default, Object.assign({}, this.props, this.state)),
         _react2.default.createElement('div', { id: 'overlay' }),
         _react2.default.createElement('img', { id: 'img', src: this.state.imgUrl, style: { display: 'none' } })
       );
@@ -22128,7 +22227,7 @@ UnsplashBackground.propTypes = {
   height: _react2.default.PropTypes.number
 };
 
-},{"./Greeting":188,"react":176,"unsplash-js":186}],190:[function(require,module,exports){
+},{"./Greeting":188,"./PhotoCredits":189,"react":176,"unsplash-js":186}],191:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22155,4 +22254,4 @@ var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./UnsplashBackground":189,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[190]);
+},{"./UnsplashBackground":190,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[191]);
