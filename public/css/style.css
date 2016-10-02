@@ -8,6 +8,13 @@ body {
   color: white;
   height: 100%;
 }
+a:link,
+a:visited {
+  color: #F36C33;
+}
+a:hover {
+  color: #F6F1D1;
+}
 #unsplash {
   -webkit-background-size: cover;
   -moz-background-size: cover;

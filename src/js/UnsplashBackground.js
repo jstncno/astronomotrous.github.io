@@ -32,6 +32,10 @@ export default class UnsplashBackground extends React.Component {
     });
     
     window.onload = function() {
+      function hideLoaderWrapper() {
+        var loaderWrapper = document.getElementById('loader-wrapper');
+        loaderWrapper.style.display = 'none';
+      }
 //      getDataUri(fullSizeUrl, function(rgbArr) {
 //        var rgbColor = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')'
 //      
@@ -40,6 +44,7 @@ export default class UnsplashBackground extends React.Component {
         var loader = document.getElementById('loader');
         loader.remove();
         loaderWrapper.className += ' fadeOut';
+        setTimeout(hideLoaderWrapper, 1000);
 //        var overlay = document.getElementById('overlay');
 //        overlay.style.backgroundColor = rgbColor;
 //      });

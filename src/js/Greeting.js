@@ -80,7 +80,7 @@ export default class Greeting extends React.Component {
       <div id='copy'>
         <div id='hello' style={this.helloStyle()}>Hi there.</div>
         <div id='greeting' style={this.greetingStyle()}>
-          Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.
+          Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ <a href="https://www.rallyhealth.com/">Rally Health</a>.
         </div>
       </div>
     );

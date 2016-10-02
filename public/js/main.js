@@ -21962,7 +21962,13 @@ var Greeting = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'greeting', style: this.greetingStyle() },
-          'Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.'
+          'Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ ',
+          _react2.default.createElement(
+            'a',
+            { href: 'https://www.rallyhealth.com/' },
+            'Rally Health'
+          ),
+          '.'
         )
       );
     }
@@ -22042,6 +22048,10 @@ var UnsplashBackground = function (_React$Component) {
       });
 
       window.onload = function () {
+        function hideLoaderWrapper() {
+          var loaderWrapper = document.getElementById('loader-wrapper');
+          loaderWrapper.style.display = 'none';
+        }
         //      getDataUri(fullSizeUrl, function(rgbArr) {
         //        var rgbColor = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')'
         //      
@@ -22050,6 +22060,7 @@ var UnsplashBackground = function (_React$Component) {
         var loader = document.getElementById('loader');
         loader.remove();
         loaderWrapper.className += ' fadeOut';
+        setTimeout(hideLoaderWrapper, 1000);
         //        var overlay = document.getElementById('overlay');
         //        overlay.style.backgroundColor = rgbColor;
         //      });
