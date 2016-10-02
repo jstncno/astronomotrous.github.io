@@ -22056,6 +22056,13 @@ var PhotoCredits = function (_React$Component) {
             { href: this.props.photographerUrl },
             this.props.photographer
           ),
+          _react2.default.createElement('br', null),
+          'via ',
+          _react2.default.createElement(
+            'a',
+            { href: 'http://www.unsplash.com' },
+            'Unsplash'
+          ),
           '.'
         )
       );

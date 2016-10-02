@@ -35,7 +35,9 @@ export default class PhotoCredits extends React.Component {
     return (
       <div className='copy'>
         <div id='photo-credits' style={this.style()}>
-          Photo by <a href={this.props.photographerUrl}>{this.props.photographer}</a>.
+          Photo by <a href={this.props.photographerUrl}>{this.props.photographer}</a>
+          <br />
+          via <a href="http://www.unsplash.com">Unsplash</a>.
         </div>
       </div>
     );
