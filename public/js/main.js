@@ -21953,7 +21953,7 @@ var Greeting = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'copy' },
         _react2.default.createElement(
           'div',
           { id: 'hello', style: this.helloStyle() },
@@ -21962,7 +21962,13 @@ var Greeting = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'greeting', style: this.greetingStyle() },
-          'Welcome to my site! I\'m Justin, and I currently work as a Software Engineer on the Data Team @ Rally Health.'
+          'Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ ',
+          _react2.default.createElement(
+            'a',
+            { href: 'https://www.rallyhealth.com/' },
+            'Rally Health'
+          ),
+          '.'
         )
       );
     }
@@ -22042,9 +22048,22 @@ var UnsplashBackground = function (_React$Component) {
       });
 
       window.onload = function () {
-        getDataUri(fullSizeUrl, function (data) {
-          console.log(data);
-        });
+        function hideLoaderWrapper() {
+          var loaderWrapper = document.getElementById('loader-wrapper');
+          loaderWrapper.style.display = 'none';
+        }
+        //      getDataUri(fullSizeUrl, function(rgbArr) {
+        //        var rgbColor = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')'
+        //      
+        //        console.log('dominant color', rgbColor);
+        var loaderWrapper = document.getElementById('loader-wrapper');
+        var loader = document.getElementById('loader');
+        loader.remove();
+        loaderWrapper.className += ' fadeOut';
+        setTimeout(hideLoaderWrapper, 1000);
+        //        var overlay = document.getElementById('overlay');
+        //        overlay.style.backgroundColor = rgbColor;
+        //      });
       };
     }
   }, {
@@ -22058,6 +22077,7 @@ var UnsplashBackground = function (_React$Component) {
       return {
         backgroundImage: 'url(' + this.state.imgUrl + ')',
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
         width: this.props.width,
         height: this.props.height
       };
@@ -22069,6 +22089,7 @@ var UnsplashBackground = function (_React$Component) {
         'div',
         { id: 'unsplash', style: this.unsplashStyle() },
         _react2.default.createElement(_Greeting2.default, this.props),
+        _react2.default.createElement('div', { id: 'overlay' }),
         _react2.default.createElement('img', { id: 'img', src: this.state.imgUrl, style: { display: 'none' } })
       );
     }
@@ -22089,8 +22110,6 @@ var getDataUri = function getDataUri(url, callback) {
     var canvas = document.createElement('canvas');
     canvas.id = 'backgroundImg';
     canvas.style.display = 'none';
-    //        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-    //        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
     canvas.getContext('2d').drawImage(this, 0, 0);
 
