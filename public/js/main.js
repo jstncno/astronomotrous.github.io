@@ -22124,6 +22124,34 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _pendulumjs = require('pendulumjs');
+
+var _pendulumjs2 = _interopRequireDefault(_pendulumjs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var favPendulumColors = [{ color0: '#00D8FF', color1: '#FF8800' }, { color0: '#40798C', color1: '#70A9A1' }, { color0: '#0B2027', color1: '#CFD7C7' }, { color0: '#00D8FF', color1: '#FF8800' }];
+
+var pendulumColor = favPendulumColors[Math.floor(Math.random() * favPendulumColors.length)];
+
+var MyPendulum = new _pendulumjs2.default({
+  numBalls: 40, // # balls (>0)
+  ballHeight: 40, // Canvas height (>0)
+  ballRadius: 5, // Ball's radius (>0)
+  color0: pendulumColor.color0, // Ball's color when far from center (string)
+  color1: pendulumColor.color1, // Ball's color when close to center (string)
+  fadeout: 1.0 // Ball's fadeout speed (0.0 - 1.0)
+});
+
+exports.default = MyPendulum;
+
+},{"pendulumjs":32}],191:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -22255,7 +22283,7 @@ UnsplashBackground.propTypes = {
   height: _react2.default.PropTypes.number
 };
 
-},{"./Greeting":189,"react":177,"unsplash-js":187}],191:[function(require,module,exports){
+},{"./Greeting":189,"react":177,"unsplash-js":187}],192:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22270,24 +22298,17 @@ var _reactFullscreen = require('react-fullscreen');
 
 var _reactFullscreen2 = _interopRequireDefault(_reactFullscreen);
 
-var _pendulumjs = require('pendulumjs');
-
-var _pendulumjs2 = _interopRequireDefault(_pendulumjs);
-
 var _UnsplashBackground = require('./UnsplashBackground');
 
 var _UnsplashBackground2 = _interopRequireDefault(_UnsplashBackground);
 
+var _Pendulum = require('./Pendulum');
+
+var _Pendulum2 = _interopRequireDefault(_Pendulum);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var pendulum = new _pendulumjs2.default({
-  numBalls: 40, // # balls (>0)
-  ballHeight: 40, // Canvas height (>0)
-  ballRadius: 5, // Ball's radius (>0)
-  color0: '#FFFFFF', // Ball's color when far from center (string)
-  color1: '#000000', // Ball's color when close to center (string)
-  fadeout: 1.0 // Ball's fadeout speed (0.0 - 1.0)
-});
+var pendulum = _Pendulum2.default;
 var pendulumDiv = document.getElementById('pendulum');
 var verticalCenter = window.innerHeight / 2 - pendulum.canvas.height / 2;
 pendulumDiv.style.top = verticalCenter + 'px';
@@ -22299,4 +22320,4 @@ var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./UnsplashBackground":190,"pendulumjs":32,"react":177,"react-dom":33,"react-fullscreen":34}]},{},[191]);
+},{"./Pendulum":190,"./UnsplashBackground":191,"react":177,"react-dom":33,"react-fullscreen":34}]},{},[192]);
