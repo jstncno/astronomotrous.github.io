@@ -22046,7 +22046,7 @@ var PhotoCredits = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'copy' },
+        { className: 'copy', style: { zIndex: 2 } },
         _react2.default.createElement(
           'div',
           { id: 'photo-credits', style: this.style() },

@@ -33,7 +33,7 @@ export default class PhotoCredits extends React.Component {
 
   render() {
     return (
-      <div className='copy'>
+      <div className='copy' style={{zIndex: 2}}>
         <div id='photo-credits' style={this.style()}>
           Photo by <a href={this.props.photographerUrl}>{this.props.photographer}</a>
           <br />
