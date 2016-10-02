@@ -37,6 +37,9 @@ export default class UnsplashBackground extends React.Component {
 //        var overlay = document.getElementById('overlay');
 //        overlay.style.backgroundColor = rgbColor;
 //      });
+      console.log('loaded!');
+//      var d = document.getElementById("div1");
+//      d.className += " otherclass";
     };
   }
   

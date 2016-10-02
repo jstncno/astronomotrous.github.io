@@ -19,6 +19,8 @@ body {
   min-height: 100%;
 }
 #pendulum {
+  z-index: 3;
+  min-height: 100%;
   position: absolute;
   width: 100%;
 }
