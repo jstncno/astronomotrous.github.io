@@ -21854,6 +21854,95 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var Footer = function (_React$Component) {
+  _inherits(Footer, _React$Component);
+
+  function Footer(props) {
+    _classCallCheck(this, Footer);
+
+    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, props));
+  }
+
+  _createClass(Footer, [{
+    key: 'style',
+    value: function style() {
+      return {
+        width: this.props.width + 'px'
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
+      var contactButtons = [{
+        "name": "email",
+        "fontAwesomeName": "fa-envelope",
+        "link": "mailto:jcano001@ucr.edu"
+      }, {
+        "name": "linkedin",
+        "fontAwesomeName": "fa-linkedin-square",
+        "link": "http://linkedin.com/in/justincano"
+      }, {
+        "name": "github",
+        "fontAwesomeName": "fa-github-square",
+        "link": "http://github.com/earthican"
+      }, {
+        "name": "location",
+        "fontAwesomeName": "fa-location-arrow",
+        "link": "https://www.google.com/maps/place/San+Francisco+Bay+Area,+CA/@37.8791999,-122.4203375,8z/data=!3m1!4b1!4m2!3m1!1s0x808583a3a688d7b5:0x8c891b8457461fa9"
+      }];
+
+      var icons = contactButtons.map(function (data, i) {
+        var fontAwesome = "fa " + data.fontAwesomeName + " fa-4x";
+        return _react2.default.createElement(
+          'span',
+          { className: 'icon' },
+          _react2.default.createElement(
+            'a',
+            { href: data.link, target: '_blank' },
+            _react2.default.createElement('i', { className: fontAwesome, 'aria-hidden': 'true' })
+          )
+        );
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { id: 'footer', style: this.style() },
+        icons
+      );
+    }
+  }]);
+
+  return Footer;
+}(_react2.default.Component);
+
+exports.default = Footer;
+
+},{"react":176}],189:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Footer = require('./Footer');
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var Greeting = function (_React$Component) {
   _inherits(Greeting, _React$Component);
 
@@ -21969,7 +22058,8 @@ var Greeting = function (_React$Component) {
             'Rally Health'
           ),
           '.'
-        )
+        ),
+        _react2.default.createElement(_Footer2.default, this.props)
       );
     }
   }]);
@@ -21979,7 +22069,7 @@ var Greeting = function (_React$Component) {
 
 exports.default = Greeting;
 
-},{"react":176}],189:[function(require,module,exports){
+},{"./Footer":188,"react":176}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22074,7 +22164,7 @@ var PhotoCredits = function (_React$Component) {
 
 exports.default = PhotoCredits;
 
-},{"react":176}],190:[function(require,module,exports){
+},{"react":176}],191:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22109,7 +22199,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var username = 'boost';
 var clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
-var defaultPhotoUrl = 'https://hd.unsplash.com/photo-1450740199001-78e928502994';
+var defaultPhotoUrl = 'https://images.unsplash.com/photo-1467348733814-f93fc480bec6';
 var unsplash = new _unsplashJs2.default({
   applicationId: clientId
 });
@@ -22135,6 +22225,7 @@ var UnsplashBackground = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      var fullSizeUrl = defaultPhotoUrl;
       unsplash.users.likes(username).then(function (resp) {
         return resp.json();
       }).then(function (json) {
@@ -22142,7 +22233,7 @@ var UnsplashBackground = function (_React$Component) {
         var pictureObj = _this2.randomElement(json);
         var photographerName = pictureObj.user.name;
         var photographerUrl = pictureObj.user.portfolio_url;
-        var fullSizeUrl = pictureObj.urls.full;
+        fullSizeUrl = pictureObj.urls.full;
         console.log(fullSizeUrl);
 
         _this2.setState({
@@ -22179,6 +22270,7 @@ var UnsplashBackground = function (_React$Component) {
   }, {
     key: 'unsplashStyle',
     value: function unsplashStyle() {
+      console.log('width', this.props.width);
       return {
         backgroundImage: 'url(' + this.state.imgUrl + ')',
         backgroundSize: 'cover',
@@ -22234,7 +22326,7 @@ UnsplashBackground.propTypes = {
   height: _react2.default.PropTypes.number
 };
 
-},{"./Greeting":188,"./PhotoCredits":189,"react":176,"unsplash-js":186}],191:[function(require,module,exports){
+},{"./Greeting":189,"./PhotoCredits":190,"react":176,"unsplash-js":186}],192:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22261,4 +22353,4 @@ var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./UnsplashBackground":190,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[191]);
+},{"./UnsplashBackground":191,"react":176,"react-dom":32,"react-fullscreen":33}]},{},[192]);

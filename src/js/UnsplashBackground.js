@@ -5,7 +5,7 @@ import PhotoCredits from './PhotoCredits';
 
 const username = 'boost';
 const clientId = 'd9d9b6bb6e8151feb35fefead943df411715301f07c49c882f5d35282aecdcbc';
-const defaultPhotoUrl = 'https://hd.unsplash.com/photo-1450740199001-78e928502994';
+const defaultPhotoUrl = 'https://images.unsplash.com/photo-1467348733814-f93fc480bec6';
 const unsplash = new Unsplash({
   applicationId: clientId
 });
@@ -21,6 +21,7 @@ export default class UnsplashBackground extends React.Component {
   }
 
   componentDidMount() {
+    var fullSizeUrl = defaultPhotoUrl;
     unsplash.users.likes(username)
     .then(resp => resp.json())
     .then(json => {
@@ -28,7 +29,7 @@ export default class UnsplashBackground extends React.Component {
       var pictureObj = this.randomElement(json);
       var photographerName = pictureObj.user.name;
       var photographerUrl = pictureObj.user.portfolio_url;
-      var fullSizeUrl = pictureObj.urls.full;
+      fullSizeUrl = pictureObj.urls.full;
       console.log(fullSizeUrl);
       
       this.setState({
@@ -63,6 +64,7 @@ export default class UnsplashBackground extends React.Component {
   }
   
   unsplashStyle() {
+    console.log('width', this.props.width);
     return {
       backgroundImage: 'url(' + this.state.imgUrl + ')',
       backgroundSize: 'cover',

@@ -26,9 +26,9 @@ a:hover {
   position: relative;
   width: 100%;
   height: 100%;
-  opacity: 0.45;
-  -moz-opacity: 45%;
-  -webkit-opacity: 45%;
+  opacity: 0.5;
+  -moz-opacity: 50%;
+  -webkit-opacity: 50%;
   z-index: 1;
 }
 .copy {
@@ -44,6 +44,13 @@ a:hover {
 #greeting {
   font-family: "Raleway", "Poppins", "Questrial", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   font-size: 1.25em;
+}
+#footer {
+  text-align: center;
+}
+.fa {
+  color: floralwhite;
+  padding: 25px;
 }
 #photo-credits {
   font-family: "Raleway", "Poppins", "Questrial", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;

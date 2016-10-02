@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from './Footer';
 
 export default class Greeting extends React.Component {
   constructor(props) {
@@ -82,6 +83,7 @@ export default class Greeting extends React.Component {
         <div id='greeting' style={this.greetingStyle()}>
           Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ <a href="https://www.rallyhealth.com/">Rally Health</a>.
         </div>
+        {React.createElement(Footer, this.props)}
       </div>
     );
   }
