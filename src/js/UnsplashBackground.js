@@ -34,12 +34,15 @@ export default class UnsplashBackground extends React.Component {
     window.onload = function() {
 //      getDataUri(fullSizeUrl, function(rgbArr) {
 //        var rgbColor = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')'
+//      
+//        console.log('dominant color', rgbColor);
+        var loaderWrapper = document.getElementById('loader-wrapper');
+        var loader = document.getElementById('loader');
+        loader.remove();
+        loaderWrapper.className += ' fadeOut';
 //        var overlay = document.getElementById('overlay');
 //        overlay.style.backgroundColor = rgbColor;
 //      });
-      console.log('loaded!');
-//      var d = document.getElementById("div1");
-//      d.className += " otherclass";
     };
   }
   

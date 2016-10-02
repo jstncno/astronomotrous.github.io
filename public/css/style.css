@@ -14,20 +14,6 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
-#pendulum-wrapper {
-  z-index: 3;
-  min-height: 100%;
-}
-#pendulum {
-  z-index: 3;
-  min-height: 100%;
-  position: absolute;
-  width: 100%;
-}
-#pendulum canvas {
-  display: block;
-  margin: auto;
-}
 #overlay {
   background-color: SlateGray;
   position: relative;
