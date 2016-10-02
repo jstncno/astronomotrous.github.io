@@ -1,6 +1,5 @@
 import React from 'react';
 import Unsplash from 'unsplash-js';
-import Pendulum from 'pendulumjs';
 import Greeting from './Greeting';
 
 const username = 'boost';
@@ -87,20 +86,6 @@ var getDataUri = function(url, callback) {
     image.src = url + '?' + new Date().getTime();
     image.setAttribute('crossOrigin', '');
 }
-
-var pendulum = new Pendulum({
-  numBalls    : 40,           // # balls (>0)
-  ballHeight  : 40,           // Canvas height (>0)
-  ballRadius  : 5,            // Ball's radius (>0)
-  color0      : '#FFFFFF',    // Ball's color when far from center (string)
-  color1      : '#000000',    // Ball's color when close to center (string)
-  fadeout     : 1.0           // Ball's fadeout speed (0.0 - 1.0)
-});
-var pendulumDiv = document.createElement('div');
-pendulumDiv.appendChild(pendulum.canvas);
-document.querySelector('body').appendChild(pendulumDiv);
-
-
 
 UnsplashBackground.propTypes = {
   width: React.PropTypes.number,

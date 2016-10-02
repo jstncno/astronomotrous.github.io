@@ -22134,10 +22134,6 @@ var _unsplashJs = require('unsplash-js');
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
 
-var _pendulumjs = require('pendulumjs');
-
-var _pendulumjs2 = _interopRequireDefault(_pendulumjs);
-
 var _Greeting = require('./Greeting');
 
 var _Greeting2 = _interopRequireDefault(_Greeting);
@@ -22254,24 +22250,12 @@ var getDataUri = function getDataUri(url, callback) {
   image.setAttribute('crossOrigin', '');
 };
 
-var pendulum = new _pendulumjs2.default({
-  numBalls: 40, // # balls (>0)
-  ballHeight: 40, // Canvas height (>0)
-  ballRadius: 5, // Ball's radius (>0)
-  color0: '#FFFFFF', // Ball's color when far from center (string)
-  color1: '#000000', // Ball's color when close to center (string)
-  fadeout: 1.0 // Ball's fadeout speed (0.0 - 1.0)
-});
-var pendulumDiv = document.createElement('div');
-pendulumDiv.appendChild(pendulum.canvas);
-document.querySelector('body').appendChild(pendulumDiv);
-
 UnsplashBackground.propTypes = {
   width: _react2.default.PropTypes.number,
   height: _react2.default.PropTypes.number
 };
 
-},{"./Greeting":189,"pendulumjs":32,"react":177,"unsplash-js":187}],191:[function(require,module,exports){
+},{"./Greeting":189,"react":177,"unsplash-js":187}],191:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22286,11 +22270,28 @@ var _reactFullscreen = require('react-fullscreen');
 
 var _reactFullscreen2 = _interopRequireDefault(_reactFullscreen);
 
+var _pendulumjs = require('pendulumjs');
+
+var _pendulumjs2 = _interopRequireDefault(_pendulumjs);
+
 var _UnsplashBackground = require('./UnsplashBackground');
 
 var _UnsplashBackground2 = _interopRequireDefault(_UnsplashBackground);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var pendulum = new _pendulumjs2.default({
+  numBalls: 40, // # balls (>0)
+  ballHeight: 40, // Canvas height (>0)
+  ballRadius: 5, // Ball's radius (>0)
+  color0: '#FFFFFF', // Ball's color when far from center (string)
+  color1: '#000000', // Ball's color when close to center (string)
+  fadeout: 1.0 // Ball's fadeout speed (0.0 - 1.0)
+});
+var pendulumDiv = document.getElementById('pendulum');
+var verticalCenter = window.innerHeight / 2 - pendulum.canvas.height / 2;
+pendulumDiv.style.top = verticalCenter + 'px';
+pendulumDiv.appendChild(pendulum.canvas);
 
 var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _reactFullscreen2.default,
@@ -22298,4 +22299,4 @@ var rootInstance = _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_UnsplashBackground2.default, null)
 ), document.getElementById('background'));
 
-},{"./UnsplashBackground":190,"react":177,"react-dom":33,"react-fullscreen":34}]},{},[191]);
+},{"./UnsplashBackground":190,"pendulumjs":32,"react":177,"react-dom":33,"react-fullscreen":34}]},{},[191]);

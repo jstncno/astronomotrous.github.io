@@ -1,13 +1,27 @@
+html {
+  height: 100%;
+  margin: 0px;
+}
 body {
   margin: 0px;
   font-family: "Raleway", "Poppins", "Questrial", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   color: white;
+  height: 100%;
 }
 #unsplash {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+#pendulum {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+}
+#pendulum canvas {
+  display: block;
+  margin: auto;
 }
 #overlay {
   background-color: SlateGray;
