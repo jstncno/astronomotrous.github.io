@@ -23,13 +23,11 @@
   "dependencies": {
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
-    "canvas": "^1.5.0",
     "fetch": "^1.1.0",
     "node-fetch": "^1.6.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-fullscreen": "^0.1.0",
-    "unsplash-api": "^1.2.0",
     "unsplash-js": "^4.2.0",
     "whatwg-fetch": "^1.0.0"
   },
