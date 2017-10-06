@@ -81,7 +81,7 @@ export default class Greeting extends React.Component {
       <div className='copy'>
         <div id='hello' style={this.helloStyle()}>Hi there.</div>
         <div id='greeting' style={this.greetingStyle()}>
-          Welcome to my site! My name is Justin, and I currently work as a Software Engineer on the Data Team @ <a href="https://www.rallyhealth.com/">Rally Health</a>.
+          Welcome to my site! My name is Justin, and I currently work as an Experience Engineer on the Experience Studios Team @ <a href="https://www.google.com/">Google</a>, where I develop interactive applications for physical spaces such as <a href="https://brandlab.withgoogle.com/">Google BrandLabs</a>.
         </div>
         {React.createElement(Footer, this.props)}
       </div>
